@@ -4,3 +4,9 @@ dist/
 .vercel/
 .DS_Store
 *.log
+
+# Local agent tooling, not part of the website. The impeccable skill lives here
+# and is 149 files of someone else's code; it has no business in a client repo.
+# .impeccable/design.json IS tracked — it is a design deliverable.
+.claude/
+.impeccable/config.local.json
