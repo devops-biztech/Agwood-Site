@@ -1,0 +1,21 @@
+---
+import { verticalGrainSvg } from '../lib/grain.ts';
+
+interface Props {
+  /** Rings per inch. The trade's own quality measure, so density is information
+   *  here rather than texture: a tighter band precedes a heavier section. */
+  rpi?: number;
+  seed?: number;
+}
+const { rpi = 40, seed = 21 } = Astro.props;
+
+// Generated during `astro build`. What reaches the browser is static markup.
+const svg = verticalGrainSvg({ width: 1400, height: 34, rpi, seed, amp: 1.5, stroke: 0.9, steps: 5 });
+---
+<!-- This replaces every hairline rule on the site. There is no <hr> anywhere. -->
+<div class="band" set:html={svg} />
+
+<style>
+  .band { height: var(--band-height); overflow: hidden; opacity: 0.9; }
+  .band :global(svg) { display: block; width: 100%; height: 100%; }
+</style>

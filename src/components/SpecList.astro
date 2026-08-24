@@ -1,0 +1,46 @@
+---
+interface Row {
+  term: string;
+  value: string;
+  /** True when the value is a gap we are naming rather than data we hold. */
+  unknown?: boolean;
+  href?: string;
+}
+interface Props { rows: readonly Row[]; }
+const { rows } = Astro.props;
+---
+<!-- A description list, not a table: these are term/value pairs, not tabular
+     data, and a screen reader announces them correctly this way. -->
+<dl class="spec">
+  {rows.map((r) => (
+    <div class="row">
+      <dt>{r.term}</dt>
+      <dd class:list={{ unknown: r.unknown }}>
+        {r.href ? <a href={r.href}>{r.value}</a> : r.value}
+      </dd>
+    </div>
+  ))}
+</dl>
+
+<style>
+  .spec { margin: 0; max-width: var(--measure); }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1.25rem;
+    padding-block: 0.65rem;
+  }
+  /* The grain hairline is the only divider in the system. There is no <hr> and no
+     border-token that is not made of this material. */
+  .row + .row { border-top: 1px solid var(--grain-rule); }
+  dt { font-weight: 600; }
+  dd { margin: 0; color: var(--ink-dim); text-align: right; }
+  /* An unknown is a STATE, so it takes the state colour. This is why the palette
+     has no separate warning colour — "we don't know yet" is a state, and adding a
+     fourth hue for it would start the drift the scarcity rule exists to stop. */
+  dd.unknown { color: var(--russet); }
+  @media (max-width: 460px) {
+    .row { flex-direction: column; gap: 0.15rem; }
+    dd { text-align: left; }
+  }
+</style>

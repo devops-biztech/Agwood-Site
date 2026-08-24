@@ -1,0 +1,197 @@
+/* ============================================================================
+   Agwood Mill & Lumber — token layer
+   The single source for colour, type, and spacing. Everything else in the build
+   reads from here; no component defines a raw hex or a bare pixel rhythm.
+   Values and rationale are recorded in DESIGN.md.
+   ========================================================================== */
+
+/* Self-hosted so the page makes no request to a third party at runtime — a
+   font request to Google is a request that can be slow, blocked, or logged, and
+   this site's primary visitor is on rural North Coast signal.
+
+   Refreshing these files: pull the CSS from the URLs below with a modern browser
+   User-Agent (a bare curl gets the TTF fallback, not woff2), then download the
+   `latin` subset from each `src:`.
+     https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300..800,0..100,0..1&display=swap
+     https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap  */
+@font-face {
+  font-family: 'Fraunces';
+  src: url('/assets/fonts/fraunces-latin-var.woff2') format('woff2-variations');
+  font-weight: 300 800;
+  font-display: swap;
+  /* Latin only. The wider subsets were not downloaded because no page on this
+     site sets Vietnamese or Latin-Extended text; adding one means adding the
+     matching subset here and a second @font-face with its unicode-range. */
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'Archivo';
+  src: url('/assets/fonts/archivo-latin-var.woff2') format('woff2-variations');
+  font-weight: 400 800;
+  font-stretch: 62% 125%;
+  font-display: swap;
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+    U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+:root {
+  /* Colour. forest and forest-deep are measured, not chosen: the logo's opaque
+     pixels cluster into exactly two inks, a fill green with median #005314 and an
+     outline green averaging #05240B. Every Webflow :root swatch in the original
+     scaffold was discarded — none of them matched the mark. */
+  --paper: #f4ede3;
+  --paper-deep: #e9dfd1;
+  --ink: #241a12;
+  --ink-dim: #6a5544;
+  --grain: #8a6a4a;
+  --forest: #0a5417;      /* THE action colour. Only ever on something you can do. */
+  --forest-deep: #05240b;
+  --russet: #8b4a2f;      /* THE state colour. Only ever on where you are. */
+  /* Pressed/hover state of the action. Darker rather than lighter so paper text
+     over it gains contrast instead of losing it — 10.9:1, up from 7.9:1. */
+  --forest-hover: #073f11;
+
+  /* The grain divider between sections needs a hairline of the same material at
+     28% so spec rows read as a list. Declared once so it cannot drift. */
+  --grain-rule: rgba(138, 106, 74, 0.28);
+  --grain-edge: rgba(138, 106, 74, 0.5);
+
+  /* Type. Every variable axis is set explicitly. SOFT and WONK at 0 are the most
+     important two numbers in this file: they are what give Fraunces its playful
+     wobble, and switching them off leaves a sharp engraved serif that belongs on
+     a technical plate. Raising either turns the whole site whimsical. */
+  --font-display: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --font-body: 'Archivo', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --axis-display: 'opsz' 144, 'SOFT' 0, 'WONK' 0;
+  --axis-headline: 'opsz' 72, 'SOFT' 0, 'WONK' 0;
+  --axis-title: 'opsz' 40, 'SOFT' 0, 'WONK' 0;
+
+  --size-display: clamp(2.4rem, 6.6vw, 4rem);
+  --size-headline: clamp(1.5rem, 3.4vw, 2rem);
+  --size-title: clamp(1rem, 1.6vw, 1.15rem);
+  --size-lede: clamp(1rem, 1.4vw, 1.125rem);
+  --size-body: 0.9375rem;
+  --size-label: 0.72rem;
+  --size-control: 0.9rem;
+
+  /* Space. One gutter and one container width for the whole site — no nested
+     insets and no second max-width anywhere. */
+  --gutter: clamp(1.125rem, 4vw, 2rem);
+  --section: clamp(2.25rem, 5.5vw, 3.5rem);
+  --stack: clamp(0.75rem, 2vw, 1.125rem);
+  --container: 68rem;
+  --measure: 56ch;
+  --vault-height: clamp(230px, 30vw, 400px);
+  --band-height: 34px;
+
+  /* Radius is zero everywhere. Nothing drawn on a plate has a rounded corner,
+     and a rounded panel that also casts a shadow is a card — which imports the
+     whole card-grid vocabulary this direction exists to avoid. */
+  --radius: 0;
+
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: var(--size-body);
+  font-variation-settings: 'wdth' 100;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  margin: 0;
+  text-wrap: balance;
+}
+h1 { font-size: var(--size-display); font-variation-settings: var(--axis-display); line-height: 0.98; letter-spacing: -0.03em; }
+h2 { font-size: var(--size-headline); font-variation-settings: var(--axis-headline); line-height: 1.06; letter-spacing: -0.02em; }
+h3 { font-size: var(--size-title); font-variation-settings: var(--axis-title); font-weight: 600; line-height: 1.05; letter-spacing: -0.005em; }
+p { margin: 0; }
+
+a { color: var(--forest); }
+
+/* A visible focus ring on everything focusable, in the action colour. This is the
+   one place green appears without being an action itself, and it is a deliberate
+   exception: a focus ring that is hard to see fails WCAG 2.4.7 outright, which
+   outranks a house colour rule. */
+:where(a, button, [tabindex]):focus-visible {
+  outline: 3px solid var(--forest);
+  outline-offset: 3px;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+/* One shell, one gutter, one width. */
+.shell {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.label {
+  font-size: var(--size-label);
+  font-weight: 700;
+  font-variation-settings: 'wdth' 105;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  line-height: 1.4;
+}
+
+.lede {
+  font-size: var(--size-lede);
+  line-height: 1.55;
+  color: var(--ink-dim);
+  max-width: 42ch;
+}
+
+.prose { max-width: var(--measure); color: var(--ink-dim); }
+.prose + .prose { margin-top: var(--stack); }
+
+/* Skip link. Off-screen until focused rather than display:none, because a
+   display:none link is not reachable by the keyboard users it exists for. */
+.skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  background: var(--forest);
+  color: var(--paper);
+  padding: 12px 18px;
+  z-index: 10;
+  font-weight: 700;
+}
+.skip:focus { left: 0; }
+
+/* Reveal-on-scroll start state lives under :root.js ONLY. With JavaScript off the
+   class is never added, so nothing is ever hidden and the page reads complete.
+   Hiding by default and revealing with script is the version of this that ships a
+   blank page to anyone whose script fails. */
+:root.js .reveal { opacity: 0; transform: translateY(14px); }
+:root.js .reveal.is-in { opacity: 1; transform: none; transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+
+@media (prefers-reduced-motion: reduce) {
+  /* The reduced-motion branch reveals immediately rather than leaving content
+     hidden — the failure mode of a naive `animation: none` is a permanently
+     invisible page. */
+  :root.js .reveal { opacity: 1; transform: none; transition: none; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

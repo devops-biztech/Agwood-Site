@@ -1,0 +1,134 @@
+---
+import '../styles/global.css';
+import { COMPANY, ADDRESS_LINE, PHONE_HREF, EMAIL_HREF, SAME_AS } from '../data/company.ts';
+import { INDEXABLE } from '../data/deploy.ts';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  /** The 404 sets this: it answers at every wrong URL, so it has no one address. */
+  noCanonical?: boolean;
+  /** Forced on the 404 in every environment, including production. */
+  noindex?: boolean;
+}
+const { title, description, noCanonical = false, noindex = false } = Astro.props;
+
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const ogImage = new URL('/assets/og.png', Astro.site).href;
+const fullTitle = `${COMPANY.name} — ${title}`;
+const blockIndex = noindex || !INDEXABLE;
+
+// LocalBusiness rather than Organization alone: the thing a buyer is verifying is
+// that there is a real mill at a real address with a real telephone, and
+// LocalBusiness is the type that carries all three in a form search engines
+// reconcile against a Google Business Profile.
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  '@id': `${Astro.site}#business`,
+  name: COMPANY.name,
+  url: Astro.site?.href,
+  telephone: COMPANY.phone,
+  email: COMPANY.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: COMPANY.address.street,
+    addressLocality: COMPANY.address.locality,
+    addressRegion: COMPANY.address.region,
+    postalCode: COMPANY.address.postalCode,
+    addressCountry: COMPANY.address.country,
+  },
+  openingHoursSpecification: [{
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
+    opens: COMPANY.hours.opens,
+    closes: COMPANY.hours.closes,
+  }],
+  // `geo` is deliberately absent. Coordinates for this address have not been
+  // verified, and a plausible-looking guess is worse than an omission here: it
+  // would be the one piece of this record that contradicts the Google Business
+  // Profile once that is claimed. Add real coordinates from the claimed profile.
+  // See the launch list in README.md.
+  //
+  // `sameAs` is likewise empty rather than pointing at the listings currently in
+  // circulation — several of those describe the predecessor company and carry a
+  // different street address, so linking them would undermine the record above.
+  ...(SAME_AS.length ? { sameAs: SAME_AS } : {}),
+};
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    {blockIndex && <meta name="robots" content="noindex, nofollow" />}
+    {!noCanonical && <link rel="canonical" href={canonical} />}
+
+    <!-- `crossorigin` is required even though the font is same-origin: fonts are
+         fetched in CORS mode, and without the attribute the preload is treated as
+         a different request than the one @font-face makes, so it is discarded and
+         the file is fetched twice. -->
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="/assets/fonts/fraunces-latin-var.woff2" />
+    <link rel="preload" as="font" type="font/woff2" crossorigin
+          href="/assets/fonts/archivo-latin-var.woff2" />
+
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/icon-32.png" />
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content="#0a5417" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={COMPANY.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    {!noCanonical && <meta property="og:url" content={canonical} />}
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+
+    <!-- Marks the document as scripted BEFORE first paint. Every reveal's hidden
+         start state is scoped to :root.js, so with scripting off nothing is ever
+         hidden and the page reads complete. Doing this in the head rather than on
+         load is what prevents a flash of already-visible content. -->
+    <script is:inline>document.documentElement.classList.add('js');</script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <SiteHeader />
+    <main id="main" tabindex="-1"><slot /></main>
+    <SiteFooter />
+
+    <!-- The only script on the site. One IntersectionObserver, never a scroll
+         handler: a scroll handler runs on every frame of every scroll and does
+         this job worse. Elements are unobserved once revealed so the callback
+         stops being called for them entirely. -->
+    <script is:inline>
+      (function () {
+        var els = document.querySelectorAll('.reveal');
+        if (!els.length) return;
+        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+        if (!('IntersectionObserver' in window) || reduce.matches) {
+          // No observer, or the visitor asked for less motion: show everything
+          // now. Leaving content hidden would be the worse failure by far.
+          for (var i = 0; i < els.length; i++) els[i].classList.add('is-in');
+          return;
+        }
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (!e.isIntersecting) return;
+            e.target.classList.add('is-in');
+            io.unobserve(e.target);
+          });
+        }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+        for (var j = 0; j < els.length; j++) io.observe(els[j]);
+      })();
+    </script>
+  </body>
+</html>

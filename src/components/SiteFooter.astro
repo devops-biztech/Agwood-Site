@@ -1,0 +1,57 @@
+---
+import { COMPANY, PHONE_HREF, EMAIL_HREF } from '../data/company.ts';
+
+const year = new Date().getFullYear();
+---
+<footer class="ftr">
+  <div class="shell">
+    <img src="/assets/emblem-white.png" width="54" height="46" alt="" decoding="async" />
+    <div class="cols">
+      <!-- Rendered from src/data/company.ts, never retyped. These bytes have to
+           match the contact page, the structured data and the Google Business
+           Profile exactly; a stray "Rd." reads as a different business. -->
+      <div>
+        <b>{COMPANY.name}</b>
+        <address>
+          {COMPANY.address.street}<br />
+          {COMPANY.address.locality}, {COMPANY.address.region} {COMPANY.address.postalCode}
+        </address>
+      </div>
+      <div>
+        <b>Contact</b>
+        <a href={PHONE_HREF}>{COMPANY.phone}</a>
+        <a href={EMAIL_HREF}>{COMPANY.email}</a>
+      </div>
+      <div>
+        <b>Hours</b>
+        <span>{COMPANY.hours.display}</span>
+      </div>
+    </div>
+    <p class="fine">&copy; {year} {COMPANY.name}. Built by <a href="https://trustbiztech.com" rel="noopener">Biztech</a>.</p>
+  </div>
+</footer>
+
+<style>
+  /* The footer ground is the logo's own outline ink — the darker of the two
+     greens measured out of the mark, not a tint invented to sit near it. */
+  .ftr {
+    background: var(--forest-deep);
+    color: var(--paper-deep);
+    padding-block: var(--section);
+    margin-top: var(--section);
+  }
+  .ftr img { height: 46px; width: auto; margin-bottom: 1.25rem; }
+  .cols {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem clamp(2rem, 6vw, 3.5rem);
+  }
+  .cols > div { display: flex; flex-direction: column; gap: 0.3rem; }
+  b { color: var(--paper); font-weight: 600; }
+  address { font-style: normal; line-height: 1.6; }
+  /* Paper on forest-deep is 14.30:1. Footer links are underlined rather than
+     coloured: green on this ground would be unreadable, and the scarcity rule
+     does not get to override legibility. */
+  .ftr a { color: var(--paper); text-decoration: underline; text-underline-offset: 3px; }
+  .fine { margin-top: 1.75rem; font-size: 0.8rem; opacity: 0.85; }
+</style>

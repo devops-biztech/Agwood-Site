@@ -1,0 +1,55 @@
+---
+import Base from '../layouts/Base.astro';
+import GrainBand from '../components/GrainBand.astro';
+import Action from '../components/Action.astro';
+import { COMPANY, ADDRESS_LINE, PHONE_HREF, EMAIL_HREF } from '../data/company.ts';
+import SpecList from '../components/SpecList.astro';
+---
+<!--
+  noindex is forced here in EVERY environment, production included, rather than
+  being left to the INDEXABLE flag. A 404 that gets indexed competes with the real
+  pages for the same queries and gives a searcher a dead end.
+
+  noCanonical is set for a different reason. This page answers at every wrong URL
+  on the site, so naming /404/ as its one true address would be a claim that is
+  false everywhere it is actually served. A page with no single address is better
+  off declaring none than declaring a wrong one.
+-->
+<Base
+  title="Page not found"
+  description="That page does not exist on the Agwood Mill & Lumber site."
+  noindex={true}
+  noCanonical={true}
+>
+  <section class="shell head">
+    <p class="label kicker">Error 404</p>
+    <h1>That page isn&rsquo;t here.</h1>
+    <p class="lede">
+      The address you followed does not exist on this site. The mill is still in
+      Ukiah and the telephone still works.
+    </p>
+    <p class="cta"><Action href="/">Back to the home page</Action></p>
+  </section>
+
+  <GrainBand rpi={34} seed={91} />
+
+  <section class="shell sec">
+    <h2 class="ttl label">Contact</h2>
+    <SpecList rows={[
+      { term: COMPANY.name, value: ADDRESS_LINE },
+      { term: 'Telephone', value: COMPANY.phone, href: PHONE_HREF },
+      { term: 'Email', value: COMPANY.email, href: EMAIL_HREF },
+      { term: 'Hours', value: COMPANY.hours.display },
+    ]} />
+  </section>
+</Base>
+
+<style>
+  .head { padding-block: clamp(2.5rem, 7vw, 4rem); }
+  .kicker { color: var(--russet); margin-bottom: 0.9rem; }
+  .head h1 { max-width: 14ch; }
+  .head .lede { margin-top: 1rem; }
+  .cta { margin-top: 1.6rem; }
+  .sec { padding-block: var(--section); }
+  .ttl { color: var(--russet); margin-bottom: 1rem; font-family: var(--font-body); }
+</style>

@@ -1,0 +1,267 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-24T00:00:00Z",
+  "title": "Design System: Agwood Mill & Lumber — Slow Grown",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "Plate Paper",
+        "canonical": "#F4EDE3",
+        "tonalRamp": [
+          "#13100B",
+          "#342B1E",
+          "#5D4B32",
+          "#876C45",
+          "#B18F5D",
+          "#C9AE87",
+          "#E1D0B7",
+          "#F4EDE3"
+        ],
+        "purpose": "The page ground. A warm dry paper, not cream and not white."
+      },
+      "paper-deep": {
+        "role": "neutral",
+        "displayName": "Deep Plate",
+        "canonical": "#E9DFD1",
+        "tonalRamp": [
+          "#12100C",
+          "#322A20",
+          "#594A36",
+          "#816B4B",
+          "#AA8D64",
+          "#C4AD8D",
+          "#DDCFBB",
+          "#E9DFD1"
+        ],
+        "purpose": "Alternate section ground. The only surface change on the site."
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Plate Ink",
+        "canonical": "#241A12",
+        "tonalRamp": [
+          "#241A12",
+          "#35271C",
+          "#594536",
+          "#7B6451",
+          "#9A8574",
+          "#B2A79F",
+          "#CFCCC9",
+          "#EEEDED"
+        ],
+        "purpose": "All headings and body copy."
+      },
+      "ink-dim": {
+        "role": "neutral",
+        "displayName": "Dim Ink",
+        "canonical": "#6A5544",
+        "tonalRamp": [
+          "#110F0D",
+          "#302822",
+          "#564639",
+          "#6A5544",
+          "#988576",
+          "#B1A7A0",
+          "#CFCCC9",
+          "#EEEDED"
+        ],
+        "purpose": "Secondary copy, spec-row values, captions."
+      },
+      "grain": {
+        "role": "neutral",
+        "displayName": "Drawn Grain",
+        "canonical": "#8A6A4A",
+        "tonalRamp": [
+          "#120F0C",
+          "#322920",
+          "#5A4735",
+          "#8A6A4A",
+          "#A2876C",
+          "#B6A89B",
+          "#D1CCC7",
+          "#EEEDED"
+        ],
+        "purpose": "Every drawn grain line and band. Never carries text."
+      },
+      "forest": {
+        "role": "primary",
+        "displayName": "Mill Green",
+        "canonical": "#0A5417",
+        "tonalRamp": [
+          "#07180A",
+          "#0A5417",
+          "#187729",
+          "#309C43",
+          "#56B867",
+          "#8FC198",
+          "#C3D5C6",
+          "#ECEFEC"
+        ],
+        "purpose": "THE ACTION COLOUR. Measured from the logo's fill green."
+      },
+      "forest-deep": {
+        "role": "primary",
+        "displayName": "Outline Green",
+        "canonical": "#05240B",
+        "tonalRamp": [
+          "#05240B",
+          "#0E4418",
+          "#206F2F",
+          "#38944A",
+          "#5EB06E",
+          "#93BE9B",
+          "#C5D3C8",
+          "#ECEEEC"
+        ],
+        "purpose": "Footer ground. The logo's own outline ink."
+      },
+      "russet": {
+        "role": "secondary",
+        "displayName": "Heartwood Russet",
+        "canonical": "#8B4A2F",
+        "tonalRamp": [
+          "#140D0B",
+          "#38231A",
+          "#673A28",
+          "#8B4A2F",
+          "#B0765F",
+          "#BDA094",
+          "#D3C9C5",
+          "#EEEDEC"
+        ],
+        "purpose": "THE STATE COLOUR. You-are-here, current, active."
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "The one hero line per page. Fraunces 500 at opsz 144, SOFT 0, WONK 0 — the wobble switched off so it reads as an engraved plate face, not a playful one."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section headings. Fraunces 500 at opsz 72."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "The wordmark beside the emblem, and sub-heads. Fraunces 600 at opsz 40."
+      },
+      "lede": {
+        "displayName": "Lede",
+        "purpose": "The dim paragraph under a display line. Archivo 400."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Running prose and spec rows. Archivo 400."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Section eyebrows and the sticker labels on drawn slots. Archivo 700, wide tracking, uppercase. NOT monospace — see the Don'ts."
+      },
+      "control": {
+        "displayName": "Control",
+        "purpose": "The action button and nav links. Archivo 700."
+      }
+    },
+    "shadows": [
+      {
+        "name": "none",
+        "value": "none",
+        "purpose": "There are no shadows in this world. Depth comes from ground tone and drawn grain density; a drop shadow would make a plate look like a card. See the Don'ts."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-surface",
+        "value": "cubic-bezier(0.22, 0.61, 0.36, 1)",
+        "purpose": "The vault surfacing and every scroll reveal."
+      },
+      {
+        "name": "surface",
+        "value": "clip-path inset(100% 0 0 0) -> inset(0 0 0 0), 1.7s",
+        "purpose": "The vault reveals bottom-up, the way grain appears as a board is planed. The crown of the arch completes last. Runs once, never repeats."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px",
+        "purpose": "Single column; vault shortens to 210px and crops its sides rather than squashing."
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Action Button",
+      "kind": "button",
+      "refersTo": "action",
+      "description": "The single primary action: email the mill. Forest fill, paper text, square. Green appears nowhere else except inline links and focus rings.",
+      "html": "<a class=\"ag-act\" href=\"mailto:info@agwoodml.com\">Email the mill</a>",
+      "css": ".ag-act{font-family:Archivo,system-ui,sans-serif;font-weight:700;font-size:.9rem;letter-spacing:.01em;padding:14px 24px;display:inline-block;border-radius:0;background:var(--forest);color:var(--paper);text-decoration:none}.ag-act:focus-visible{outline:3px solid var(--forest);outline-offset:3px}"
+    },
+    {
+      "name": "The Vault",
+      "kind": "signature",
+      "refersTo": "vault",
+      "description": "SIGNATURE. The cathedral figure of a flatsawn redwood board, drawn as filled latewood bands and generated at build time. Nested arches at the centre relaxing continuously into vertical grain at the edges. Used ONCE per site, on Home. Surfaces bottom-up on load.",
+      "html": "<div class=\"ag-vault\"><!-- build-time SVG --></div>",
+      "css": ".ag-vault{height:clamp(230px,30vw,400px);overflow:hidden}.ag-vault svg{width:100%;height:100%;display:block}"
+    },
+    {
+      "name": "Grain Band",
+      "kind": "signature",
+      "refersTo": "grain-band",
+      "description": "SIGNATURE. Replaces every hairline rule on the site. A band of drawn vertical grain whose line density encodes the weight of the section beneath it — rings per inch is the trade's own quality measure, so density is information here, not texture.",
+      "html": "<div class=\"ag-band\"><!-- build-time SVG --></div>",
+      "css": ".ag-band{height:34px;overflow:hidden;opacity:.9}.ag-band svg{width:100%;height:100%;display:block}"
+    },
+    {
+      "name": "Drawn Slot",
+      "kind": "signature",
+      "refersTo": "drawn-slot",
+      "description": "SIGNATURE. The declared placeholder, built from the design's own material. A missing photograph is a framed panel of drawn redwood naming what belongs there. Never a grey box, never dashed scaffolding, never stock photography.",
+      "html": "<figure class=\"ag-slot\"><div class=\"ag-slot-grain\"></div><figcaption>Photograph of the Ukiah mill — to come.</figcaption></figure>",
+      "css": ".ag-slot{position:relative;overflow:hidden;border:1px solid rgba(138,106,74,.5);aspect-ratio:16/7;display:flex;align-items:flex-end;padding:20px;margin:0}.ag-slot figcaption{position:relative;background:var(--paper);border-left:3px solid var(--russet);padding:11px 15px;font-size:.72rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-dim)}"
+    },
+    {
+      "name": "Spec Row",
+      "kind": "list",
+      "refersTo": "spec-row",
+      "description": "The what-we-run and contact tables. Label left in ink, value right in dim ink. An unknown value is set in russet and says what to do instead of pretending to be data.",
+      "html": "<div class=\"ag-spec\"><div><span>Species</span><span>Redwood only</span></div></div>",
+      "css": ".ag-spec div{display:flex;justify-content:space-between;gap:18px;padding:10px 0}.ag-spec div+div{border-top:1px solid rgba(138,106,74,.28)}.ag-spec span:last-child{color:var(--ink-dim);text-align:right}"
+    },
+    {
+      "name": "Nav Link",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Dim ink at rest; RUSSET when it is the current page. Never green — green means you can do something, and being somewhere is not doing something.",
+      "html": "<a class=\"ag-nav is-current\" href=\"/\">Home</a>",
+      "css": ".ag-nav{font-family:Archivo,sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-dim);text-decoration:none}.ag-nav.is-current{color:var(--russet)}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Slow Grown",
+    "overview": "Tight grain costs more log to get. Cut radially and you take fewer boards from the same tree, so the grain on a board is the physical record of what the mill gave up to produce it. The site is built from drawn wood — generated geometry, never photography — because Agwood owns no pictures of itself and the trade draws grain rather than photographing it.",
+    "keyCharacteristics": [
+      "Grain is drawn, not photographed. Every line is generated at build time.",
+      "A growth ring is a band with width, not a hairline. Filled latewood bands are what read as wood.",
+      "Rings per inch is the trade's quality measure, so line density carries hierarchy.",
+      "Green acts, russet locates. They never cross.",
+      "No shadows, no rounded corners, no monospace.",
+      "Every unknown ships as a declared slot in the design's own material."
+    ],
+    "rules": [
+      "The Vault appears exactly once per site.",
+      "Green is only ever on something you can do.",
+      "Russet is only ever on where you are.",
+      "A missing fact is drawn, labelled, and never guessed.",
+      "No sustainability or certification claim without a certificate in hand."
+    ],
+    "dos": [],
+    "donts": [],
+    "openItems": [
+      "The client approved the Vault to proceed but is not sold on it: 'still not in love with your rendition of the arches though but im done fighting it. lets see how it looks after full execution.' Reviewed again after Phase 3. Do not treat as settled."
+    ]
+  }
+}

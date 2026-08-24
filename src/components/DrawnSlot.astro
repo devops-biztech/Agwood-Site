@@ -1,0 +1,59 @@
+---
+import { verticalGrainSvg } from '../lib/grain.ts';
+
+interface Props {
+  /** What belongs in this frame. Written as a statement, not an apology. */
+  label: string;
+  note?: string;
+  seed?: number;
+}
+const { label, note, seed = 33 } = Astro.props;
+const svg = verticalGrainSvg({ width: 900, height: 460, rpi: 46, seed, amp: 3, stroke: 1, steps: 16 });
+---
+<!--
+  The declared placeholder, built from the design's own material.
+
+  Agwood has no photographs of its mill, yard, product or crew. The rule that
+  follows from that is absolute: no stock photograph is ever positioned as
+  Agwood's operation. So a missing image is a framed panel of drawn redwood that
+  names what belongs there — never a grey box, never dashed scaffolding, and
+  never an image of someone else's yard with a caption implying otherwise.
+
+  Replacing one of these is a two-line change: swap this component for Astro's
+  <Image> and delete the label.
+-->
+<figure class="slot">
+  <div class="slot-grain" set:html={svg} />
+  <figcaption class="slot-cap label">
+    {label}
+    {note && <span class="slot-note">{note}</span>}
+  </figcaption>
+</figure>
+
+<style>
+  .slot {
+    position: relative;
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid var(--grain-edge);
+    border-radius: var(--radius);
+    aspect-ratio: 16 / 7;
+    display: flex;
+    align-items: flex-end;
+    padding: clamp(0.9rem, 2.5vw, 1.25rem);
+  }
+  .slot-grain { position: absolute; inset: 0; }
+  .slot-grain :global(svg) { display: block; width: 100%; height: 100%; }
+  /* The caption sits on solid paper rather than directly on the grain: grain is a
+     4.26:1 non-text material and text over it would fail AA. */
+  .slot-cap {
+    position: relative;
+    background: var(--paper);
+    border-left: 3px solid var(--russet);
+    padding: 0.7rem 0.95rem;
+    color: var(--ink-dim);
+    max-width: 46ch;
+  }
+  .slot-note { display: block; margin-top: 0.35rem; font-weight: 400; letter-spacing: 0.04em; text-transform: none; }
+  @media (max-width: 540px) { .slot { aspect-ratio: 4 / 3; } }
+</style>
