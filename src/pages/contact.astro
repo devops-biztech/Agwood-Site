@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import GrainBand from '../components/GrainBand.astro';
+import Field from '../components/Field.astro';
 import SpecList from '../components/SpecList.astro';
 import Action from '../components/Action.astro';
 import DealerList from '../components/DealerList.astro';
@@ -10,77 +10,70 @@ import { PAGES } from '../data/site.ts';
 const meta = PAGES[2]!;
 ---
 <Base title={meta.title} description={meta.description}>
-  <section class="shell head">
-    <h1>Contact the mill.</h1>
-    <p class="lede">
-      Email is the quickest way to reach us. The mill office answers the telephone
-      during working hours.
-    </p>
-    <p class="cta"><Action href={EMAIL_HREF}>Email the mill</Action></p>
-  </section>
-
-  <GrainBand rpi={78} seed={51} />
-
-  <div class="alt">
-    <section class="shell sec reveal">
-      <h2 class="ttl label">Mill and office</h2>
-      <!-- Every value below renders from src/data/company.ts. The same constants
-           produce the footer and the JSON-LD, so all three are byte-identical by
-           construction rather than by anyone remembering to keep them in step. -->
-      <SpecList rows={[
-        { term: 'Address', value: COMPANY.address.street },
-        { term: 'City', value: `${COMPANY.address.locality}, ${COMPANY.address.region} ${COMPANY.address.postalCode}` },
-        { term: 'Telephone', value: COMPANY.phone, href: PHONE_HREF },
-        { term: 'Email', value: COMPANY.email, href: EMAIL_HREF },
-        { term: 'Hours', value: COMPANY.hours.display },
-      ]} />
-      <p class="note prose">
-        There is no enquiry form on this site on purpose. A form that fails
-        silently is worse than no form, and an email reaches a person directly.
+  <Field tone="forest" reveal={false}>
+    <div class="hero">
+      <h1>Contact the mill.</h1>
+      <p class="lede">
+        Email is the quickest way to reach us. The mill office answers the
+        telephone during working hours.
       </p>
-    </section>
-  </div>
+      <p class="cta"><Action href={EMAIL_HREF} onDeep>Email the mill</Action></p>
+    </div>
+  </Field>
 
-  <GrainBand rpi={34} seed={52} />
+  <Field tone="paper">
+    <h2 class="ttl label">Mill and office</h2>
+    <!-- Every value renders from src/data/company.ts. The same constants produce
+         the footer and the JSON-LD, so all three are byte-identical by
+         construction rather than by anyone remembering to keep them in step. -->
+    <SpecList rows={[
+      { term: 'Address', value: COMPANY.address.street },
+      { term: 'City', value: `${COMPANY.address.locality}, ${COMPANY.address.region} ${COMPANY.address.postalCode}` },
+      { term: 'Telephone', value: COMPANY.phone, href: PHONE_HREF },
+      { term: 'Email', value: COMPANY.email, href: EMAIL_HREF },
+      { term: 'Hours', value: COMPANY.hours.display },
+    ]} />
+    <p class="note prose">
+      There is no enquiry form on this site on purpose. A form that fails silently
+      is worse than no form, and an email reaches a person directly.
+    </p>
+  </Field>
 
-  <section class="shell sec reveal">
+  <Field tone="deep">
     <h2 class="ttl label">Buying for a job</h2>
     <p class="prose">
       Agwood sells wholesale to lumber retailers and distributors. If you are a
       buyer sourcing redwood for resale, email the mill.
     </p>
-    <SpecList rows={[
-      { term: 'Species', value: 'Redwood only' },
-      { term: 'Products', value: COMPANY.products.join(' · ') },
-      { term: UNKNOWNS[0]!.field, value: UNKNOWNS[0]!.say, unknown: true },
-      { term: UNKNOWNS[1]!.field, value: UNKNOWNS[1]!.say, unknown: true },
-      { term: UNKNOWNS[2]!.field, value: UNKNOWNS[2]!.say, unknown: true },
-    ]} />
-  </section>
+    <div class="gap">
+      <SpecList rows={[
+        { term: 'Species', value: 'Redwood only' },
+        { term: 'Products', value: COMPANY.products.join(' · ') },
+        { term: UNKNOWNS[0]!.field, value: UNKNOWNS[0]!.say, unknown: true },
+        { term: UNKNOWNS[1]!.field, value: UNKNOWNS[1]!.say, unknown: true },
+        { term: UNKNOWNS[2]!.field, value: UNKNOWNS[2]!.say, unknown: true },
+      ]} />
+    </div>
+  </Field>
 
-  <GrainBand rpi={78} seed={53} />
-
-  <div class="alt">
-    <section class="shell sec reveal">
-      <h2>Building a deck or a fence?</h2>
-      <p class="prose">
-        We do not sell direct to the public. Our redwood reaches homeowners
-        through lumber retailers across Northern California, and one of them will
-        be closer to you than we are.
-      </p>
-      <div class="dl"><DealerList /></div>
-    </section>
-  </div>
+  <Field tone="paper">
+    <h2>Building a deck or a fence?</h2>
+    <p class="prose gap-sm">
+      We do not sell direct to the public. Our redwood reaches homeowners through
+      lumber retailers across Northern California, and one of them will be closer
+      to you than we are.
+    </p>
+    <div class="gap"><DealerList /></div>
+  </Field>
 </Base>
 
 <style>
-  .head { padding-block: clamp(2.25rem, 6vw, 3.5rem); }
-  .head h1 { max-width: 14ch; }
-  .head .lede { margin-top: 1rem; }
-  .cta { margin-top: 1.6rem; }
-  .sec { padding-block: var(--section); }
-  .alt { background: var(--paper-deep); }
-  .ttl { color: var(--russet); margin-bottom: 1rem; font-family: var(--font-body); }
-  .note { margin-top: 1.4rem; }
-  .dl { margin-top: 1.6rem; }
+  .hero h1 { max-width: 13ch; font-size: clamp(2.4rem, 6.4vw, 4rem); }
+  .hero .lede { margin-top: 1.4rem; }
+  .cta { margin-top: 2rem; }
+  .ttl { color: var(--russet); margin-bottom: 1.4rem; font-family: var(--font-body); }
+  :global(.forest) .ttl { color: var(--on-deep-mark); }
+  .note { margin-top: 1.6rem; }
+  .gap { margin-top: 1.6rem; }
+  .gap-sm { margin-top: 1rem; }
 </style>

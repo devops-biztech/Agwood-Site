@@ -30,15 +30,21 @@ const { rows } = Astro.props;
     gap: 1.25rem;
     padding-block: 0.65rem;
   }
-  /* The grain hairline is the only divider in the system. There is no <hr> and no
-     border-token that is not made of this material. */
-  .row + .row { border-top: 1px solid var(--grain-rule); }
+  /* Rows inside a field are separated by a hairline. Fields themselves never are —
+     the colour change is the division. Mixing the two is what makes a page look
+     like it was assembled rather than designed. */
+  .row + .row { border-top: 1px solid var(--rule); }
   dt { font-weight: 600; }
   dd { margin: 0; color: var(--ink-dim); text-align: right; }
   /* An unknown is a STATE, so it takes the state colour. This is why the palette
      has no separate warning colour — "we don't know yet" is a state, and adding a
      fourth hue for it would start the drift the scarcity rule exists to stop. */
   dd.unknown { color: var(--russet); }
+  :global(.forest) dt { color: var(--on-deep); }
+  :global(.forest) dd { color: var(--on-deep-dim); }
+  :global(.forest) dd.unknown { color: var(--on-deep-mark); }
+  :global(.forest) .row + .row { border-top-color: var(--rule-on-deep); }
+  :global(.forest) a { color: var(--on-deep); text-decoration: underline; text-underline-offset: 3px; }
   @media (max-width: 460px) {
     .row { flex-direction: column; gap: 0.15rem; }
     dd { text-align: left; }

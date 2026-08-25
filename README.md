@@ -20,22 +20,23 @@ export PATH="$HOME/.nvm/versions/node/v24.18.0/bin:$PATH"
 
 ## The design direction
 
-The world is called **Slow Grown**, and the whole of it is written down in
+The world is called **Stated Flat**, and the whole of it is written down in
 [DESIGN.md](DESIGN.md). The short version:
 
-Tight grain costs more log to get. Cut a log radially and you take fewer boards
-from the same tree, so the figure on a finished board is a physical record of how
-much yield the mill gave up to produce it. That is the owner's stated position
-written into the material rather than claimed in copy.
+Each field states one thing the mill will do, and nothing else. The site is a
+stack of hard-edged, full-bleed bands in the company's own two greens and its
+paper, each carrying exactly one statement. The statements are numbered because
+they genuinely are a sequence of narrowings — one species, one channel, one place
+— and not because numbering makes a list look considered.
 
-What follows from it is the thing to understand before changing anything: **the
-wood on this site is drawn, not photographed.** Every grain mark is generated
-geometry produced at build time by [`src/lib/grain.ts`](src/lib/grain.ts) and
-shipped as static SVG. Agwood owns no photographs of its own mill, yard, product
-or crew, so a world that depends on photography could not be built honestly. A
-world made of drawn material could — and it happens to match how the trade
-actually renders grain, in grade rule books and wood-anatomy plates, rather than
-how the web renders it, which is always a brown photographic tile.
+The thing to understand before changing anything: **there is no ornament, and that
+is the point.** No texture, no pattern, no generated material, no imagery. Agwood
+owns no photographs of its own operation and has six confirmed facts, and an
+earlier direction that generated drawn wood grain to fill that space was built in
+full and rejected for feeling cheesy. The finding was not that the grain was drawn
+badly — it was that ornament on a thin-fact site reads as compensation, because
+something is in fact being covered up. This world makes the few real facts carry
+the page and lets type, colour and structure do everything else.
 
 ## Where the content lives
 
@@ -47,7 +48,7 @@ how the web renders it, which is always a brown photographic tile.
 | Page titles and meta descriptions | [`src/data/site.ts`](src/data/site.ts) | Also drives the nav and `sitemap.xml`. |
 | Whether a deploy is indexable | [`src/data/deploy.ts`](src/data/deploy.ts) | Reads `VERCEL_ENV`. |
 | Design tokens | [`src/styles/global.css`](src/styles/global.css) | Colour, type, spacing. No component defines a raw hex. |
-| The grain generator | [`src/lib/grain.ts`](src/lib/grain.ts) | Build time only. Nothing from it reaches the browser. |
+| Field and Statement | [`src/components/`](src/components/) | The two signature components. A page is a sequence of `Field`s. |
 | Page copy | `src/pages/*.astro` | Prose is in the pages; facts come from the data modules. |
 
 A copy edit never requires touching a component. A NAP change touches exactly one
@@ -65,7 +66,7 @@ file.
       the JSON-LD `geo` field and its URL to `SAME_AS`.
 - [ ] **Audit the existing third-party listings.** Several describe the predecessor
       company and carry a different street address and telephone.
-- [ ] **Get photography of the mill**, then replace the `DrawnSlot` components.
+- [ ] **Get photography of the mill**, then replace the `Pending` blocks.
 - [ ] **Confirm the remaining unknowns** — grades, dimensions, lead times, minimum
       order, founding year, family history. All are listed in
       [PRODUCT.md](PRODUCT.md) under "Unverified, and flagged in code."
@@ -113,14 +114,17 @@ plausible invented stockist reads as finished in a screenshot, can survive into
 production unnoticed, and names a business that never agreed to be listed. These
 rows do the same job at a client meeting and cannot do any of that.
 
-**Every image slot is a `DrawnSlot`, and that is the finished state for now** —
-not scaffolding someone forgot to replace. Replacing one is a two-line change:
-swap the component for Astro's `<Image>` and delete the label.
+**Every gap is a `Pending` block, and that is the finished state for now** — not
+scaffolding someone forgot to replace. Replacing one is a deletion, not a
+redesign.
+
+**There is no imagery and no texture anywhere, deliberately.** See the design
+direction above. Adding a photograph, a pattern, or a generated material to "warm
+it up" would undo the reason this world exists.
 
 **`lumber-stack.png` sits in the repo root and is not used.** It was supplied
-during the build. It is a photograph of stacked lumber that is not Agwood's, its
-licensing is unestablished, and the direction's premise is that grain is drawn
-rather than photographed. It is kept only so it is not lost. See LICENSE §5.
+during the build. It is a photograph of stacked lumber that is not Agwood's and
+its licensing is unestablished. It is kept only so it is not lost. See LICENSE §5.
 
 **`AML-logo-white.png` is also unused.** The white knockout the site actually
 serves is derived from the alpha channel of `AML-logo.png` at asset-build time, so
@@ -137,10 +141,12 @@ this direction exists to refuse.
 
 **Known-but-accepted, with dates:**
 
-- *2026-08-24* — **The client is not sold on the Vault** (the cathedral-arch hero).
-  His words: "still not in love with your rendition of the arches though but im
-  done fighting it. lets see how it looks after full execution." Approved to
-  proceed, explicitly not approved as final. Review after this build. If it still
-  does not land, the arch is abandoned rather than tuned further.
-- *2026-08-24* — Page copy has not been through client review.
-- *2026-08-24* — The domain is unconfirmed and production is not imminent.
+- *2026-08-25* — **A previous direction was built in full and rejected.** It
+  generated drawn redwood grain — cathedral arches, grain bands, drawn placeholder
+  panels — as its primary visual material, and the client's verdict after four
+  rounds of geometry refinement was that it felt "cheesy and poorly executed." The
+  palette and both typefaces were explicitly kept; everything else was replaced.
+  That vocabulary is dead and is recorded here so nobody proposes reviving a
+  softened version of it. It is recoverable from git history if ever wanted.
+- *2026-08-25* — Page copy has not been through client review.
+- *2026-08-25* — The domain is unconfirmed and production is not imminent.

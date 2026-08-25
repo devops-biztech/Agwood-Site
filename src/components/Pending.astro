@@ -1,0 +1,41 @@
+---
+interface Props {
+  label: string;
+  note?: string;
+}
+const { label, note } = Astro.props;
+---
+<!--
+  The declared placeholder, built from the design's own material — which in this
+  world is flat colour, not texture.
+
+  Agwood owns no photographs of its mill, yard, product or crew, and several facts
+  a buyer would expect are not confirmed. Both ship as this: a bounded field in the
+  brand's own tone, marked in the state colour, naming what belongs there. It is
+  not a grey box, not dashed scaffolding, and not a stock photograph standing in
+  for something Agwood does not have.
+
+  Replacing one is a deletion, not a redesign.
+-->
+<div class="pending">
+  <p class="label mark">{label}</p>
+  {note && <p class="note">{note}</p>}
+</div>
+
+<style>
+  .pending {
+    background: var(--paper-deep);
+    /* The state colour marks the edge. This is the one structural use of russet:
+       it says "this is a known gap", which is a state, not an action. */
+    border-left: 4px solid var(--russet);
+    padding: clamp(1.1rem, 3vw, 1.5rem) clamp(1.1rem, 3vw, 1.6rem);
+    max-width: var(--measure);
+  }
+  .mark { color: var(--russet); }
+  .note { margin-top: 0.6rem; color: var(--ink-dim); max-width: 52ch; }
+  /* On the dark field the same component flips to the reversed tokens rather
+     than punching a light rectangle into the band. */
+  :global(.forest) .pending { background: rgba(244, 237, 227, 0.07); border-left-color: var(--on-deep-mark); }
+  :global(.forest) .mark { color: var(--on-deep-mark); }
+  :global(.forest) .note { color: var(--on-deep-dim); }
+</style>

@@ -1,11 +1,18 @@
 ---
-interface Props { href: string; }
-const { href } = Astro.props;
+interface Props {
+  href: string;
+  /** Set when the button sits on the dark field. Forest green on forest-deep is
+   *  nearly invisible, so on that ground the action inverts to paper rather than
+   *  keeping a fill nobody can see. The colour still means "action" either way —
+   *  what changes is which of the two brand greens is the ground. */
+  onDeep?: boolean;
+}
+const { href, onDeep = false } = Astro.props;
 ---
-<!-- The single primary action on the site. Forest green appears here, on inline
-     links, and on focus rings — nowhere else. It never marks position, never
-     fills a heading, and never becomes a border. -->
-<a class="act" href={href}><slot /></a>
+<!-- The single primary action. Forest green appears here, on inline links, and on
+     focus rings — nowhere else. It never marks position, never fills a heading,
+     and never becomes a border. -->
+<a class:list={['act', { deep: onDeep }]} href={href}><slot /></a>
 
 <style>
   .act {
@@ -14,15 +21,17 @@ const { href } = Astro.props;
     color: var(--paper);
     font-weight: 700;
     font-size: var(--size-control);
-    font-variation-settings: 'wdth' 100;
     letter-spacing: 0.01em;
     line-height: 1;
-    /* 14px block padding on a 0.9rem line takes this past 44px tall. The audience
-       is on a phone, frequently outdoors and often wearing gloves. */
+    /* 1rem block padding on a 0.9rem line clears 44px. The audience is on a phone,
+       frequently outdoors and often wearing gloves. */
     padding: 1rem 1.5rem;
     border-radius: var(--radius);
     text-decoration: none;
-    transition: background 0.15s var(--ease);
+    transition: background 0.15s var(--ease), color 0.15s var(--ease);
   }
   .act:hover { background: var(--forest-hover); }
+  .act.deep { background: var(--on-deep); color: var(--forest-deep); }
+  .act.deep:hover { background: #ffffff; }
+  .act.deep:focus-visible { outline-color: var(--on-deep); }
 </style>

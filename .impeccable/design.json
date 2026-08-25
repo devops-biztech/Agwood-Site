@@ -1,12 +1,12 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-08-24T00:00:00Z",
-  "title": "Design System: Agwood Mill & Lumber — Slow Grown",
+  "generatedAt": "2026-08-25T00:00:00Z",
+  "title": "Design System: Agwood Mill & Lumber — Stated Flat",
   "extensions": {
     "colorMeta": {
       "paper": {
         "role": "neutral",
-        "displayName": "Plate Paper",
+        "displayName": "Paper Field",
         "canonical": "#F4EDE3",
         "tonalRamp": [
           "#13100B",
@@ -18,11 +18,11 @@
           "#E1D0B7",
           "#F4EDE3"
         ],
-        "purpose": "The page ground. A warm dry paper, not cream and not white."
+        "purpose": "The light field."
       },
       "paper-deep": {
         "role": "neutral",
-        "displayName": "Deep Plate",
+        "displayName": "Deep Paper Field",
         "canonical": "#E9DFD1",
         "tonalRamp": [
           "#12100C",
@@ -34,11 +34,11 @@
           "#DDCFBB",
           "#E9DFD1"
         ],
-        "purpose": "Alternate section ground. The only surface change on the site."
+        "purpose": "Second light field; the Pending ground."
       },
       "ink": {
         "role": "neutral",
-        "displayName": "Plate Ink",
+        "displayName": "Ink",
         "canonical": "#241A12",
         "tonalRamp": [
           "#241A12",
@@ -50,7 +50,7 @@
           "#CFCCC9",
           "#EEEDED"
         ],
-        "purpose": "All headings and body copy."
+        "purpose": "Headings and body on light fields."
       },
       "ink-dim": {
         "role": "neutral",
@@ -66,23 +66,7 @@
           "#CFCCC9",
           "#EEEDED"
         ],
-        "purpose": "Secondary copy, spec-row values, captions."
-      },
-      "grain": {
-        "role": "neutral",
-        "displayName": "Drawn Grain",
-        "canonical": "#8A6A4A",
-        "tonalRamp": [
-          "#120F0C",
-          "#322920",
-          "#5A4735",
-          "#8A6A4A",
-          "#A2876C",
-          "#B6A89B",
-          "#D1CCC7",
-          "#EEEDED"
-        ],
-        "purpose": "Every drawn grain line and band. Never carries text."
+        "purpose": "Secondary copy on light fields."
       },
       "forest": {
         "role": "primary",
@@ -100,6 +84,22 @@
         ],
         "purpose": "THE ACTION COLOUR. Measured from the logo's fill green."
       },
+      "forest-hover": {
+        "role": "primary",
+        "displayName": "Mill Green Pressed",
+        "canonical": "#073F11",
+        "tonalRamp": [
+          "#061809",
+          "#073F11",
+          "#1B742B",
+          "#329A45",
+          "#58B669",
+          "#90C099",
+          "#C4D4C7",
+          "#ECEFEC"
+        ],
+        "purpose": "Action hover; darker so contrast rises."
+      },
       "forest-deep": {
         "role": "primary",
         "displayName": "Outline Green",
@@ -114,7 +114,7 @@
           "#C5D3C8",
           "#ECEEEC"
         ],
-        "purpose": "Footer ground. The logo's own outline ink."
+        "purpose": "The dark field, header and footer. The logo's outline ink."
       },
       "russet": {
         "role": "secondary",
@@ -130,25 +130,73 @@
           "#D3C9C5",
           "#EEEDEC"
         ],
-        "purpose": "THE STATE COLOUR. You-are-here, current, active."
+        "purpose": "THE STATE COLOUR. Position, and named gaps."
+      },
+      "on-deep": {
+        "role": "neutral",
+        "displayName": "Reversed Ink",
+        "canonical": "#F4EDE3",
+        "tonalRamp": [
+          "#13100B",
+          "#342B1E",
+          "#5D4B32",
+          "#876C45",
+          "#B18F5D",
+          "#C9AE87",
+          "#E1D0B7",
+          "#F4EDE3"
+        ],
+        "purpose": "Text on the dark field."
+      },
+      "on-deep-dim": {
+        "role": "neutral",
+        "displayName": "Reversed Dim",
+        "canonical": "#C3CEC2",
+        "tonalRamp": [
+          "#0E100E",
+          "#262C26",
+          "#434D42",
+          "#5F6F5D",
+          "#7E927C",
+          "#A1B1A0",
+          "#C3CEC2",
+          "#EDEEED"
+        ],
+        "purpose": "Secondary text on the dark field."
+      },
+      "on-deep-mark": {
+        "role": "secondary",
+        "displayName": "Reversed State",
+        "canonical": "#E0A077",
+        "tonalRamp": [
+          "#150E0A",
+          "#3A2518",
+          "#694026",
+          "#9A5B32",
+          "#CB7843",
+          "#E0A077",
+          "#DEC8BA",
+          "#EFEDEB"
+        ],
+        "purpose": "The state colour on the dark field."
       }
     },
     "typographyMeta": {
       "display": {
         "displayName": "Display",
-        "purpose": "The one hero line per page. Fraunces 500 at opsz 144, SOFT 0, WONK 0 — the wobble switched off so it reads as an engraved plate face, not a playful one."
+        "purpose": "One hero line per page. Fraunces 500 at opsz 144, SOFT 0, WONK 0 — the wobble switched off."
       },
       "headline": {
         "displayName": "Headline",
-        "purpose": "Section headings. Fraunces 500 at opsz 72."
+        "purpose": "Statement headings and the value a statement resolves to. Fraunces 500 at opsz 72."
       },
       "title": {
         "displayName": "Title",
-        "purpose": "The wordmark beside the emblem, and sub-heads. Fraunces 600 at opsz 40."
+        "purpose": "Wordmark and statement numerals. Fraunces 600 at opsz 40."
       },
       "lede": {
         "displayName": "Lede",
-        "purpose": "The dim paragraph under a display line. Archivo 400."
+        "purpose": "The paragraph under a display line. Archivo 400."
       },
       "body": {
         "displayName": "Body",
@@ -156,112 +204,114 @@
       },
       "label": {
         "displayName": "Label",
-        "purpose": "Section eyebrows and the sticker labels on drawn slots. Archivo 700, wide tracking, uppercase. NOT monospace — see the Don'ts."
+        "purpose": "Field eyebrows and Pending markers. Archivo 700, wide tracking. NOT monospace."
       },
       "control": {
         "displayName": "Control",
-        "purpose": "The action button and nav links. Archivo 700."
+        "purpose": "The action and nav links. Archivo 700."
       }
     },
     "shadows": [
       {
         "name": "none",
         "value": "none",
-        "purpose": "There are no shadows in this world. Depth comes from ground tone and drawn grain density; a drop shadow would make a plate look like a card. See the Don'ts."
+        "purpose": "There are no shadows. Depth is the tonal step between fields and nothing else. A panel that casts a shadow is a card, and a card wants a grid."
       }
     ],
     "motion": [
       {
-        "name": "ease-surface",
+        "name": "ease",
         "value": "cubic-bezier(0.22, 0.61, 0.36, 1)",
-        "purpose": "The vault surfacing and every scroll reveal."
+        "purpose": "The one reveal."
       },
       {
-        "name": "surface",
-        "value": "clip-path inset(100% 0 0 0) -> inset(0 0 0 0), 1.7s",
-        "purpose": "The vault reveals bottom-up, the way grain appears as a board is planed. The crown of the arch completes last. Runs once, never repeats."
+        "name": "reveal",
+        "value": "opacity 0.7s + translateY(14px), once",
+        "purpose": "Fields rise on entry. Start state under :root.js only; reduced motion reveals immediately."
       }
     ],
     "breakpoints": [
       {
         "name": "sm",
         "value": "640px",
-        "purpose": "Single column; vault shortens to 210px and crops its sides rather than squashing."
+        "purpose": "Single column; statement numeral moves above its heading."
       }
     ]
   },
   "components": [
     {
-      "name": "Action Button",
+      "name": "Field",
+      "kind": "signature",
+      "refersTo": "field",
+      "description": "SIGNATURE. A full-bleed band of one colour carrying exactly one statement. The colour change between consecutive fields is the only section division on the site. Tones: paper, deep, forest. The forest tone flips every child to reversed tokens.",
+      "html": "<section class=\"ag-field forest\"><div class=\"shell\">…</div></section>",
+      "css": ".ag-field{padding-block:var(--field)}.ag-field.paper{background:var(--paper)}.ag-field.deep{background:var(--paper-deep)}.ag-field.forest{background:var(--forest-deep);color:var(--on-deep)}"
+    },
+    {
+      "name": "Statement",
+      "kind": "signature",
+      "refersTo": "statement",
+      "description": "SIGNATURE. A russet numeral holding its own column, a Fraunces heading capped at 19ch, prose, and the fact it resolves to. A held fact is set large in Fraunces; a named gap drops to Archivo in the state colour so it can never be mistaken for data.",
+      "html": "<article class=\"ag-st\"><p class=\"n\">01</p><div><h2>One species, run properly.</h2><p>…</p><p class=\"val\">Redwood only</p></div></article>",
+      "css": ".ag-st{display:grid;grid-template-columns:6ch 1fr;gap:clamp(1rem,4vw,2.5rem);align-items:start}.ag-st .n{font-family:var(--font-display);color:var(--russet)}.ag-st .val{font-family:var(--font-display);font-size:clamp(1.4rem,3vw,1.9rem)}.ag-st .val.unknown{font-family:var(--font-body);font-size:1rem;font-weight:700;color:var(--russet)}"
+    },
+    {
+      "name": "Action",
       "kind": "button",
       "refersTo": "action",
-      "description": "The single primary action: email the mill. Forest fill, paper text, square. Green appears nowhere else except inline links and focus rings.",
+      "description": "The single primary action. Forest fill, paper text, square. On the dark field it inverts to paper-on-forest-deep, because forest green on forest-deep is invisible.",
       "html": "<a class=\"ag-act\" href=\"mailto:info@agwoodml.com\">Email the mill</a>",
-      "css": ".ag-act{font-family:Archivo,system-ui,sans-serif;font-weight:700;font-size:.9rem;letter-spacing:.01em;padding:14px 24px;display:inline-block;border-radius:0;background:var(--forest);color:var(--paper);text-decoration:none}.ag-act:focus-visible{outline:3px solid var(--forest);outline-offset:3px}"
+      "css": ".ag-act{background:var(--forest);color:var(--paper);font-weight:700;padding:1rem 1.5rem;border-radius:0;display:inline-block;text-decoration:none}.ag-act.deep{background:var(--on-deep);color:var(--forest-deep)}"
     },
     {
-      "name": "The Vault",
-      "kind": "signature",
-      "refersTo": "vault",
-      "description": "SIGNATURE. The cathedral figure of a flatsawn redwood board, drawn as filled latewood bands and generated at build time. Nested arches at the centre relaxing continuously into vertical grain at the edges. Used ONCE per site, on Home. Surfaces bottom-up on load.",
-      "html": "<div class=\"ag-vault\"><!-- build-time SVG --></div>",
-      "css": ".ag-vault{height:clamp(230px,30vw,400px);overflow:hidden}.ag-vault svg{width:100%;height:100%;display:block}"
-    },
-    {
-      "name": "Grain Band",
-      "kind": "signature",
-      "refersTo": "grain-band",
-      "description": "SIGNATURE. Replaces every hairline rule on the site. A band of drawn vertical grain whose line density encodes the weight of the section beneath it — rings per inch is the trade's own quality measure, so density is information here, not texture.",
-      "html": "<div class=\"ag-band\"><!-- build-time SVG --></div>",
-      "css": ".ag-band{height:34px;overflow:hidden;opacity:.9}.ag-band svg{width:100%;height:100%;display:block}"
-    },
-    {
-      "name": "Drawn Slot",
-      "kind": "signature",
-      "refersTo": "drawn-slot",
-      "description": "SIGNATURE. The declared placeholder, built from the design's own material. A missing photograph is a framed panel of drawn redwood naming what belongs there. Never a grey box, never dashed scaffolding, never stock photography.",
-      "html": "<figure class=\"ag-slot\"><div class=\"ag-slot-grain\"></div><figcaption>Photograph of the Ukiah mill — to come.</figcaption></figure>",
-      "css": ".ag-slot{position:relative;overflow:hidden;border:1px solid rgba(138,106,74,.5);aspect-ratio:16/7;display:flex;align-items:flex-end;padding:20px;margin:0}.ag-slot figcaption{position:relative;background:var(--paper);border-left:3px solid var(--russet);padding:11px 15px;font-size:.72rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-dim)}"
+      "name": "Pending",
+      "kind": "placeholder",
+      "refersTo": "pending",
+      "description": "The declared placeholder, built from flat colour rather than texture. A bounded paper-deep block with a 4px russet left edge naming what belongs there. Never a grey box, never dashed scaffolding, never stock photography.",
+      "html": "<div class=\"ag-pending\"><p class=\"label mark\">Company history — pending confirmation</p><p class=\"note\">…</p></div>",
+      "css": ".ag-pending{background:var(--paper-deep);border-left:4px solid var(--russet);padding:clamp(1.1rem,3vw,1.5rem)}"
     },
     {
       "name": "Spec Row",
       "kind": "list",
       "refersTo": "spec-row",
-      "description": "The what-we-run and contact tables. Label left in ink, value right in dim ink. An unknown value is set in russet and says what to do instead of pretending to be data.",
-      "html": "<div class=\"ag-spec\"><div><span>Species</span><span>Redwood only</span></div></div>",
-      "css": ".ag-spec div{display:flex;justify-content:space-between;gap:18px;padding:10px 0}.ag-spec div+div{border-top:1px solid rgba(138,106,74,.28)}.ag-spec span:last-child{color:var(--ink-dim);text-align:right}"
+      "description": "Term/value pairs as a description list. An unknown is set in russet and says what to do instead of pretending to be data.",
+      "html": "<dl class=\"ag-spec\"><div><dt>Species</dt><dd>Redwood only</dd></div></dl>",
+      "css": ".ag-spec .row{display:flex;justify-content:space-between;gap:1.25rem;padding-block:.65rem}.ag-spec .row+.row{border-top:1px solid var(--rule)}.ag-spec dd.unknown{color:var(--russet)}"
     },
     {
       "name": "Nav Link",
       "kind": "nav",
       "refersTo": "nav-link",
-      "description": "Dim ink at rest; RUSSET when it is the current page. Never green — green means you can do something, and being somewhere is not doing something.",
+      "description": "Reversed dim at rest on the dark header; the reversed state colour when it is the current page. Never green — green means you can do something, and being somewhere is not doing something.",
       "html": "<a class=\"ag-nav is-current\" href=\"/\">Home</a>",
-      "css": ".ag-nav{font-family:Archivo,sans-serif;font-weight:700;font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-dim);text-decoration:none}.ag-nav.is-current{color:var(--russet)}"
+      "css": ".ag-nav{color:var(--on-deep-dim);font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.75rem .15rem;text-decoration:none}.ag-nav.is-current{color:var(--on-deep-mark)}"
     }
   ],
   "narrative": {
-    "northStar": "Slow Grown",
-    "overview": "Tight grain costs more log to get. Cut radially and you take fewer boards from the same tree, so the grain on a board is the physical record of what the mill gave up to produce it. The site is built from drawn wood — generated geometry, never photography — because Agwood owns no pictures of itself and the trade draws grain rather than photographing it.",
+    "northStar": "Stated Flat",
+    "overview": "Each field states one thing the mill will do, and nothing else. The site is a stack of hard-edged full-bleed bands in the company's own two greens and its paper, each carrying exactly one statement. The statements are numbered because they are a genuine sequence of narrowings — one species, one channel, one place.",
     "keyCharacteristics": [
-      "Grain is drawn, not photographed. Every line is generated at build time.",
-      "A growth ring is a band with width, not a hairline. Filled latewood bands are what read as wood.",
-      "Rings per inch is the trade's quality measure, so line density carries hierarchy.",
-      "Green acts, russet locates. They never cross.",
-      "No shadows, no rounded corners, no monospace.",
-      "Every unknown ships as a declared slot in the design's own material."
+      "One statement per field, never two and never a row of three.",
+      "The colour change between fields is the only section division.",
+      "Colour is structural: the two greens are measured out of the logo.",
+      "No ornament of any kind — no texture, pattern, generated material or imagery.",
+      "Green acts, russet locates; on the dark field both take reversed variants.",
+      "No shadows, no rounded corners, no monospace."
     ],
     "rules": [
-      "The Vault appears exactly once per site.",
+      "A field carries one statement.",
+      "Never draw a rule between two fields.",
       "Green is only ever on something you can do.",
-      "Russet is only ever on where you are.",
-      "A missing fact is drawn, labelled, and never guessed.",
+      "Russet is only ever on where you are, or on a gap being named.",
+      "An unknown is demoted to body type so it cannot read as a held fact.",
       "No sustainability or certification claim without a certificate in hand."
     ],
     "dos": [],
     "donts": [],
-    "openItems": [
-      "The client approved the Vault to proceed but is not sold on it: 'still not in love with your rendition of the arches though but im done fighting it. lets see how it looks after full execution.' Reviewed again after Phase 3. Do not treat as settled."
+    "history": [
+      "A prior direction generating drawn redwood grain (cathedral arches, grain bands, drawn placeholders) was built in full and rejected by the client on 2026-08-25 as feeling 'cheesy and poorly executed' after four rounds of geometry refinement. The finding was not that the grain was drawn badly but that ornament on a six-fact site reads as compensation. That vocabulary is dead and must not be reintroduced in softened form.",
+      "The client approved this direction as a merge: the field structure of one candidate with the numbered-statement content of another, singling out 'One species, run properly.' as the line that works."
     ]
   }
 }

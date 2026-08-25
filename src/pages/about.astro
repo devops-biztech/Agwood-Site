@@ -1,8 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
-import GrainBand from '../components/GrainBand.astro';
-import DrawnSlot from '../components/DrawnSlot.astro';
+import Field from '../components/Field.astro';
+import Statement from '../components/Statement.astro';
 import SpecList from '../components/SpecList.astro';
+import Pending from '../components/Pending.astro';
 import Action from '../components/Action.astro';
 import { COMPANY, ADDRESS_LINE, EMAIL_HREF, UNKNOWNS } from '../data/company.ts';
 import { PAGES } from '../data/site.ts';
@@ -10,36 +11,34 @@ import { PAGES } from '../data/site.ts';
 const meta = PAGES[1]!;
 ---
 <Base title={meta.title} description={meta.description}>
-  <section class="shell head">
-    <h1>A redwood mill in Ukiah.</h1>
-    <p class="lede">
-      {COMPANY.name} is a family-owned sawmill in {COMPANY.address.locality},
-      Mendocino County. We mill redwood and sell it wholesale.
-    </p>
-  </section>
-
-  <GrainBand rpi={78} seed={31} />
-
-  <div class="alt">
-    <section class="shell sec reveal">
-      <h2>One species, run properly.</h2>
-      <p class="prose">
-        Redwood is the only species we mill. That is a choice about attention
-        rather than a limit on capacity: grading redwood consistently means
-        knowing how this timber moves, splits and seasons, and a mill running four
-        or five species alongside it is spreading that attention thinner.
+  <Field tone="forest" reveal={false}>
+    <div class="hero">
+      <h1>A redwood mill in Ukiah.</h1>
+      <p class="lede">
+        {COMPANY.name} is a family-owned sawmill in {COMPANY.address.locality},
+        Mendocino County. We mill redwood and sell it wholesale.
       </p>
-      <p class="prose">
-        Our customers are lumber retailers and distributors across Northern
-        California. They resell what we grade, which means our grading has to hold
-        up in someone else's yard without them re-checking it.
-      </p>
-    </section>
-  </div>
+    </div>
+  </Field>
 
-  <GrainBand rpi={34} seed={32} />
+  <Field tone="paper">
+    <Statement n="01" heading="One species, run properly." value="Redwood only">
+      Redwood is the only timber we mill. That is a choice about attention rather
+      than a limit on capacity: grading redwood consistently means knowing how this
+      wood moves, splits and seasons, and that knowledge does not transfer from
+      one species to the next.
+    </Statement>
+  </Field>
 
-  <section class="shell sec reveal">
+  <Field tone="deep">
+    <Statement n="02" heading="Our grading has to hold up in someone else's yard." value="Wholesale">
+      We sell to lumber retailers and distributors across Northern California. They
+      resell what we grade, under their own name, to customers we never meet. That
+      only works if what is on the sticker is what is in the pack.
+    </Statement>
+  </Field>
+
+  <Field tone="paper">
     <h2 class="ttl label">The mill</h2>
     <SpecList rows={[
       { term: 'Location', value: ADDRESS_LINE },
@@ -49,52 +48,44 @@ const meta = PAGES[1]!;
       { term: 'Sells to', value: 'Retailers and distributors' },
       { term: UNKNOWNS[0]!.field, value: UNKNOWNS[0]!.say, unknown: true },
     ]} />
-  </section>
+  </Field>
 
-  <GrainBand rpi={78} seed={33} />
-
-  <section class="shell sec reveal">
+  <Field tone="deep">
     <h2 class="ttl label">Still to come</h2>
     <!--
       Two declared placeholders rather than written copy, and both are deliberate.
 
       The company's history is genuinely interesting and genuinely unconfirmed.
-      Public records point one way and the draft marketing copy points another —
-      the "Since 1954" line in the Webflow scaffold is contradicted by three
-      independent sources and appears nowhere except that draft. A founding year
-      is checkable by anyone, so this page prints none until the owner confirms
-      one. See PRODUCT.md, "Unverified, and flagged in code."
+      The "Since 1954" line in the Webflow draft is contradicted by three
+      independent sources and appears nowhere else. A founding year is checkable
+      by anyone, so this page prints none until the owner confirms one. See
+      PRODUCT.md, "Unverified, and flagged in code."
     -->
-    <div class="slots">
-      <DrawnSlot
-        label="The mill, the yard, and the crew — photographs to come"
-        note="Agwood owns no photographs of its own operation yet. Nothing here is a stock photograph standing in for one."
-        seed={41}
+    <div class="pends">
+      <Pending
+        label="The mill, the yard and the crew — photographs to come"
+        note="Agwood owns no photographs of its own operation yet. Nothing on this site is a stock photograph standing in for one."
       />
-      <DrawnSlot
+      <Pending
         label="Company history — pending confirmation"
         note="The founding year and the family's history with this mill are being confirmed with the owner. Nothing is printed here until they are."
-        seed={42}
       />
     </div>
-  </section>
+  </Field>
 
-  <GrainBand rpi={34} seed={34} />
-
-  <section class="shell sec reveal">
+  <Field tone="paper">
     <h2>Talk to the mill.</h2>
-    <p class="prose">Email is the quickest way to reach us with an enquiry.</p>
+    <p class="prose lede-gap">Email is the quickest way to reach us with an enquiry.</p>
     <p class="cta"><Action href={EMAIL_HREF}>Email the mill</Action></p>
-  </section>
+  </Field>
 </Base>
 
 <style>
-  .head { padding-block: clamp(2.25rem, 6vw, 3.5rem); }
-  .head h1 { max-width: 15ch; }
-  .head .lede { margin-top: 1rem; }
-  .sec { padding-block: var(--section); }
-  .alt { background: var(--paper-deep); }
-  .ttl { color: var(--russet); margin-bottom: 1rem; font-family: var(--font-body); }
-  .slots { display: grid; gap: var(--stack); margin-top: 0.5rem; }
-  .cta { margin-top: 1.5rem; }
+  .hero h1 { max-width: 14ch; font-size: clamp(2.4rem, 6.4vw, 4rem); }
+  .hero .lede { margin-top: 1.4rem; }
+  .ttl { color: var(--russet); margin-bottom: 1.4rem; font-family: var(--font-body); }
+  :global(.forest) .ttl { color: var(--on-deep-mark); }
+  .pends { display: grid; gap: var(--stack); }
+  .lede-gap { margin-top: 1rem; }
+  .cta { margin-top: 2rem; }
 </style>

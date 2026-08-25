@@ -2,49 +2,40 @@
 import { COMPANY } from '../data/company.ts';
 import { PAGES } from '../data/site.ts';
 
-// Trailing slashes are enforced by astro.config, so a plain equality test is
-// enough here and matches the sitemap's URLs exactly.
 const here = Astro.url.pathname;
+const label = (p: (typeof PAGES)[number]) =>
+  p.path === '/' ? 'Home' : p.title.replace('About the Mill', 'About');
 ---
+<!--
+  The header sits on the dark field on every page and runs continuous with the
+  hero beneath it, so the top of the site is one uninterrupted band of the logo's
+  own green rather than a strip balanced on top of a different colour. There is no
+  border under it; the colour change where the field ends is the division.
+-->
 <header class="hdr">
   <div class="shell hdr-in">
     <a class="brand" href="/">
       <!-- The emblem only. The wordmark baked into the raster is never used: the
-           company name is set in live type beside it so it is selectable, crisp at
-           every pixel density, and not pushed through a lossy scan. -->
-      <img src="/assets/emblem-forest.png" width="75" height="64" alt=""
-           decoding="async" />
+           company name is live type so it is selectable, crisp at every density,
+           and not pushed through a lossy scan. -->
+      <img src="/assets/emblem-white.png" width="75" height="64" alt="" decoding="async" />
       <span class="wm">{COMPANY.name}</span>
     </a>
     <nav aria-label="Primary">
       {PAGES.map((p) => (
         <a href={p.path} class:list={['nav', { 'is-current': here === p.path }]}
-           aria-current={here === p.path ? 'page' : undefined}>
-          {p.path === '/' ? 'Home' : p.title.replace('About the Mill', 'About')}
-        </a>
+           aria-current={here === p.path ? 'page' : undefined}>{label(p)}</a>
       ))}
     </nav>
   </div>
 </header>
 
 <style>
-  .hdr { background: var(--paper); }
-  .hdr-in {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    flex-wrap: wrap;
-    padding-block: 1rem;
-  }
-  .brand {
-    display: flex;
-    align-items: center;
-    gap: 0.85rem;
-    text-decoration: none;
-    color: var(--ink);
-  }
-  /* 64px is a measured floor, not a preference. The emblem was rendered at 44,
-     56, 64, 72 and 88; below 64 the conifer branches merge into a blob and the
+  .hdr { background: var(--forest-deep); color: var(--on-deep); }
+  .hdr-in { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; padding-block: 1.1rem; }
+  .brand { display: flex; align-items: center; gap: 0.85rem; text-decoration: none; color: var(--on-deep); }
+  /* 64px is a measured floor, not a preference. The emblem was rendered at 44, 56,
+     64, 72 and 88; below 64 the conifer branches merge into a blob and the
      monogram stops reading. Do not shrink this to tighten the header. */
   .brand img { height: 64px; width: auto; }
   .wm {
@@ -60,18 +51,18 @@ const here = Astro.url.pathname;
   .nav {
     font-size: 0.78rem;
     font-weight: 700;
-    font-variation-settings: 'wdth' 100;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--ink-dim);
+    color: var(--on-deep-dim);
     text-decoration: none;
-    /* Large tap target: the primary visitor is on a phone, often outdoors. The
-       padding is what makes this reach 44px, not the font size. */
+    /* Padding is what takes this past a 44px tap target, not the font size. The
+       primary visitor is on a phone, frequently outdoors. */
     padding: 0.75rem 0.15rem;
   }
-  /* Russet marks where you are and nothing else. It is never a link colour, and
-     green never marks position — being somewhere is not doing something. */
-  .nav.is-current { color: var(--russet); }
-  .nav:hover { color: var(--ink); }
-  .nav.is-current:hover { color: var(--russet); }
+  /* The state colour marks where you are, and never marks anything else. On the
+     dark field it takes its reversed variant so it stays legible. */
+  .nav.is-current { color: var(--on-deep-mark); }
+  .nav:hover { color: var(--on-deep); }
+  .nav.is-current:hover { color: var(--on-deep-mark); }
+  :where(.brand, .nav):focus-visible { outline: 3px solid var(--on-deep); outline-offset: 3px; }
 </style>

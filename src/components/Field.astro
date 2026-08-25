@@ -1,0 +1,29 @@
+---
+interface Props {
+  /** Which ground this band sits on. The colour change IS the section division —
+   *  there are no rules between fields, and adding one would undo the idea. */
+  tone?: 'paper' | 'deep' | 'forest';
+  as?: 'section' | 'div';
+  reveal?: boolean;
+}
+const { tone = 'paper', as: Tag = 'section', reveal = true } = Astro.props;
+---
+<!--
+  A full-bleed band of one colour, with the shell inside owning the width and the
+  gutter. The wrapper never sets a max-width of its own: doing that is what creates
+  two competing container widths and the nested insets the whole layout avoids.
+-->
+<Tag class:list={['field', tone, { reveal }]}>
+  <div class="shell"><slot /></div>
+</Tag>
+
+<style>
+  .field { padding-block: var(--field); }
+  .paper { background: var(--paper); }
+  .deep { background: var(--paper-deep); }
+  /* The dark field is the logo's own outline ink, measured out of the mark rather
+     than mixed to sit near it. Everything inside it flips to the reversed tokens. */
+  .forest { background: var(--forest-deep); color: var(--on-deep); }
+  .forest :global(h1), .forest :global(h2), .forest :global(h3) { color: var(--on-deep); }
+  .forest :global(.lede), .forest :global(.prose) { color: var(--on-deep-dim); }
+</style>

@@ -1,93 +1,69 @@
 ---
 import Base from '../layouts/Base.astro';
-import Vault from '../components/Vault.astro';
-import GrainBand from '../components/GrainBand.astro';
-import DrawnSlot from '../components/DrawnSlot.astro';
-import SpecList from '../components/SpecList.astro';
+import Field from '../components/Field.astro';
+import Statement from '../components/Statement.astro';
 import Action from '../components/Action.astro';
-import { COMPANY, ADDRESS_LINE, PHONE_HREF, EMAIL_HREF, UNKNOWNS } from '../data/company.ts';
+import { COMPANY, PHONE_HREF, EMAIL_HREF } from '../data/company.ts';
 import { PAGES } from '../data/site.ts';
 
 const meta = PAGES[0]!;
-
-const runs = [
-  { term: 'Species', value: 'Redwood only' },
-  { term: 'Products', value: COMPANY.products.join(' · ') },
-  { term: 'Channel', value: 'Wholesale' },
-  { term: 'Mill', value: 'Ukiah, Mendocino County, California' },
-  { term: UNKNOWNS[0]!.field, value: UNKNOWNS[0]!.say, unknown: true },
-];
 ---
 <Base title={meta.title} description={meta.description}>
-  <section class="shell hero">
-    <h1>Redwood is our full time job.</h1>
-    <p class="lede">
-      {COMPANY.products.join(', ')} from one mill in Ukiah. Sold wholesale to
-      retailers and distributors across Northern California.
-    </p>
-    <Action href={EMAIL_HREF}>Email the mill</Action>
-  </section>
-
-  <Vault />
-  <GrainBand rpi={78} seed={21} />
-
-  <div class="alt">
-    <section class="shell band-sec reveal">
-      <h2 class="ttl label">What we run</h2>
-      <SpecList rows={runs} />
-    </section>
-  </div>
-
-  <GrainBand rpi={34} seed={22} />
-
-  <section class="shell band-sec reveal">
-    <h2>The grain is the record.</h2>
-    <p class="prose">
-      Tight grain costs more log to get. Cut radially and you take fewer boards
-      from the same tree, so the figure on a finished board is a record of how
-      much yield the mill gave up to produce it.
-    </p>
-    <p class="prose">
-      Redwood does not behave like the softwoods a general mill runs alongside it.
-      Running one species is how the grading stays consistent from one order to
-      the next.
-    </p>
-    <div class="slot-wrap">
-      <DrawnSlot
-        label="Photograph of the Ukiah mill — to come"
-        note="This frame is drawn redwood. It is not a stock photograph of someone else's yard."
-        seed={33}
-      />
+  <!-- The hero continues the header's field. One uninterrupted band of the
+       logo's own green from the top of the page to the first statement. -->
+  <Field tone="forest" reveal={false}>
+    <div class="hero">
+      <h1>Redwood is our full time job.</h1>
+      <p class="lede">
+        {COMPANY.products.join(', ')} from one mill in Ukiah. Sold wholesale to
+        retailers and distributors across Northern California.
+      </p>
+      <p class="cta"><Action href={EMAIL_HREF} onDeep>Email the mill</Action></p>
     </div>
-  </section>
+  </Field>
 
-  <GrainBand rpi={78} seed={23} />
+  <Field tone="paper">
+    <Statement n="01" heading="One species, run properly." value="Redwood only">
+      Redwood is the only timber we mill. Grading it consistently means knowing how
+      this wood moves, splits and seasons — and a mill running four or five species
+      alongside it is spreading that attention thinner.
+    </Statement>
+  </Field>
 
-  <div class="alt">
-    <section class="shell band-sec reveal">
-      <h2 class="ttl label">Contact</h2>
-    <SpecList rows={[
-      { term: COMPANY.name, value: ADDRESS_LINE },
-      { term: 'Telephone', value: COMPANY.phone, href: PHONE_HREF },
-      { term: 'Email', value: COMPANY.email, href: EMAIL_HREF },
-      { term: 'Hours', value: COMPANY.hours.display },
-    ]} />
-      <p class="after"><a href="/contact/">Where to buy, and who to call &rarr;</a></p>
-    </section>
-  </div>
+  <Field tone="deep">
+    <Statement n="02" heading="We sell to the people who sell to everyone else." value="Wholesale">
+      Our customers are lumber retailers and distributors across Northern
+      California. They resell what we grade, which means our grading has to hold up
+      in someone else's yard without them re-checking it.
+    </Statement>
+  </Field>
+
+  <Field tone="paper">
+    <Statement
+      n="03"
+      heading="Grades and dimensions."
+      value={`Call the mill — ${COMPANY.phone}`}
+      href={PHONE_HREF}
+      unknown
+    >
+      Not published yet. Call the mill and we will tell you exactly what is running.
+    </Statement>
+  </Field>
+
+  <Field tone="deep">
+    <h2>Talk to the mill.</h2>
+    <p class="prose gap-sm">
+      Email reaches us fastest. Full address, telephone and hours are on the
+      contact page and at the foot of every page.
+    </p>
+    <p class="cta"><Action href={EMAIL_HREF}>Email the mill</Action></p>
+  </Field>
+
 </Base>
 
 <style>
-  .hero { padding-block: clamp(2.5rem, 7vw, 4.5rem) 0; }
-  .hero h1 { max-width: 16ch; }
-  .hero .lede { margin-block: 1rem 1.75rem; }
-  .band-sec { padding-block: var(--section); }
-  /* The one alternate ground on the site. It is a full-bleed background wrapper
-     and nothing else — the .shell inside still owns the width and the gutter, so
-     there is no second container and no nested inset. Setting max-width on .shell
-     itself to fake a full-bleed here is what creates two competing widths. */
-  .alt { background: var(--paper-deep); }
-  .ttl { color: var(--russet); margin-bottom: 1rem; font-family: var(--font-body); }
-  .slot-wrap { margin-top: 1.75rem; }
-  .after { margin-top: 1.5rem; }
+  .hero h1 { max-width: 13ch; font-size: clamp(2.6rem, 7.4vw, 4.6rem); }
+  .hero .lede { margin-top: 1.5rem; max-width: 40ch; }
+  .cta { margin-top: 2rem; }
+  .gap-sm { margin-top: 1rem; }
 </style>
