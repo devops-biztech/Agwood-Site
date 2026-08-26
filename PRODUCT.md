@@ -167,6 +167,17 @@ owner's name attached until he confirms the wording.
 - **Operating principle:** grade over throughput. *(Client-reported paraphrase
   of the owner. Not attributable verbatim — see Positioning.)*
 - **No existing website.** *(Brief; confirmed by search.)*
+- **Company history.** The Agwood name has been on a redwood mill in Ukiah since
+  the early 1980s; the business and its assets were sold to Conrad Forest Products
+  of North Bend, Oregon, effective 1 April 2017; the mill was restarted under local
+  family ownership in 2025, keeping the name and the Kunzler Ranch Road site.
+  *(Confirmed by the client on 2026-08-25 in response to a direct question. Originally
+  assembled from a March 1981 trade-journal listing, contemporaneous trade-press
+  coverage of the Conrad acquisition, and the California Secretary of State
+  registration of Agwood Mill & Lumber LLC dated 29 January 2025. Recorded with its
+  provenance so that if any part is later found wrong, the record shows who
+  confirmed it and when.)*
+- **Family-owned.** *(Brief and client; corroborated by listings.)*
 
 ### Unverified, and flagged in code
 
@@ -177,23 +188,11 @@ placeholder or does not ship.
   copy. Three independent sources give three other years — a 1981 trade journal
   listing, an "established 1981" record, and a "founded 2002" record for the
   Fortuna entity. No source supports 1954. **Do not print a founding year.**
-- **The relaunch lineage.** Public records indicate *Agwood Mill & Lumber LLC*
-  (CA entity 202565611416) was registered 29 Jan 2025 at 650 Kunzler Ranch Rd,
-  with Randy W Huffman as CEO and registered agent and Kimberly E and Randolph W
-  Huffman as managers; that a predecessor *Agwood Mill & Lumber Inc* appears in a
-  March 1981 trade publication under president Curtis Wood; and that Conrad
-  Forest Products acquired all of that company's assets effective 1 April 2017.
-  Read together this suggests a Ukiah mill name with decades of local history,
-  restarted by a local family in 2025.
-  **The client chose this as the About page's direction.** It is recorded here as
-  *direction*, not as approved copy. Not one specific in this paragraph — not the
-  2025 date, not the 2017 acquisition, not a name, not a generation — may be
-  written on the site until the owner confirms it. Sourced from third-party
-  aggregators reporting Secretary of State data, which is exactly the class of
-  source that produced the four contradictory founding years above.
 - **Owner and family names.** Present in public filings. Being public is not
-  consent to be published on the company's own site. Requires the owner's
-  explicit approval, including which generation and relationship to state.
+  consent to be published on the company's own site, and the About page's story
+  works without them. Requires the owner's explicit approval before any individual
+  is named. Currently NOT on the site by deliberate choice.
+
 - **Mailing address: P.O. Box 1443, Ukiah, CA 95482.** From the LLC filing. It
   plausibly explains the garbled "PO Box Kunzler Ranch Rd" line in the repo,
   which collapsed a PO Box and a street address into one. Needs client

@@ -48,7 +48,7 @@ the page and lets type, colour and structure do everything else.
 | Page titles and meta descriptions | [`src/data/site.ts`](src/data/site.ts) | Also drives the nav and `sitemap.xml`. |
 | Whether a deploy is indexable | [`src/data/deploy.ts`](src/data/deploy.ts) | Reads `VERCEL_ENV`. |
 | Design tokens | [`src/styles/global.css`](src/styles/global.css) | Colour, type, spacing. No component defines a raw hex. |
-| Field and Statement | [`src/components/`](src/components/) | The two signature components. A page is a sequence of `Field`s. |
+| Field and Cell Row | [`src/components/`](src/components/) | The two signature components. A page is a sequence of `Field`s. |
 | Page copy | `src/pages/*.astro` | Prose is in the pages; facts come from the data modules. |
 
 A copy edit never requires touching a component. A NAP change touches exactly one

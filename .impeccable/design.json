@@ -248,12 +248,12 @@
       "css": ".ag-field{padding-block:var(--field)}.ag-field.paper{background:var(--paper)}.ag-field.deep{background:var(--paper-deep)}.ag-field.forest{background:var(--forest-deep);color:var(--on-deep)}"
     },
     {
-      "name": "Statement",
+      "name": "Cell Row",
       "kind": "signature",
-      "refersTo": "statement",
-      "description": "SIGNATURE. A russet numeral holding its own column, a Fraunces heading capped at 19ch, prose, and the fact it resolves to. A held fact is set large in Fraunces; a named gap drops to Archivo in the state colour so it can never be mistaken for data.",
-      "html": "<article class=\"ag-st\"><p class=\"n\">01</p><div><h2>One species, run properly.</h2><p>…</p><p class=\"val\">Redwood only</p></div></article>",
-      "css": ".ag-st{display:grid;grid-template-columns:6ch 1fr;gap:clamp(1rem,4vw,2.5rem);align-items:start}.ag-st .n{font-family:var(--font-display);color:var(--russet)}.ag-st .val{font-family:var(--font-display);font-size:clamp(1.4rem,3vw,1.9rem)}.ag-st .val.unknown{font-family:var(--font-body);font-size:1rem;font-weight:700;color:var(--russet)}"
+      "refersTo": "cells",
+      "description": "SIGNATURE. Three cells on one field, each carrying a small state-colour label, a Fraunces argument, prose, and the fact the argument resolves to. Facts are bottom-aligned across the row. No icons, no cards, no borders around cells, no shadow, no radius, no per-cell background — one hairline between cells and nothing else. Never a fourth cell.",
+      "html": "<div class=\"ag-cells\"><article class=\"ag-cell\"><p class=\"label\">Species</p><h2>One species, run properly.</h2><p>…</p><p class=\"val\">Redwood only</p></article>…</div>",
+      "css": ".ag-cells{display:grid;grid-template-columns:repeat(3,1fr)}.ag-cells>*+*{border-left:1px solid var(--rule)}.ag-cell{display:flex;flex-direction:column}.ag-cell .val{margin-top:auto;font-family:var(--font-display)}.ag-cell .val.unknown{font-family:var(--font-body);font-weight:700;color:var(--russet)}"
     },
     {
       "name": "Action",

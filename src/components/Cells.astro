@@ -1,0 +1,33 @@
+---
+/**
+ * The three-cell row.
+ *
+ * This is the one place the site comes close to the category template’s icon-card
+ * triad, which DESIGN.md bans outright. It is allowed here, and the distinction is
+ * narrow enough to be worth writing down:
+ *
+ *   - There are no icons and no cards. The cells have no border, no shadow, no
+ *     radius and no background of their own — they sit directly on the field and
+ *     are separated by a single hairline.
+ *   - Each cell carries an ARGUMENT and the FACT it resolves to, not a benefit.
+ *     "One species, run properly. — Redwood only" is a claim a buyer can check.
+ *     "Quality Craftsmanship" is not.
+ *   - Three is the count because there are exactly three things to say, not
+ *     because three is the number of cards that fits.
+ *
+ * If a fourth cell is ever wanted, that is the signal the row has stopped being a
+ * structure and started being a container. Split it instead.
+ */
+---
+<div class="cells"><slot /></div>
+
+<style>
+  .cells { display: grid; grid-template-columns: repeat(3, 1fr); }
+  /* A hairline BETWEEN cells only — never around them. A box here would make each
+     cell a card, and a card wants a grid of cards. */
+  .cells > :global(* + *) { border-left: 1px solid var(--rule); }
+  @media (max-width: 760px) {
+    .cells { grid-template-columns: 1fr; }
+    .cells > :global(* + *) { border-left: none; border-top: 1px solid var(--rule); }
+  }
+</style>

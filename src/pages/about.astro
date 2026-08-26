@@ -1,7 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
 import Field from '../components/Field.astro';
-import Statement from '../components/Statement.astro';
 import SpecList from '../components/SpecList.astro';
 import Pending from '../components/Pending.astro';
 import Action from '../components/Action.astro';
@@ -13,79 +12,112 @@ const meta = PAGES[1]!;
 <Base title={meta.title} description={meta.description}>
   <Field tone="forest" reveal={false}>
     <div class="hero">
-      <h1>A redwood mill in Ukiah.</h1>
+      <h1>The mill is running again.</h1>
       <p class="lede">
-        {COMPANY.name} is a family-owned sawmill in {COMPANY.address.locality},
-        Mendocino County. We mill redwood and sell it wholesale.
+        A redwood mill has stood on Kunzler Ranch Road for more than forty years.
+        In 2025 it went back into local family hands.
       </p>
     </div>
   </Field>
 
   <Field tone="paper">
-    <Statement n="01" heading="One species, run properly." value="Redwood only">
-      Redwood is the only timber we mill. That is a choice about attention rather
-      than a limit on capacity: grading redwood consistently means knowing how this
-      wood moves, splits and seasons, and that knowledge does not transfer from
-      one species to the next.
-    </Statement>
+    <!-- Prose may name the road; only the record and the footer carry the full
+         canonical citation "650 Kunzler Ranch Rd, Ukiah, CA 95482". A road name
+         with no street number, city or postcode is not a competing NAP citation,
+         and the history reads badly with an abbreviation in the middle of it. -->
+    <h2>Where this comes from.</h2>
+    <p class="prose gap">
+      The Agwood name has been on a redwood mill in Ukiah since the early 1980s. In
+      2017 the business and its assets were sold to Conrad Forest Products of North
+      Bend, Oregon. In 2025 the mill came back under local family
+      ownership, keeping the name and the site on Kunzler Ranch Road.
+    </p>
+    <!--
+      This paragraph is doing real work and should not be cut as throat-clearing.
+
+      The public record for this company is genuinely contradictory: live listings
+      disagree on the street address, the telephone, the legal entity and the number
+      of locations, because several of them describe the pre-2017 business. A buyer
+      who searches the company before calling WILL find those. Explaining the break
+      turns the most confusing thing about Agwood's search results into evidence
+      that this site is the accurate one — which is the second job this site exists
+      to do. See PRODUCT.md, "Operating Context".
+    -->
+    <p class="prose">
+      That break is worth stating plainly, because a search will turn up listings
+      from both eras. The address, telephone and hours on this site are the current
+      ones.
+    </p>
   </Field>
 
   <Field tone="deep">
-    <Statement n="02" heading="Our grading has to hold up in someone else's yard." value="Wholesale">
+    <h2>One species, run properly.</h2>
+    <p class="prose gap">
+      Redwood is the only timber we mill. That is a choice about attention rather
+      than a limit on capacity: grading redwood consistently means knowing how this
+      wood moves, splits and seasons, and that knowledge does not transfer from one
+      species to the next.
+    </p>
+    <p class="prose">
       We sell to lumber retailers and distributors across Northern California. They
       resell what we grade, under their own name, to customers we never meet. That
       only works if what is on the sticker is what is in the pack.
-    </Statement>
+    </p>
   </Field>
 
   <Field tone="paper">
-    <h2 class="ttl label">The mill</h2>
+    <h2 class="ttl label">Regulation</h2>
+    <!--
+      Deliberately narrow, and it must stay that way.
+
+      The client approved stating the Forest Practice Act as jurisdictional context.
+      Its permitted scope is exactly that: a fact about California law. It may NOT be
+      rewritten to describe Agwood's own sourcing or to imply a certification the
+      company does not hold — we do not know where their logs come from. The second
+      sentence is the safety valve and must not be deleted to tidy the paragraph.
+    -->
+    <p class="prose">
+      Timber harvested on private and industrial land in California is governed by
+      the California Forest Practice Act, which requires approved harvest plans
+      covering water quality, erosion and replanting. Agwood holds no FSC or SFI
+      certification and does not claim one.
+    </p>
+  </Field>
+
+  <Field tone="deep">
+    <h2 class="ttl label">The record</h2>
     <SpecList rows={[
+      { term: 'Company', value: COMPANY.name },
+      { term: 'Ownership', value: 'Family-owned' },
       { term: 'Location', value: ADDRESS_LINE },
       { term: 'County', value: 'Mendocino County, California' },
       { term: 'Species', value: 'Redwood only' },
       { term: 'Products', value: COMPANY.products.join(' · ') },
       { term: 'Sells to', value: 'Retailers and distributors' },
+      { term: 'Hours', value: COMPANY.hours.display },
       { term: UNKNOWNS[0]!.field, value: UNKNOWNS[0]!.say, unknown: true },
     ]} />
   </Field>
 
-  <Field tone="deep">
+  <Field tone="paper">
     <h2 class="ttl label">Still to come</h2>
-    <!--
-      Two declared placeholders rather than written copy, and both are deliberate.
-
-      The company's history is genuinely interesting and genuinely unconfirmed.
-      The "Since 1954" line in the Webflow draft is contradicted by three
-      independent sources and appears nowhere else. A founding year is checkable
-      by anyone, so this page prints none until the owner confirms one. See
-      PRODUCT.md, "Unverified, and flagged in code."
-    -->
-    <div class="pends">
-      <Pending
-        label="The mill, the yard and the crew — photographs to come"
-        note="Agwood owns no photographs of its own operation yet. Nothing on this site is a stock photograph standing in for one."
-      />
-      <Pending
-        label="Company history — pending confirmation"
-        note="The founding year and the family's history with this mill are being confirmed with the owner. Nothing is printed here until they are."
-      />
-    </div>
+    <Pending
+      label="Photographs of the mill, the yard and the crew"
+      note="Agwood owns no photographs of its own operation yet. Nothing on this site is a stock photograph standing in for one."
+    />
   </Field>
 
-  <Field tone="paper">
+  <Field tone="deep">
     <h2>Talk to the mill.</h2>
-    <p class="prose lede-gap">Email is the quickest way to reach us with an enquiry.</p>
+    <p class="prose gap">Email is the quickest way to reach us with an enquiry.</p>
     <p class="cta"><Action href={EMAIL_HREF}>Email the mill</Action></p>
   </Field>
 </Base>
 
 <style>
-  .hero h1 { max-width: 14ch; font-size: clamp(2.4rem, 6.4vw, 4rem); }
-  .hero .lede { margin-top: 1.4rem; }
-  .ttl { color: var(--russet); margin-bottom: 1.4rem; font-family: var(--font-body); }
-  :global(.forest) .ttl { color: var(--on-deep-mark); }
-  .pends { display: grid; gap: var(--stack); }
-  .lede-gap { margin-top: 1rem; }
+  .hero h1 { max-width: 13ch; font-size: clamp(2.5rem, 7vw, 4.4rem); }
+  .hero .lede { margin-top: 1.5rem; max-width: 42ch; }
+  .ttl { color: var(--russet); margin-bottom: 1.2rem; font-family: var(--font-body); }
+  .gap { margin-bottom: var(--stack); }
   .cta { margin-top: 2rem; }
 </style>

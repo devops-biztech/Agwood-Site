@@ -13,6 +13,7 @@ colors:
   on-deep: "#F4EDE3"
   on-deep-dim: "#C3CEC2"
   on-deep-mark: "#E0A077"
+  rule: "rgba(36, 26, 18, 0.13)"
 typography:
   display:
     fontFamily: "Fraunces, Georgia, 'Times New Roman', serif"
@@ -82,6 +83,13 @@ components:
     background: "{colors.forest-deep}"
     color: "{colors.on-deep}"
     paddingBlock: "{spacing.field}"
+  cell:
+    label: "{colors.russet}"
+    heading: "{typography.headline}"
+    body: "{colors.ink-dim}"
+    value: "{typography.headline}"
+    valueUnknown: "{colors.russet}"
+    divider: "{colors.rule}"
   statement:
     numeral: "{colors.russet}"
     numeralOnDeep: "{colors.on-deep-mark}"
@@ -124,17 +132,19 @@ components:
 
 ## Overview
 
-**North star: each field states one thing the mill will do, and nothing else.**
+**North star: every field is a flat declaration of what the mill will do.**
 
 The site is a stack of hard-edged, full-bleed bands in the company's own two
-greens and its paper. Each band carries exactly one statement. The statements are
-numbered because they genuinely are a sequence of narrowings — one species, one
-channel, one place — and not because numbering makes a list look considered.
+greens and its paper. A field makes one point. Where that point is a set of
+related narrowings — one species, one channel, one specification — it is carried
+by a three-cell row rather than three separate fields, because they answer the
+same question and belong at the same altitude.
 
 ### What it forces
 
-1. **One statement per field.** Never two, and never a row of three. The moment a
-   field carries a grid, the structure stops meaning anything.
+1. **A field makes one point.** It may be carried by one statement or by the
+   three-cell row, and by nothing else. A field with two unrelated things in it
+   has stopped being a declaration.
 2. **Colour is the division.** There are no rules, borders, or dividers between
    fields — the colour change is the section break. A hairline between two fields
    would be admitting the colour is not doing its job.
@@ -284,13 +294,18 @@ A full-bleed band of one colour carrying exactly one statement. The colour chang
 between consecutive fields is the only section division on the site. `tone` is
 `paper`, `deep` or `forest`; the dark tone flips every child to reversed tokens.
 
-### The Statement (signature)
+### The Cell Row (signature)
 
-A numeral in the state colour holding its own column, a Fraunces headline capped
-at 19ch, supporting prose, and the fact it resolves to — set large in Fraunces
-when it is data we hold, and dropped to Archivo in the state colour when it is a
-gap we are naming. That demotion matters: an unknown must never be able to be
-mistaken for a fact.
+Three cells on one field, each carrying a small label in the state colour, a
+Fraunces argument, supporting prose, and the fact the argument resolves to. The
+facts are bottom-aligned across the row so they line up regardless of how long the
+arguments above them run.
+
+This is the closest the site comes to the icon-card triad the category runs on,
+and the distance is held by three things: the cells have no box of any kind, each
+carries a checkable claim rather than a benefit, and there are three because there
+are three things to say. The conditions are written as Don'ts below and are not
+negotiable — they are the whole reason this row is allowed.
 
 ### Pending
 
@@ -310,7 +325,8 @@ never a scroll handler.
 
 ### Do
 
-- Give each field exactly one statement.
+- Give each field one point, carried by prose, a record, or the three-cell row.
+- Bottom-align the facts across a cell row so they read as a set.
 - Let the colour change be the section break.
 - Set `SOFT 0` and `WONK 0` on every Fraunces instance.
 - Use green for actions and russet for state, and nothing else for either.
@@ -325,8 +341,19 @@ never a scroll handler.
 
 - **Don't reintroduce ornament in any form.** No texture, no pattern, no generated
   material, no wood imagery. This world exists because that was rejected.
-- **Don't put two statements in one field**, and don't put a three-icon card row on
-  any page. It is the category template's load-bearing device.
+- **Don't put two unrelated points in one field.**
+- **Don't turn the three-cell row into an icon-card triad.** No icons, no cards,
+  no borders around cells, no shadows, no radius, no per-cell background. The
+  cells sit on the field and are separated by one hairline. The moment a cell gets
+  a box, the row becomes the category template's load-bearing device and the whole
+  structure goes with it.
+- **Don't add a fourth cell.** Three is the count because there are exactly three
+  things to say. A fourth is the signal the row has stopped being a structure and
+  become a container — split it into fields instead.
+- **Don't put a benefit in a cell.** A cell carries an argument and the fact it
+  resolves to, both checkable. "One species, run properly — Redwood only" is a
+  claim a buyer can test; "Quality Craftsmanship" is what this site exists to
+  avoid.
 - **Don't draw a rule between two fields.** The colour change is the division.
 - **Don't add a shadow**, and don't round a corner.
 - **Don't use a monospace face** anywhere.
