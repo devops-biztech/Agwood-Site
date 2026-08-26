@@ -24,6 +24,19 @@ export function haversineMiles(a: Place, b: Place): number {
 
 export interface MapOptions { width?: number; height?: number; padding?: number; }
 
+export interface ReachMap {
+  svg: string;
+  /**
+   * How far in from the figure's left edge the state's bottom-left corner sits,
+   * as a percentage of the rendered width. The caption is indented by this so it
+   * starts under the base of the state rather than under the westernmost point of
+   * the coastline, which is several hundred miles further out and reads as a
+   * misalignment. Derived from the geometry, so it stays correct if the clip
+   * latitude or the outline ever changes.
+   */
+  captionInset: string;
+}
+
 /**
  * Colours are emitted as inline `style` declarations, never as SVG presentation
  * attributes.
@@ -47,7 +60,7 @@ export interface MapOptions { width?: number; height?: number; padding?: number;
  */
 const textWidth = (s: string, size: number) => s.length * size * 0.55;
 
-export function reachMapSvg(o: MapOptions = {}): string {
+export function reachMapSvg(o: MapOptions = {}): ReachMap {
   const { width: w = 720, height: h = 800, padding: pad = 34 } = o;
 
   const lats = CALIFORNIA_NORTH.map((p) => p[1]);
@@ -107,13 +120,24 @@ export function reachMapSvg(o: MapOptions = {}): string {
     grow(x, y - 20); grow(x, y + 26);
   }
   const m = 2;
-  const vb = `${(x0 - m).toFixed(1)} ${(y0 - m).toFixed(1)} ${(x1 - x0 + m * 2).toFixed(1)} ${(y1 - y0 + m * 2).toFixed(1)}`;
+  const vbX = x0 - m, vbW = x1 - x0 + m * 2;
+  const vb = `${vbX.toFixed(1)} ${(y0 - m).toFixed(1)} ${vbW.toFixed(1)} ${(y1 - y0 + m * 2).toFixed(1)}`;
 
-  return (
+  // The southern edge is the clip line, so its westernmost point is the state's
+  // bottom-left corner. Everything on that edge shares the minimum latitude.
+  const southLat = Math.min(...CALIFORNIA_NORTH.map((p) => p[1]));
+  const onSouthEdge = CALIFORNIA_NORTH.filter((p) => Math.abs(p[1] - southLat) < 1e-6);
+  const cornerLon = Math.min(...onSouthEdge.map((p) => p[0]));
+  const [cornerX] = xy(southLat, cornerLon);
+  const captionInset = `${(((cornerX - vbX) / vbW) * 100).toFixed(2)}%`;
+
+  const svg = (
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}" width="100%" height="auto" ` +
     `role="img" aria-label="Map of northern California showing Ukiah, where the mill is, with straight-line distances to Eureka, Redding, Fort Bragg, Chico, Santa Rosa, Sacramento and San Francisco.">` +
     `<g font-family="Archivo, system-ui, sans-serif">` +
     `<path d="${land}" style="fill:var(--map-land);stroke:var(--map-line)" stroke-opacity="0.55" stroke-width="1.25" stroke-linejoin="round"/>` +
     dots + `</g></svg>`
   );
+
+  return { svg, captionInset };
 }
