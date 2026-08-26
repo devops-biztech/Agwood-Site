@@ -4,6 +4,7 @@ import Field from '../components/Field.astro';
 import Cells from '../components/Cells.astro';
 import Cell from '../components/Cell.astro';
 import Action from '../components/Action.astro';
+import ImageSlot from '../components/ImageSlot.astro';
 import { COMPANY, PRODUCTS_SENTENCE, PHONE_HREF } from '../data/company.ts';
 import { PAGES } from '../data/site.ts';
 
@@ -46,6 +47,22 @@ const meta = PAGES[0]!;
     </Cells>
   </Field>
 
+  <Field tone="paper">
+    <div class="split">
+      <div>
+        <h2>What comes off the saw.</h2>
+        <p class="prose gap">
+          Timbers, decking and fencing, graded to one standard because there is
+          only one species to grade.
+        </p>
+      </div>
+      <ImageSlot
+        label="Stacked redwood units, board ends face-on, cut out or tight-cropped with no yard visible."
+        ratio="4 / 3"
+      />
+    </div>
+  </Field>
+
   <Field tone="deep">
     <h2>Talk to the mill.</h2>
     <p class="prose gap-sm">
@@ -61,4 +78,8 @@ const meta = PAGES[0]!;
   .hero .lede { margin-top: 1.5rem; max-width: 40ch; }
   .cta { margin-top: 2rem; }
   .gap-sm { margin-top: 1rem; }
+  .gap { margin-top: 0.9rem; }
+  .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr); gap: clamp(1.5rem, 5vw, 3rem); align-items: start; }
+  .split h2 { max-width: 14ch; }
+  @media (max-width: 860px) { .split { grid-template-columns: 1fr; } }
 </style>

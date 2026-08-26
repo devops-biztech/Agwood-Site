@@ -24,6 +24,17 @@ export function haversineMiles(a: Place, b: Place): number {
 
 export interface MapOptions { width?: number; height?: number; padding?: number; }
 
+/**
+ * Rough advance width of a label, used only to size the viewBox.
+ *
+ * The viewBox has to be tight to the drawn content or the caption underneath sits
+ * against the figure's edge while the coastline floats somewhere inside it, and
+ * the two visibly fail to line up. Measuring text properly needs font metrics we
+ * do not have at build time, so this approximates: Archivo's average advance is
+ * close enough to 0.55em for a bounding box, and the margin absorbs the error.
+ */
+const textWidth = (s: string, size: number) => s.length * size * 0.55;
+
 export function reachMapSvg(o: MapOptions = {}): string {
   const { width: w = 720, height: h = 800, padding: pad = 34 } = o;
 
@@ -52,23 +63,45 @@ export function reachMapSvg(o: MapOptions = {}): string {
   const dots = PLACES.map((p) => {
     const [x, y] = xy(p.lat, p.lon);
     const right = x > w * 0.58;
-    const dx = right ? -13 : 13;
+    const off = p.home ? 30 : 13;
+    const dx = right ? -off : off;
     const anchor = right ? 'end' : 'start';
     const miles = p.home ? null : Math.round(haversineMiles(home, p));
-    const fill = p.home ? 'var(--on-deep)' : 'var(--on-deep-dim)';
+    const fill = p.home ? 'var(--map-home)' : 'var(--map-ref)';
     return [
-      p.home ? `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="19" fill="none" stroke="var(--on-deep)" stroke-opacity="0.45" stroke-width="1.5"/>` : '',
+      p.home ? `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="19" fill="none" stroke="var(--map-home)" stroke-opacity="0.5" stroke-width="1.5"/>` : '',
       `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${p.home ? 7 : 4}" fill="${fill}"/>`,
       `<text x="${(x + dx).toFixed(1)}" y="${(y + 4).toFixed(1)}" text-anchor="${anchor}" fill="${fill}" font-size="${p.home ? 16 : 13}" font-weight="${p.home ? 700 : 500}">${p.name}</text>`,
-      miles === null ? '' : `<text x="${(x + dx).toFixed(1)}" y="${(y + 21).toFixed(1)}" text-anchor="${anchor}" fill="var(--on-deep-mark)" font-size="11" letter-spacing="0.08em">${miles} MI</text>`,
+      miles === null ? '' : `<text x="${(x + dx).toFixed(1)}" y="${(y + 21).toFixed(1)}" text-anchor="${anchor}" fill="var(--map-dist)" font-size="11" letter-spacing="0.08em">${miles} MI</text>`,
     ].join('');
   }).join('');
 
+  // Tight bounding box over everything actually drawn — land, dots, labels — so
+  // the figure's edges are the artwork's edges.
+  let x0 = Infinity, y0 = Infinity, x1 = -Infinity, y1 = -Infinity;
+  const grow = (x: number, y: number) => {
+    if (x < x0) x0 = x; if (x > x1) x1 = x;
+    if (y < y0) y0 = y; if (y > y1) y1 = y;
+  };
+  for (const [lon, lat] of CALIFORNIA_NORTH) { const [x, y] = xy(lat, lon); grow(x, y); }
+  for (const p of PLACES) {
+    const [x, y] = xy(p.lat, p.lon);
+    const right = x > w * 0.58;
+    const size = p.home ? 16 : 13;
+    const label = textWidth(p.name, size);
+    const dist = p.home ? 0 : textWidth('000 MI', 11);
+    const reach = Math.max(label, dist) + (p.home ? 30 : 13);
+    grow(right ? x - reach : x + reach, y);
+    grow(x, y - 20); grow(x, y + 26);
+  }
+  const m = 2;
+  const vb = `${(x0 - m).toFixed(1)} ${(y0 - m).toFixed(1)} ${(x1 - x0 + m * 2).toFixed(1)} ${(y1 - y0 + m * 2).toFixed(1)}`;
+
   return (
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="100%" height="100%" ` +
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}" width="100%" height="auto" ` +
     `role="img" aria-label="Map of northern California showing Ukiah, where the mill is, with straight-line distances to Eureka, Redding, Fort Bragg, Chico, Santa Rosa, Sacramento and San Francisco.">` +
     `<g font-family="Archivo, system-ui, sans-serif">` +
-    `<path d="${land}" fill="var(--land)" stroke="var(--on-deep)" stroke-opacity="0.55" stroke-width="1.25" stroke-linejoin="round"/>` +
+    `<path d="${land}" fill="var(--map-land)" stroke="var(--map-line)" stroke-opacity="0.55" stroke-width="1.25" stroke-linejoin="round"/>` +
     dots + `</g></svg>`
   );
 }

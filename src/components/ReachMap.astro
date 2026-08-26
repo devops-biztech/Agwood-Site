@@ -1,27 +1,37 @@
 ---
 import { reachMapSvg } from '../lib/map.ts';
-const svg = reachMapSvg({ width: 720, height: 800 });
+const svg = reachMapSvg({ width: 760, height: 720 });
 ---
 <!-- Generated at build time; the browser receives static markup. -->
 <figure class="map">
   <div class="art" set:html={svg} />
   <figcaption>
-    Straight-line distances from the mill. Reference points, not a delivery
-    schedule — call to confirm what we can reach.
+    Straight-line distances from the mill. These are reference points, not a
+    delivery schedule — call to confirm what we can reach.
   </figcaption>
 </figure>
 
 <style>
   .map { margin: 0; }
-  /* The landmass is a lift off the field rather than a separate hue, so the map
-     belongs to the band it sits in instead of looking pasted onto it. */
-  .art { --land: rgba(244, 237, 227, 0.09); }
+  /* Colour roles for the light field. Ukiah takes the STATE colour because it is
+     literally where you are, which is exactly what russet is reserved for. The
+     reference towns stay neutral so the one marked place is the one that reads. */
+  .art {
+    --map-land: rgba(36, 26, 18, 0.055);
+    --map-line: var(--ink-dim);
+    --map-ref: var(--ink-dim);
+    --map-home: var(--russet);
+    --map-dist: var(--ink-dim);
+  }
+  /* The SVG viewBox is tight to the drawn artwork, so the figure's box edges are
+     the artwork's edges and the caption below lines up with the coastline instead
+     of floating against padding. */
   .art :global(svg) { display: block; width: 100%; height: auto; }
   figcaption {
-    margin-top: 1rem;
+    margin-top: 1.1rem;
     font-size: 0.8125rem;
     line-height: 1.5;
-    color: var(--on-deep-dim);
-    max-width: 42ch;
+    color: var(--ink-dim);
+    max-width: 44ch;
   }
 </style>
