@@ -4,6 +4,7 @@ import Field from '../components/Field.astro';
 import ReachMap from '../components/ReachMap.astro';
 import Photo from '../components/Photo.astro';
 import endGrain from '../assets/redwood-end-grain.jpg';
+import foliage from '../assets/redwood-foliage.png';
 import Action from '../components/Action.astro';
 import { COMPANY, PHONE_HREF } from '../data/company.ts';
 import { PAGES } from '../data/site.ts';
@@ -50,9 +51,12 @@ const meta = PAGES[1]!;
   </Field>
 
   <Field tone="deep">
-    <!-- Same two-column split as the section above, so the two picture-and-copy
-         blocks on this page share one shape rather than each inventing their own. -->
-    <div class="split">
+    <!-- Same two-column split as the section above, so the picture-and-copy blocks
+         on this page share one shape rather than each inventing their own.
+         `flip` reverses them VISUALLY with CSS order; the heading stays first in
+         the DOM so a screen reader still meets the section before its illustration,
+         and the mobile stack keeps that order too. -->
+    <div class="split flip">
       <div>
         <h2>Where it goes.</h2>
         <p class="prose gap">
@@ -66,6 +70,8 @@ const meta = PAGES[1]!;
   </Field>
 
   <Field tone="paper">
+    <div class="split">
+      <div>
     <h2 class="ttl label">Regulation</h2>
     <!--
       Deliberately narrow, and it must stay that way. The client approved stating
@@ -81,6 +87,19 @@ const meta = PAGES[1]!;
       covering water quality, erosion and replanting. Agwood holds no FSC or SFI
       certification and does not claim one.
     </p>
+      </div>
+      <!-- A single sprig on transparency: a botanical specimen, not a forest.
+           A photograph of a stand of trees would imply Agwood owns timberland,
+           which is exactly the claim this section is worded to avoid making. -->
+      <Photo
+        src={foliage}
+        alt="A single sprig of coast redwood foliage."
+        caption="Coast redwood foliage"
+        width={840}
+        widths={[420, 840]}
+        sizes="(max-width: 860px) 100vw, 28rem"
+      />
+    </div>
   </Field>
 
   <Field tone="deep">
@@ -98,6 +117,11 @@ const meta = PAGES[1]!;
   .cta { margin-top: 2rem; }
   .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr); gap: clamp(1.5rem, 5vw, 3rem); align-items: start; }
   .split h2 { max-width: 16ch; }
-  @media (max-width: 860px) { .split { grid-template-columns: 1fr; } }
+  .split.flip > :first-child { order: 2; }
+  @media (max-width: 860px) {
+    .split { grid-template-columns: 1fr; }
+    /* Back to source order once stacked: heading, then illustration. */
+    .split.flip > :first-child { order: 0; }
+  }
 
 </style>
