@@ -113,10 +113,14 @@ components:
     onDeepBackground: "{colors.on-deep}"
     onDeepColor: "{colors.forest-deep}"
     radius: "{rounded}"
-  pending:
-    background: "{colors.paper-deep}"
-    mark: "{colors.russet}"
-    label: "{typography.label}"
+  reach-map:
+    land: "{colors.on-deep}"
+    home: "{colors.on-deep}"
+    reference: "{colors.on-deep-dim}"
+    distance: "{colors.on-deep-mark}"
+  phone-display:
+    color: "{colors.on-deep}"
+    typography: "{typography.display}"
   spec-row:
     label: "{colors.ink}"
     value: "{colors.ink-dim}"
@@ -286,7 +290,7 @@ edge is the only border in the system that is not a row hairline.
 
 ## Components
 
-Full specifications live in `.impeccable/design.json`. Two are signature:
+Full specifications live in `.impeccable/design.json`. Four are signature:
 
 ### The Field (signature)
 
@@ -307,11 +311,29 @@ carries a checkable claim rather than a benefit, and there are three because the
 are three things to say. The conditions are written as Don'ts below and are not
 negotiable — they are the whole reason this row is allowed.
 
-### Pending
+### The Reach Map (signature)
 
-The declared placeholder, built from flat colour rather than texture. A bounded
-field in `paper-deep` marked in russet, naming what belongs there. Never a grey
-box, never dashed scaffolding, never a stock photograph.
+The northern half of California drawn from real boundary data, with Ukiah marked
+and straight-line distances to seven reference towns computed from coordinates.
+Generated at build time; the browser receives static SVG.
+
+It is the one graphic on the site, and it earns its place by being information
+rather than decoration: a lumber buyer thinks in logistics before grades, and
+"how far is this mill from my yard" is a question this site can answer exactly on
+a page where very little else can be. The towns are **reference points, not
+customers** — Agwood sells "across Northern California", and naming towns as
+destinations would claim delivery relationships nobody has described to us.
+
+The outline is never to be redrawn by hand. A recognisable shape approximated
+from memory is a factual error readers spot instantly.
+
+### The Phone Display (signature)
+
+The telephone number set as the largest element on the page. The telephone is the
+only way into this business — there is no form and no email address — so the
+number wears the size that importance warrants rather than hiding in a button.
+Tabular figures, because proportional numerals in a serif this high-contrast make
+a phone number look accidental.
 
 ## Motion
 

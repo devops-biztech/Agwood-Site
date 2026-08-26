@@ -39,12 +39,15 @@ const rows = 4;
     display: flex;
     justify-content: space-between;
     gap: 1rem;
-    background: var(--paper-deep);
+    background: rgba(36, 26, 18, 0.055);
     border-left: 4px solid var(--russet);
     padding: 0.85rem 1rem;
     color: var(--ink-dim);
   }
   .loc { opacity: 0.7; }
-  .note { color: var(--ink-dim); max-width: 48ch; }
+  .note { color: var(--ink-dim); max-width: 48ch; font-size: 0.8125rem; }
+  :global(.forest) li { background: rgba(244, 237, 227, 0.08); border-left-color: var(--on-deep-mark); color: var(--on-deep-dim); }
+  :global(.forest) .note { color: var(--on-deep-dim); }
+  :global(.forest) .note a { color: var(--on-deep); }
   @media (max-width: 460px) { li { flex-direction: column; gap: 0.2rem; } }
 </style>

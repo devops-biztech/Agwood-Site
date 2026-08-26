@@ -264,14 +264,6 @@
       "css": ".ag-act{background:var(--forest);color:var(--paper);font-weight:700;padding:1rem 1.5rem;border-radius:0;display:inline-block;text-decoration:none}.ag-act.deep{background:var(--on-deep);color:var(--forest-deep)}"
     },
     {
-      "name": "Pending",
-      "kind": "placeholder",
-      "refersTo": "pending",
-      "description": "The declared placeholder, built from flat colour rather than texture. A bounded paper-deep block with a 4px russet left edge naming what belongs there. Never a grey box, never dashed scaffolding, never stock photography.",
-      "html": "<div class=\"ag-pending\"><p class=\"label mark\">Company history — pending confirmation</p><p class=\"note\">…</p></div>",
-      "css": ".ag-pending{background:var(--paper-deep);border-left:4px solid var(--russet);padding:clamp(1.1rem,3vw,1.5rem)}"
-    },
-    {
       "name": "Spec Row",
       "kind": "list",
       "refersTo": "spec-row",
@@ -286,6 +278,22 @@
       "description": "Reversed dim at rest on the dark header; the reversed state colour when it is the current page. Never green — green means you can do something, and being somewhere is not doing something.",
       "html": "<a class=\"ag-nav is-current\" href=\"/\">Home</a>",
       "css": ".ag-nav{color:var(--on-deep-dim);font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.75rem .15rem;text-decoration:none}.ag-nav.is-current{color:var(--on-deep-mark)}"
+    },
+    {
+      "name": "Reach Map",
+      "kind": "signature",
+      "refersTo": "reach-map",
+      "description": "SIGNATURE. Northern California from real boundary data, Ukiah marked, straight-line distances to seven reference towns computed from coordinates. Generated at build time. The towns are reference points, not customers. Never redraw the outline by hand.",
+      "html": "<figure class=\"ag-map\"><svg …/><figcaption>Straight-line distances from the mill.</figcaption></figure>",
+      "css": ".ag-map{--land:rgba(244,237,227,.09)}.ag-map svg{display:block;width:100%;height:auto}"
+    },
+    {
+      "name": "Phone Display",
+      "kind": "signature",
+      "refersTo": "phone-display",
+      "description": "SIGNATURE. The telephone number as the largest element on the page. The only way into the business, sized accordingly. Tabular figures.",
+      "html": "<a class=\"ag-tel\" href=\"tel:+17074685486\">(707) 468-5486</a>",
+      "css": ".ag-tel{font-family:var(--font-display);font-size:clamp(2.4rem,8vw,5rem);letter-spacing:-.04em;color:var(--on-deep);text-decoration:none;font-variant-numeric:tabular-nums}"
     }
   ],
   "narrative": {

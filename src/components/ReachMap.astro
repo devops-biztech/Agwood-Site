@@ -1,0 +1,27 @@
+---
+import { reachMapSvg } from '../lib/map.ts';
+const svg = reachMapSvg({ width: 720, height: 800 });
+---
+<!-- Generated at build time; the browser receives static markup. -->
+<figure class="map">
+  <div class="art" set:html={svg} />
+  <figcaption>
+    Straight-line distances from the mill. Reference points, not a delivery
+    schedule — call to confirm what we can reach.
+  </figcaption>
+</figure>
+
+<style>
+  .map { margin: 0; }
+  /* The landmass is a lift off the field rather than a separate hue, so the map
+     belongs to the band it sits in instead of looking pasted onto it. */
+  .art { --land: rgba(244, 237, 227, 0.09); }
+  .art :global(svg) { display: block; width: 100%; height: auto; }
+  figcaption {
+    margin-top: 1rem;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    color: var(--on-deep-dim);
+    max-width: 42ch;
+  }
+</style>

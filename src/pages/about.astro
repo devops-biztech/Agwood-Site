@@ -1,10 +1,9 @@
 ---
 import Base from '../layouts/Base.astro';
 import Field from '../components/Field.astro';
-import SpecList from '../components/SpecList.astro';
-import Pending from '../components/Pending.astro';
+import ReachMap from '../components/ReachMap.astro';
 import Action from '../components/Action.astro';
-import { COMPANY, ADDRESS_LINE, PHONE_HREF, UNKNOWNS } from '../data/company.ts';
+import { COMPANY, PHONE_HREF } from '../data/company.ts';
 import { PAGES } from '../data/site.ts';
 
 const meta = PAGES[1]!;
@@ -12,45 +11,15 @@ const meta = PAGES[1]!;
 <Base title={meta.title} description={meta.description}>
   <Field tone="forest" reveal={false}>
     <div class="hero">
-      <h1>The mill is running again.</h1>
+      <h1>A redwood mill in Mendocino County.</h1>
       <p class="lede">
-        A redwood mill has stood on Kunzler Ranch Road for more than forty years.
-        In 2025 it went back into local family hands.
+        Agwood Mill &amp; Lumber is a family-owned sawmill in {COMPANY.address.locality},
+        supplying redwood wholesale to the Northern California trade.
       </p>
     </div>
   </Field>
 
   <Field tone="paper">
-    <!-- Prose may name the road; only the record and the footer carry the full
-         canonical citation "650 Kunzler Ranch Rd, Ukiah, CA 95482". A road name
-         with no street number, city or postcode is not a competing NAP citation,
-         and the history reads badly with an abbreviation in the middle of it. -->
-    <h2>Where this comes from.</h2>
-    <p class="prose gap">
-      The Agwood name has been on a redwood mill in Ukiah since the early 1980s. In
-      2017 the business and its assets were sold to Conrad Forest Products of North
-      Bend, Oregon. In 2025 the mill came back under local family
-      ownership, keeping the name and the site on Kunzler Ranch Road.
-    </p>
-    <!--
-      This paragraph is doing real work and should not be cut as throat-clearing.
-
-      The public record for this company is genuinely contradictory: live listings
-      disagree on the street address, the telephone, the legal entity and the number
-      of locations, because several of them describe the pre-2017 business. A buyer
-      who searches the company before calling WILL find those. Explaining the break
-      turns the most confusing thing about Agwood's search results into evidence
-      that this site is the accurate one — which is the second job this site exists
-      to do. See PRODUCT.md, "Operating Context".
-    -->
-    <p class="prose">
-      That break is worth stating plainly, because a search will turn up listings
-      from both eras. The address, telephone and hours on this site are the current
-      ones.
-    </p>
-  </Field>
-
-  <Field tone="deep">
     <h2>One species, run properly.</h2>
     <p class="prose gap">
       Redwood is the only timber we mill. That is a choice about attention rather
@@ -65,16 +34,34 @@ const meta = PAGES[1]!;
     </p>
   </Field>
 
+  <!-- The map earns the dark field: it is the one graphic on the site and it wants
+       the ground that makes it read. -->
+  <Field tone="forest">
+    <div class="reach">
+      <div class="reach-txt">
+        <h2>Where it goes.</h2>
+        <p class="prose gap">
+          Ukiah sits in Mendocino County, inside a hundred miles of most of the
+          Northern California lumber trade.
+        </p>
+        <p class="prose">
+          Close enough to the coast for the redwood, close enough to the valley for
+          the yards that sell it.
+        </p>
+      </div>
+      <div class="reach-map"><ReachMap /></div>
+    </div>
+  </Field>
+
   <Field tone="paper">
     <h2 class="ttl label">Regulation</h2>
     <!--
-      Deliberately narrow, and it must stay that way.
-
-      The client approved stating the Forest Practice Act as jurisdictional context.
-      Its permitted scope is exactly that: a fact about California law. It may NOT be
-      rewritten to describe Agwood's own sourcing or to imply a certification the
-      company does not hold — we do not know where their logs come from. The second
-      sentence is the safety valve and must not be deleted to tidy the paragraph.
+      Deliberately narrow, and it must stay that way. The client approved stating
+      the Forest Practice Act as jurisdictional context. Its permitted scope is
+      exactly that: a fact about California law. It may NOT be rewritten to describe
+      Agwood's own sourcing or to imply a certification the company does not hold —
+      we do not know where their logs come from. The second sentence is the safety
+      valve and must not be deleted to tidy the paragraph.
     -->
     <p class="prose">
       Timber harvested on private and industrial land in California is governed by
@@ -85,39 +72,22 @@ const meta = PAGES[1]!;
   </Field>
 
   <Field tone="deep">
-    <h2 class="ttl label">The record</h2>
-    <SpecList rows={[
-      { term: 'Company', value: COMPANY.name },
-      { term: 'Ownership', value: 'Family-owned' },
-      { term: 'Location', value: ADDRESS_LINE },
-      { term: 'County', value: 'Mendocino County, California' },
-      { term: 'Species', value: 'Redwood only' },
-      { term: 'Products', value: COMPANY.products.join(' · ') },
-      { term: 'Sells to', value: 'Retailers and distributors' },
-      { term: 'Hours', value: COMPANY.hours.display },
-      { term: UNKNOWNS[0]!.field, value: UNKNOWNS[0]!.say, unknown: true },
-    ]} />
-  </Field>
-
-  <Field tone="paper">
-    <h2 class="ttl label">Still to come</h2>
-    <Pending
-      label="Photographs of the mill, the yard and the crew"
-      note="Agwood owns no photographs of its own operation yet. Nothing on this site is a stock photograph standing in for one."
-    />
-  </Field>
-
-  <Field tone="deep">
     <h2>Talk to the mill.</h2>
-    <p class="prose gap">The mill office answers the telephone during working hours.</p>
+    <p class="prose gap">The office answers the telephone Monday to Friday, seven to four.</p>
     <p class="cta"><Action href={PHONE_HREF}>Call the mill — {COMPANY.phone}</Action></p>
   </Field>
 </Base>
 
 <style>
-  .hero h1 { max-width: 13ch; font-size: clamp(2.5rem, 7vw, 4.4rem); }
+  .hero h1 { max-width: 15ch; font-size: clamp(2.3rem, 6.2vw, 3.8rem); }
   .hero .lede { margin-top: 1.5rem; max-width: 42ch; }
   .ttl { color: var(--russet); margin-bottom: 1.2rem; font-family: var(--font-body); }
   .gap { margin-bottom: var(--stack); }
   .cta { margin-top: 2rem; }
+  .reach { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1fr); gap: clamp(1.5rem, 5vw, 3.5rem); align-items: center; }
+  .reach-txt h2 { max-width: 14ch; margin-bottom: 1.1rem; }
+  @media (max-width: 820px) {
+    .reach { grid-template-columns: 1fr; }
+    .reach-map { max-width: 30rem; }
+  }
 </style>

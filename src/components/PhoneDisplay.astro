@@ -1,0 +1,28 @@
+---
+import { COMPANY, PHONE_HREF } from '../data/company.ts';
+---
+<!--
+  The telephone is the only way into this business, so it is set as the largest
+  thing on the page rather than as a button. This is the site's one call to action
+  wearing the size that its importance actually warrants.
+-->
+<a class="tel" href={PHONE_HREF}>{COMPANY.phone}</a>
+
+<style>
+  .tel {
+    display: block;
+    font-family: var(--font-display);
+    font-variation-settings: var(--axis-display);
+    font-weight: 500;
+    font-size: clamp(2.4rem, 8vw, 5rem);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    color: var(--on-deep);
+    text-decoration: none;
+    /* Tabular figures so the digits sit on an even rhythm; proportional numerals
+       in a serif this high-contrast make a phone number look accidental. */
+    font-variant-numeric: tabular-nums;
+  }
+  .tel:hover { text-decoration: underline; text-underline-offset: 0.12em; text-decoration-thickness: 0.04em; }
+  .tel:focus-visible { outline: 3px solid var(--on-deep); outline-offset: 6px; }
+</style>
