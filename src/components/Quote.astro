@@ -1,0 +1,50 @@
+---
+interface Props {
+  /** Verbatim. Trimming is allowed only where it does not change the meaning. */
+  cite: string;
+}
+const { cite } = Astro.props;
+---
+<!--
+  A real, permissioned quotation from a public review — not a testimonial we
+  wrote. The brief forbids invented testimonials outright, so the bar for putting
+  words in quotation marks on this site is that somebody actually said them and
+  agreed to be quoted. Both are true here.
+
+  The trailing sentence of the original named the retailer where the wood was
+  bought. It is dropped because that business has since closed permanently, and
+  pointing buyers at a shut shop helps nobody. Dropping it changes nothing about
+  what the reviewer said of the lumber.
+-->
+<figure class="quote">
+  <blockquote><p><slot /></p></blockquote>
+  <figcaption>{cite}</figcaption>
+</figure>
+
+<style>
+  .quote { margin: 0; }
+  blockquote { margin: 0; }
+  blockquote p {
+    font-family: var(--font-display);
+    font-variation-settings: var(--axis-headline);
+    font-weight: 500;
+    font-size: clamp(1.15rem, 2.2vw, 1.45rem);
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    /* The state colour marks it as something other than the site's own voice. */
+    border-left: 4px solid var(--russet);
+    padding-left: clamp(0.9rem, 2vw, 1.2rem);
+    text-wrap: balance;
+  }
+  figcaption {
+    margin-top: 0.85rem;
+    padding-left: clamp(0.9rem, 2vw, 1.2rem);
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.17em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+  :global(.forest) blockquote p { border-left-color: var(--on-deep-mark); }
+  :global(.forest) figcaption { color: var(--on-deep-dim); }
+</style>

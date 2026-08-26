@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import Field from '../components/Field.astro';
 import ReachMap from '../components/ReachMap.astro';
 import Photo from '../components/Photo.astro';
+import Quote from '../components/Quote.astro';
 import endGrain from '../assets/redwood-end-grain.jpg';
 import foliage from '../assets/redwood-foliage.png';
 import Action from '../components/Action.astro';
@@ -37,6 +38,15 @@ const meta = PAGES[1]!;
           They resell what we grade, under their own name, to customers we never
           meet. That only works if what is on the sticker is what is in the pack.
         </p>
+        <!-- Placed here deliberately: the paragraph above claims our grading has
+             to hold up in someone else's yard, and this is someone else's yard
+             saying it did. Third-party corroboration of the site's central claim
+             is worth more than another sentence of our own. -->
+        <div class="said">
+          <Quote cite="Google review">
+            These guys mill some nice redwood. Good, thick cut lumber, well graded.
+          </Quote>
+        </div>
       </div>
       <!-- Material, not premises: a photograph of redwood claims nothing about
            whose yard it was taken in. It is never captioned as Agwood's stock. -->
@@ -113,6 +123,7 @@ const meta = PAGES[1]!;
   .hero h1 { max-width: 15ch; font-size: clamp(2.3rem, 6.2vw, 3.8rem); }
   .hero .lede { margin-top: 1.5rem; max-width: 42ch; }
   .gap { margin-bottom: var(--stack); }
+  .said { margin-top: clamp(1.5rem, 4vw, 2.25rem); }
   .cta { margin-top: 2rem; }
   .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr); gap: clamp(1.5rem, 5vw, 3rem); align-items: start; }
   .split h2 { max-width: 16ch; }

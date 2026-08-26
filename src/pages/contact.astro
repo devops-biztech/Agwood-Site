@@ -3,6 +3,8 @@ import Base from '../layouts/Base.astro';
 import Field from '../components/Field.astro';
 import PhoneDisplay from '../components/PhoneDisplay.astro';
 import DealerList from '../components/DealerList.astro';
+import Photo from '../components/Photo.astro';
+import pack from '../assets/redwood-pack.png';
 import { COMPANY, PRODUCTS_SENTENCE, UNKNOWNS } from '../data/company.ts';
 import { PAGES } from '../data/site.ts';
 
@@ -41,15 +43,26 @@ const meta = PAGES[2]!;
       <div>
         <h2>Sourcing redwood for resale?</h2>
         <p class="prose gap">Call with the dimensions and quantity you need.</p>
-      </div>
-      <dl class="mini">
+        <dl class="mini">
         <div><dt>Species</dt><dd>Redwood only</dd></div>
         <div><dt>Products</dt><dd>{COMPANY.products.join(' · ')}</dd></div>
         <div><dt>Sells to</dt><dd>Retailers and distributors</dd></div>
-        {UNKNOWNS.map((u) => (
-          <div><dt>{u.field}</dt><dd class="unk">{u.say}</dd></div>
-        ))}
-      </dl>
+          {UNKNOWNS.map((u) => (
+            <div><dt>{u.field}</dt><dd class="unk">{u.say}</dd></div>
+          ))}
+        </dl>
+      </div>
+      <!-- A banded pack is the unit a wholesale buyer actually purchases, which
+           makes it the most on-message picture on the site. Material, not
+           premises: no yard, forklift, building or people in frame. -->
+      <Photo
+        src={pack}
+        alt="A banded pack of milled redwood, seen end-on."
+        caption="A banded pack"
+        width={840}
+        widths={[420, 840]}
+        sizes="(max-width: 760px) 100vw, 30rem"
+      />
     </div>
   </Field>
 
@@ -82,7 +95,7 @@ const meta = PAGES[2]!;
   .two { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(1.25rem, 5vw, 3.5rem); align-items: start; }
   .two h2 { max-width: 16ch; }
   .gap { margin-top: 0.9rem; }
-  .mini { margin: 0; }
+  .mini { margin: 1.4rem 0 0; }
   .mini > div { display: flex; justify-content: space-between; gap: 1.25rem; padding-block: 0.6rem; }
   .mini > div + div { border-top: 1px solid var(--rule); }
   .mini dt { font-weight: 600; }

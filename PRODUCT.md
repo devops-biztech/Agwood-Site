@@ -165,6 +165,16 @@ owner's name attached until he confirms the wording.
   *(Client-confirmed against forestry certification registries.)*
 - **California Forest Practice Act** governs timber harvest on private and
   industrial land statewide. *(Matter of law — true independent of Agwood.)*
+- **Customer quotation.** "These guys mill some nice redwood. Good, thick cut
+  lumber, well graded." *(Public Google review. Permission to reproduce the quote
+  and the accompanying photograph confirmed by the client on 2026-08-26. The
+  original's closing sentence named the retailer where the wood was bought; it is
+  omitted because that business has closed. The trim does not alter what the
+  reviewer said about the lumber.)*
+- **Wholesale channel corroborated.** The same review records the wood being
+  bought at a retailer rather than from the mill, which is the wholesale model
+  working as described. This supersedes an earlier concern of mine that consumer
+  reviews implied direct retail sales; they do not.
 - **Operating principle:** grade over throughput. *(Client-reported paraphrase
   of the owner. Not attributable verbatim — see Positioning.)*
 - **No existing website.** *(Brief; confirmed by search.)*
@@ -216,7 +226,11 @@ placeholder or does not ship.
   already uses it, and it avoids the three consecutive L's in
   "agwoodmilllumber.com." The canonical hostname lives in exactly one place,
   `site` in `astro.config.mjs`, so this resolves with a one-line change.
-- **Dealer / stockist list.** No real retailer names exist yet. The component
+- **Dealer / stockist list.** No real retailer names exist yet. One candidate
+  surfaced from a customer review — Artisan Outdoor, Loomis, CA — and was
+  rejected: the client established it has since closed permanently. Any future
+  name needs the owner's confirmation that the relationship is current, for
+  exactly that reason. The component
   ships with declared placeholder rows in the design's own material, per the
   client's decision, so the owner can fill it at the next meeting and so it
   cannot reach production looking finished.
