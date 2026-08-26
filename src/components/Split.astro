@@ -1,0 +1,37 @@
+---
+interface Props {
+  /**
+   * Reverse the two columns VISUALLY, with CSS order. The markup order never
+   * changes: the heading and copy stay first in the DOM so a screen reader meets
+   * a section before its illustration, and the stacked mobile layout keeps that
+   * order too. Moving the markup instead would flip both.
+   */
+  flip?: boolean;
+  /** Centre the columns against each other. Use it when one side is a tall
+   *  cut-out and the other is short copy, where top alignment reads as the text
+   *  having run out. */
+  center?: boolean;
+  /** grid-template-columns. Defaults to copy slightly wider than illustration. */
+  ratio?: string;
+}
+const { flip = false, center = false, ratio = 'minmax(0, 1fr) minmax(0, 0.85fr)' } = Astro.props;
+---
+<div class:list={['split', { flip, center }]} style={`--ratio:${ratio}`}>
+  <slot />
+</div>
+
+<style>
+  .split {
+    display: grid;
+    grid-template-columns: var(--ratio);
+    gap: clamp(1.5rem, 5vw, 3rem);
+    align-items: start;
+  }
+  .center { align-items: center; }
+  .split.flip > :global(:first-child) { order: 2; }
+  @media (max-width: 860px) {
+    .split { grid-template-columns: 1fr; }
+    /* Back to source order once stacked: heading, then illustration. */
+    .split.flip > :global(:first-child) { order: 0; }
+  }
+</style>

@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import Field from '../components/Field.astro';
 import ReachMap from '../components/ReachMap.astro';
 import Photo from '../components/Photo.astro';
+import Split from '../components/Split.astro';
 import Quote from '../components/Quote.astro';
 import fence from '../assets/fence-review.jpg';
 import endGrain from '../assets/redwood-end-grain.jpg';
@@ -25,7 +26,7 @@ const meta = PAGES[1]!;
   </Field>
 
   <Field tone="paper">
-    <div class="split">
+    <Split>
       <div>
         <h2>One species, run properly.</h2>
         <p class="prose gap">
@@ -50,7 +51,7 @@ const meta = PAGES[1]!;
         widths={[400, 800]}
         sizes="(max-width: 860px) 100vw, 30rem"
       />
-    </div>
+    </Split>
   </Field>
 
   <!-- The quotation and the photograph came from the same review, from the same
@@ -58,7 +59,7 @@ const meta = PAGES[1]!;
        picture evidence rather than decoration: it is a fence somebody built with
        this mill's redwood, shown next to what they said about it. -->
   <Field tone="deep">
-    <div class="split">
+    <Split>
       <div>
         <Quote cite="Google review">
           These guys mill some nice redwood. Good, thick cut lumber, well graded.
@@ -74,7 +75,7 @@ const meta = PAGES[1]!;
         widths={[400, 685]}
         sizes="(max-width: 860px) 100vw, 30rem"
       />
-    </div>
+    </Split>
   </Field>
 
   <Field tone="paper">
@@ -83,7 +84,7 @@ const meta = PAGES[1]!;
          `flip` reverses them VISUALLY with CSS order; the heading stays first in
          the DOM so a screen reader still meets the section before its illustration,
          and the mobile stack keeps that order too. -->
-    <div class="split flip">
+    <Split flip>
       <div>
         <h2>Where it goes.</h2>
         <p class="prose gap">
@@ -93,11 +94,11 @@ const meta = PAGES[1]!;
         </p>
       </div>
       <ReachMap />
-    </div>
+    </Split>
   </Field>
 
   <Field tone="deep">
-    <div class="split">
+    <Split>
       <div>
     <h2>What the law requires.</h2>
     <!--
@@ -126,7 +127,7 @@ const meta = PAGES[1]!;
         widths={[420, 840]}
         sizes="(max-width: 860px) 100vw, 28rem"
       />
-    </div>
+    </Split>
   </Field>
 
   <Field tone="paper">
@@ -141,13 +142,6 @@ const meta = PAGES[1]!;
   .hero .lede { margin-top: 1.5rem; max-width: 42ch; }
   .gap { margin-bottom: var(--stack); }
   .cta { margin-top: 2rem; }
-  .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr); gap: clamp(1.5rem, 5vw, 3rem); align-items: start; }
   .split h2 { max-width: 16ch; }
-  .split.flip > :first-child { order: 2; }
-  @media (max-width: 860px) {
-    .split { grid-template-columns: 1fr; }
-    /* Back to source order once stacked: heading, then illustration. */
-    .split.flip > :first-child { order: 0; }
-  }
 
 </style>

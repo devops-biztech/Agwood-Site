@@ -4,6 +4,7 @@ import Field from '../components/Field.astro';
 import PhoneDisplay from '../components/PhoneDisplay.astro';
 import DealerList from '../components/DealerList.astro';
 import Photo from '../components/Photo.astro';
+import Split from '../components/Split.astro';
 import pack from '../assets/redwood-pack.png';
 import { COMPANY, PRODUCTS_SENTENCE, UNKNOWNS } from '../data/company.ts';
 import { PAGES } from '../data/site.ts';
@@ -39,7 +40,7 @@ const meta = PAGES[2]!;
   </Field>
 
   <Field tone="paper">
-    <div class="two">
+    <Split ratio="minmax(0, 0.9fr) minmax(0, 1.1fr)">
       <div>
         <h2>Sourcing redwood for resale?</h2>
         <p class="prose gap">Call with the dimensions and quantity you need.</p>
@@ -63,11 +64,11 @@ const meta = PAGES[2]!;
         widths={[420, 840]}
         sizes="(max-width: 760px) 100vw, 30rem"
       />
-    </div>
+    </Split>
   </Field>
 
   <Field tone="deep">
-    <div class="two">
+    <Split ratio="minmax(0, 0.9fr) minmax(0, 1.1fr)">
       <div>
         <h2>Building a deck or a fence?</h2>
         <!-- The homeowner route. Agwood is wholesale, so someone arriving from a
@@ -79,7 +80,7 @@ const meta = PAGES[2]!;
         </p>
       </div>
       <DealerList />
-    </div>
+    </Split>
   </Field>
 </Base>
 
@@ -90,10 +91,6 @@ const meta = PAGES[2]!;
   .lb { color: var(--on-deep-mark); margin-bottom: 0.45rem; }
   address { font-style: normal; line-height: 1.6; }
   .fine { font-size: 0.8125rem; color: var(--on-deep-dim); max-width: 44ch; }
-  /* Two columns so short copy does not leave half the field empty — which is what
-     made the earlier version of this page read as mostly air. */
-  .two { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(1.25rem, 5vw, 3.5rem); align-items: start; }
-  .two h2 { max-width: 16ch; }
   .gap { margin-top: 0.9rem; }
   .mini { margin: 1.4rem 0 0; }
   .mini > div { display: flex; justify-content: space-between; gap: 1.25rem; padding-block: 0.6rem; }
@@ -104,7 +101,6 @@ const meta = PAGES[2]!;
   :global(.forest) .mini dt { color: var(--on-deep); }
   :global(.forest) .mini dd { color: var(--on-deep-dim); }
   @media (max-width: 760px) {
-    .two { grid-template-columns: 1fr; }
     .mini > div { flex-direction: column; gap: 0.15rem; }
     .mini dd { text-align: left; }
   }
