@@ -67,6 +67,24 @@ export const COMPANY: Company = {
 export const PHONE_HREF = `tel:+1${COMPANY.phone.replace(/\D/g, '')}`;
 export const EMAIL_HREF = `mailto:${COMPANY.email}`;
 
+/**
+ * The product list as running prose: "Decking, fencing and custom milling".
+ *
+ * The array above is title-cased because that is correct in a spec row, where each
+ * value stands alone. Dropping that array straight into a sentence produces
+ * "Decking, Fencing, Custom milling from one mill in Ukiah", which reads as three
+ * proper nouns. Derived rather than written out a second time so the two forms
+ * cannot drift apart when a product is added.
+ */
+export const PRODUCTS_SENTENCE: string = (() => {
+  const [first, ...rest] = COMPANY.products;
+  if (!first) return '';
+  const lower = rest.map((p) => p.toLowerCase());
+  const last = lower.pop();
+  if (!last) return first;
+  return `${[first, ...lower].join(', ')} and ${last}`;
+})();
+
 /** One-line address, used wherever the full block would be too much. */
 export const ADDRESS_LINE =
   `${COMPANY.address.street}, ${COMPANY.address.locality}, ${COMPANY.address.region} ${COMPANY.address.postalCode}`;

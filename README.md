@@ -127,9 +127,15 @@ during the build. It is a photograph of stacked lumber that is not Agwood's and
 its licensing is unestablished. It is kept only so it is not lost. See LICENSE §5.
 
 **`AML-logo-white.png` is also unused.** The white knockout the site actually
-serves is derived from the alpha channel of `AML-logo.png` at asset-build time, so
-there is one source of truth for the mark. The supplied white file is kept for
-reference.
+serves — `public/assets/emblem-white.png` — is derived from the alpha channel of
+`AML-logo.png`, which discards the scan's 46,015 colours and keeps only the
+silhouette. That derivation is cleaner than the supplied file and keeps one source
+of truth for the mark. The supplied white file is kept for reference.
+
+**Only the white emblem ships.** The header sits on the dark green field on every
+page, so a forest-green emblem has nowhere to appear. If a light-ground context is
+ever added, regenerate it from `AML-logo.png` the same way rather than adding a
+new source file.
 
 **The `.claude/` directory is gitignored.** It is the impeccable design skill —
 149 files of third-party tooling that is not part of this website.
