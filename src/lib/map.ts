@@ -25,6 +25,18 @@ export function haversineMiles(a: Place, b: Place): number {
 export interface MapOptions { width?: number; height?: number; padding?: number; }
 
 /**
+ * Colours are emitted as inline `style` declarations, never as SVG presentation
+ * attributes.
+ *
+ * This is not a preference. A browser does not perform custom-property
+ * substitution inside a presentation attribute, so `fill="var(--map-land)"` is an
+ * invalid value and the element falls back to the SVG default — solid black. The
+ * whole map rendered as a black silhouette with invisible labels until this was
+ * changed. `style="fill:var(--map-land)"` is a real declaration and substitutes
+ * correctly. Do not "tidy" these back into attributes.
+ */
+
+/**
  * Rough advance width of a label, used only to size the viewBox.
  *
  * The viewBox has to be tight to the drawn content or the caption underneath sits
@@ -69,10 +81,10 @@ export function reachMapSvg(o: MapOptions = {}): string {
     const miles = p.home ? null : Math.round(haversineMiles(home, p));
     const fill = p.home ? 'var(--map-home)' : 'var(--map-ref)';
     return [
-      p.home ? `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="19" fill="none" stroke="var(--map-home)" stroke-opacity="0.5" stroke-width="1.5"/>` : '',
-      `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${p.home ? 7 : 4}" fill="${fill}"/>`,
-      `<text x="${(x + dx).toFixed(1)}" y="${(y + 4).toFixed(1)}" text-anchor="${anchor}" fill="${fill}" font-size="${p.home ? 16 : 13}" font-weight="${p.home ? 700 : 500}">${p.name}</text>`,
-      miles === null ? '' : `<text x="${(x + dx).toFixed(1)}" y="${(y + 21).toFixed(1)}" text-anchor="${anchor}" fill="var(--map-dist)" font-size="11" letter-spacing="0.08em">${miles} MI</text>`,
+      p.home ? `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="19" style="fill:none;stroke:var(--map-home)" stroke-opacity="0.5" stroke-width="1.5"/>` : '',
+      `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${p.home ? 7 : 4}" style="fill:${fill}"/>`,
+      `<text x="${(x + dx).toFixed(1)}" y="${(y + 4).toFixed(1)}" text-anchor="${anchor}" style="fill:${fill}" font-size="${p.home ? 16 : 13}" font-weight="${p.home ? 700 : 500}">${p.name}</text>`,
+      miles === null ? '' : `<text x="${(x + dx).toFixed(1)}" y="${(y + 21).toFixed(1)}" text-anchor="${anchor}" style="fill:var(--map-dist)" font-size="11" letter-spacing="0.08em">${miles} MI</text>`,
     ].join('');
   }).join('');
 
@@ -101,7 +113,7 @@ export function reachMapSvg(o: MapOptions = {}): string {
     `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}" width="100%" height="auto" ` +
     `role="img" aria-label="Map of northern California showing Ukiah, where the mill is, with straight-line distances to Eureka, Redding, Fort Bragg, Chico, Santa Rosa, Sacramento and San Francisco.">` +
     `<g font-family="Archivo, system-ui, sans-serif">` +
-    `<path d="${land}" fill="var(--map-land)" stroke="var(--map-line)" stroke-opacity="0.55" stroke-width="1.25" stroke-linejoin="round"/>` +
+    `<path d="${land}" style="fill:var(--map-land);stroke:var(--map-line)" stroke-opacity="0.55" stroke-width="1.25" stroke-linejoin="round"/>` +
     dots + `</g></svg>`
   );
 }
