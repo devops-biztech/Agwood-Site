@@ -4,7 +4,7 @@ import Field from '../components/Field.astro';
 import SpecList from '../components/SpecList.astro';
 import Action from '../components/Action.astro';
 import DealerList from '../components/DealerList.astro';
-import { COMPANY, PHONE_HREF, EMAIL_HREF, UNKNOWNS } from '../data/company.ts';
+import { COMPANY, PHONE_HREF, UNKNOWNS } from '../data/company.ts';
 import { PAGES } from '../data/site.ts';
 
 const meta = PAGES[2]!;
@@ -14,10 +14,9 @@ const meta = PAGES[2]!;
     <div class="hero">
       <h1>Contact the mill.</h1>
       <p class="lede">
-        Email is the quickest way to reach us. The mill office answers the
-        telephone during working hours.
+        The mill office answers the telephone Monday to Friday, seven to four.
       </p>
-      <p class="cta"><Action href={EMAIL_HREF} onDeep>Email the mill</Action></p>
+      <p class="cta"><Action href={PHONE_HREF} onDeep>Call the mill — {COMPANY.phone}</Action></p>
     </div>
   </Field>
 
@@ -30,19 +29,18 @@ const meta = PAGES[2]!;
       { term: 'Address', value: COMPANY.address.street },
       { term: 'City', value: `${COMPANY.address.locality}, ${COMPANY.address.region} ${COMPANY.address.postalCode}` },
       { term: 'Telephone', value: COMPANY.phone, href: PHONE_HREF },
-      { term: 'Email', value: COMPANY.email, href: EMAIL_HREF },
       { term: 'Hours', value: COMPANY.hours.display },
     ]} />
     <p class="prose note">
-      There is no enquiry form on this site on purpose. A form that fails silently
-      is worse than no form, and an email reaches a person directly.
+      There is no enquiry form and no email address on this site on purpose.
+      Enquiries go to the mill office by telephone, where somebody answers them.
     </p>
   </Field>
 
   <Field tone="deep">
     <h2>Sourcing redwood for resale?</h2>
     <p class="prose gap">
-      Email the mill with the species, dimensions and quantity you need and we will
+      Call the mill with the species, dimensions and quantity you need and we will
       tell you what we can fill. Grades and dimensions are not published on this
       site yet, so the fastest answer is a direct one.
     </p>

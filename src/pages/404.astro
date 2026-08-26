@@ -3,7 +3,7 @@ import Base from '../layouts/Base.astro';
 import Field from '../components/Field.astro';
 import SpecList from '../components/SpecList.astro';
 import Action from '../components/Action.astro';
-import { COMPANY, ADDRESS_LINE, PHONE_HREF, EMAIL_HREF } from '../data/company.ts';
+import { COMPANY, ADDRESS_LINE, PHONE_HREF } from '../data/company.ts';
 ---
 <!--
   noindex is forced here in EVERY environment, production included, rather than
@@ -37,7 +37,6 @@ import { COMPANY, ADDRESS_LINE, PHONE_HREF, EMAIL_HREF } from '../data/company.t
     <SpecList rows={[
       { term: COMPANY.name, value: ADDRESS_LINE },
       { term: 'Telephone', value: COMPANY.phone, href: PHONE_HREF },
-      { term: 'Email', value: COMPANY.email, href: EMAIL_HREF },
       { term: 'Hours', value: COMPANY.hours.display },
     ]} />
   </Field>

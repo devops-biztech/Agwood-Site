@@ -36,10 +36,14 @@ suppliers. They are not browsing.
 
 ## Product Purpose
 
-**A qualified buyer — a reseller or lumber yard — contacts the mill, by email.**
-The client confirmed email is preferred over phone; `info@agwoodml.com` is the
-primary action and the phone is the secondary one. Design must reflect that
-order rather than treating the two as equivalent.
+**A qualified buyer — a reseller or lumber yard — telephones the mill.**
+
+The telephone is the *only* channel. The client confirmed on 2026-08-26 that
+email is not to be published, superseding the earlier Phase 1 answer that email
+was preferred. There is no email address, no enquiry form and no contact address
+anywhere on the site, and none should be added: every one of them routes an
+enquiry somewhere nobody is reading. The single call to action on every page is
+the telephone number.
 
 **Second job, and not decoration: the company is findable and verifiably real.**
 Agwood has no website. What the internet currently says about it is wrong or
@@ -80,9 +84,8 @@ owner's name attached until he confirms the wording.
 - **Wholesale channel — assumed, not confirmed.** The client's instruction was
   "let's assume wholesale only." The site is built on that assumption and it is
   listed under Unverified. If it is wrong, the homeowner routing is wrong too.
-- **No contact form.** Confirmed with the client. A static build cannot process
-  a POST without adding a service dependency, the audience picks up the phone or
-  writes an email anyway, and a form that fails silently is worse than no form.
+- **No contact form and no email address.** Confirmed with the client; email was
+  withdrawn as a channel on 2026-08-26. The telephone is the only route in.
 - **Three pages: Home, About, Contact.** Fixed scope. Not a starting point.
 
 ## Capabilities and Constraints
@@ -153,8 +156,6 @@ owner's name attached until he confirms the wording.
   listings.)*
 - **Phone:** (707) 468-5486. *(Client-confirmed as the number a buyer should
   call.)*
-- **Email:** info@agwoodml.com. *(Client-confirmed. Note the domain —
-  `agwoodml.com`, not `agwoodmilllumber.com`. See Unverified: domain.)*
 - **Hours:** Mon–Fri, 7AM–4PM. *(Brief; consistent with the draft copy.)*
 - **Species:** redwood only, at present. *(Client-confirmed.)*
 - **Products:** decking, fencing, custom wood products. *(Brief.)*

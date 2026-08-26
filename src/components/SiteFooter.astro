@@ -1,5 +1,5 @@
 ---
-import { COMPANY, PHONE_HREF, EMAIL_HREF } from '../data/company.ts';
+import { COMPANY, PHONE_HREF } from '../data/company.ts';
 
 const year = new Date().getFullYear();
 ---
@@ -20,7 +20,6 @@ const year = new Date().getFullYear();
       <div>
         <b>Contact</b>
         <a href={PHONE_HREF}>{COMPANY.phone}</a>
-        <a href={EMAIL_HREF}>{COMPANY.email}</a>
       </div>
       <div>
         <b>Hours</b>

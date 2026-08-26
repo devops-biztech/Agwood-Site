@@ -4,7 +4,7 @@ import Field from '../components/Field.astro';
 import SpecList from '../components/SpecList.astro';
 import Pending from '../components/Pending.astro';
 import Action from '../components/Action.astro';
-import { COMPANY, ADDRESS_LINE, EMAIL_HREF, UNKNOWNS } from '../data/company.ts';
+import { COMPANY, ADDRESS_LINE, PHONE_HREF, UNKNOWNS } from '../data/company.ts';
 import { PAGES } from '../data/site.ts';
 
 const meta = PAGES[1]!;
@@ -109,8 +109,8 @@ const meta = PAGES[1]!;
 
   <Field tone="deep">
     <h2>Talk to the mill.</h2>
-    <p class="prose gap">Email is the quickest way to reach us with an enquiry.</p>
-    <p class="cta"><Action href={EMAIL_HREF}>Email the mill</Action></p>
+    <p class="prose gap">The mill office answers the telephone during working hours.</p>
+    <p class="cta"><Action href={PHONE_HREF}>Call the mill — {COMPANY.phone}</Action></p>
   </Field>
 </Base>
 

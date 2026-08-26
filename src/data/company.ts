@@ -34,7 +34,6 @@ export interface Company {
   address: PostalAddress;
   /** Human display form. The digits-only form for tel: links is derived, never typed. */
   phone: string;
-  email: string;
   hours: { days: string; opens: string; closes: string; display: string };
   species: string;
   products: readonly string[];
@@ -51,7 +50,6 @@ export const COMPANY: Company = {
     country: 'US',
   },
   phone: '(707) 468-5486',
-  email: 'info@agwoodml.com',
   hours: {
     days: 'Mo,Tu,We,Th,Fr',
     opens: '07:00',
@@ -65,7 +63,16 @@ export const COMPANY: Company = {
 
 /** tel: needs digits only; deriving it means the display string stays canonical. */
 export const PHONE_HREF = `tel:+1${COMPANY.phone.replace(/\D/g, '')}`;
-export const EMAIL_HREF = `mailto:${COMPANY.email}`;
+
+/**
+ * There is deliberately NO email address on this site.
+ *
+ * The client confirmed on 2026-08-26 that email is not a channel Agwood wants
+ * published. The telephone is the only way in. That is a product decision, not an
+ * oversight: do not add a mailto: link, an enquiry form, or a contact address to
+ * "make it easier" — every one of those routes an enquiry somewhere nobody is
+ * reading. The structured data omits `email` for the same reason.
+ */
 
 /**
  * The product list as running prose: "Decking, fencing and custom milling".

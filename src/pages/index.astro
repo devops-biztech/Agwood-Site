@@ -4,7 +4,7 @@ import Field from '../components/Field.astro';
 import Cells from '../components/Cells.astro';
 import Cell from '../components/Cell.astro';
 import Action from '../components/Action.astro';
-import { COMPANY, PRODUCTS_SENTENCE, PHONE_HREF, EMAIL_HREF } from '../data/company.ts';
+import { COMPANY, PRODUCTS_SENTENCE, PHONE_HREF } from '../data/company.ts';
 import { PAGES } from '../data/site.ts';
 
 const meta = PAGES[0]!;
@@ -19,7 +19,7 @@ const meta = PAGES[0]!;
         {PRODUCTS_SENTENCE} from one mill in Ukiah. Sold wholesale to retailers
         and distributors across Northern California.
       </p>
-      <p class="cta"><Action href={EMAIL_HREF} onDeep>Email the mill</Action></p>
+      <p class="cta"><Action href={PHONE_HREF} onDeep>Call the mill — {COMPANY.phone}</Action></p>
     </div>
   </Field>
 
@@ -49,10 +49,10 @@ const meta = PAGES[0]!;
   <Field tone="deep">
     <h2>Talk to the mill.</h2>
     <p class="prose gap-sm">
-      Email reaches us fastest. Full address, telephone and hours are on the
-      contact page and at the foot of every page.
+      The mill office answers the telephone during working hours. Full address
+      and hours are on the contact page and at the foot of every page.
     </p>
-    <p class="cta"><Action href={EMAIL_HREF}>Email the mill</Action></p>
+    <p class="cta"><Action href={PHONE_HREF}>Call the mill — {COMPANY.phone}</Action></p>
   </Field>
 </Base>
 

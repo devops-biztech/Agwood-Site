@@ -1,6 +1,6 @@
 ---
 import '../styles/global.css';
-import { COMPANY, ADDRESS_LINE, PHONE_HREF, EMAIL_HREF, SAME_AS } from '../data/company.ts';
+import { COMPANY, SAME_AS } from '../data/company.ts';
 import { INDEXABLE } from '../data/deploy.ts';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
@@ -31,7 +31,6 @@ const schema = {
   name: COMPANY.name,
   url: Astro.site?.href,
   telephone: COMPANY.phone,
-  email: COMPANY.email,
   address: {
     '@type': 'PostalAddress',
     streetAddress: COMPANY.address.street,
