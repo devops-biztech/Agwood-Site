@@ -50,6 +50,15 @@ export interface ReachMap {
  */
 
 /**
+ * Label and marker sizes are in viewBox units, not pixels, and the map renders
+ * into roughly half the shell rather than all of it. A 13-unit label in a
+ * 700-unit box displayed at 490px lands at about 9px on screen, which is below
+ * reading size. These are set so the rendered result sits near 12–13px; if the
+ * map is ever given a wider or narrower column, they need revisiting with it.
+ */
+const SIZE = { home: 21, ref: 17, dist: 16, dotHome: 9, dotRef: 5, ring: 24 } as const;
+
+/**
  * Rough advance width of a label, used only to size the viewBox.
  *
  * The viewBox has to be tight to the drawn content or the caption underneath sits
@@ -88,16 +97,16 @@ export function reachMapSvg(o: MapOptions = {}): ReachMap {
   const dots = PLACES.map((p) => {
     const [x, y] = xy(p.lat, p.lon);
     const right = x > w * 0.58;
-    const off = p.home ? 30 : 13;
+    const off = p.home ? SIZE.ring + 13 : 13;
     const dx = right ? -off : off;
     const anchor = right ? 'end' : 'start';
     const miles = p.home ? null : Math.round(haversineMiles(home, p));
     const fill = p.home ? 'var(--map-home)' : 'var(--map-ref)';
     return [
-      p.home ? `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="19" style="fill:none;stroke:var(--map-home)" stroke-opacity="0.5" stroke-width="1.5"/>` : '',
-      `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${p.home ? 7 : 4}" style="fill:${fill}"/>`,
-      `<text x="${(x + dx).toFixed(1)}" y="${(y + 4).toFixed(1)}" text-anchor="${anchor}" style="fill:${fill}" font-size="${p.home ? 16 : 13}" font-weight="${p.home ? 700 : 500}">${p.name}</text>`,
-      miles === null ? '' : `<text x="${(x + dx).toFixed(1)}" y="${(y + 21).toFixed(1)}" text-anchor="${anchor}" style="fill:var(--map-dist)" font-size="11" letter-spacing="0.08em">${miles} MI</text>`,
+      p.home ? `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${SIZE.ring}" style="fill:none;stroke:var(--map-home)" stroke-opacity="0.5" stroke-width="1.75"/>` : '',
+      `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${p.home ? SIZE.dotHome : SIZE.dotRef}" style="fill:${fill}"/>`,
+      `<text x="${(x + dx).toFixed(1)}" y="${(y + 5).toFixed(1)}" text-anchor="${anchor}" style="fill:${fill}" font-size="${p.home ? SIZE.home : SIZE.ref}" font-weight="${p.home ? 700 : 500}">${p.name}</text>`,
+      miles === null ? '' : `<text x="${(x + dx).toFixed(1)}" y="${(y + 25).toFixed(1)}" text-anchor="${anchor}" style="fill:var(--map-dist)" font-size="${SIZE.dist}" letter-spacing="0.08em">${miles} MI</text>`,
     ].join('');
   }).join('');
 
@@ -112,12 +121,11 @@ export function reachMapSvg(o: MapOptions = {}): ReachMap {
   for (const p of PLACES) {
     const [x, y] = xy(p.lat, p.lon);
     const right = x > w * 0.58;
-    const size = p.home ? 16 : 13;
-    const label = textWidth(p.name, size);
-    const dist = p.home ? 0 : textWidth('000 MI', 11);
-    const reach = Math.max(label, dist) + (p.home ? 30 : 13);
+    const label = textWidth(p.name, p.home ? SIZE.home : SIZE.ref);
+    const dist = p.home ? 0 : textWidth('000 MI', SIZE.dist);
+    const reach = Math.max(label, dist) + (p.home ? SIZE.ring + 13 : 13);
     grow(right ? x - reach : x + reach, y);
-    grow(x, y - 20); grow(x, y + 26);
+    grow(x, y - SIZE.ring - 4); grow(x, y + 32);
   }
   const m = 2;
   const vbX = x0 - m, vbW = x1 - x0 + m * 2;
