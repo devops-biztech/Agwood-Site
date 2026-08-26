@@ -4,7 +4,8 @@ import Field from '../components/Field.astro';
 import Cells from '../components/Cells.astro';
 import Cell from '../components/Cell.astro';
 import Action from '../components/Action.astro';
-import ImageSlot from '../components/ImageSlot.astro';
+import Photo from '../components/Photo.astro';
+import stack from '../assets/redwood-stack.jpg';
 import { COMPANY, PRODUCTS_SENTENCE, PHONE_HREF } from '../data/company.ts';
 import { PAGES } from '../data/site.ts';
 
@@ -56,9 +57,16 @@ const meta = PAGES[0]!;
           only one species to grade.
         </p>
       </div>
-      <ImageSlot
-        label="Stacked redwood units, board ends face-on, cut out or tight-cropped with no yard visible."
-        ratio="4 / 3"
+      <!-- Material, not premises: board ends face-on with no yard, building,
+           machinery or people in frame. It shows the wood, and claims nothing
+           about whose stack it is. -->
+      <Photo
+        src={stack}
+        alt="Stacked redwood, seen end-on across several courses."
+        caption="Redwood, stacked"
+        width={840}
+        widths={[420, 840]}
+        sizes="(max-width: 860px) 100vw, 30rem"
       />
     </div>
   </Field>

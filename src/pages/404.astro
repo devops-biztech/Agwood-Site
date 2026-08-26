@@ -33,7 +33,7 @@ import { COMPANY, ADDRESS_LINE, PHONE_HREF } from '../data/company.ts';
   </Field>
 
   <Field tone="paper" reveal={false}>
-    <h2 class="ttl label">Contact</h2>
+    <h2>Reach the mill.</h2>
     <SpecList rows={[
       { term: COMPANY.name, value: ADDRESS_LINE },
       { term: 'Telephone', value: COMPANY.phone, href: PHONE_HREF },
@@ -47,5 +47,4 @@ import { COMPANY, ADDRESS_LINE, PHONE_HREF } from '../data/company.ts';
   .hero h1 { max-width: 14ch; font-size: clamp(2.4rem, 6.4vw, 4rem); }
   .hero .lede { margin-top: 1.4rem; }
   .cta { margin-top: 2rem; }
-  .ttl { color: var(--russet); margin-bottom: 1.4rem; font-family: var(--font-body); }
 </style>
