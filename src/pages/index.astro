@@ -5,7 +5,7 @@ import Cells from '../components/Cells.astro';
 import Cell from '../components/Cell.astro';
 import Action from '../components/Action.astro';
 import Photo from '../components/Photo.astro';
-import stack from '../assets/lumber-stack.jpg';
+import stack from '../assets/lumber-stack.webp';
 import { COMPANY, PRODUCTS_SENTENCE, PHONE_HREF } from '../data/company.ts';
 import { PAGES } from '../data/site.ts';
 
@@ -49,7 +49,7 @@ const meta = PAGES[0]!;
   </Field>
 
   <Field tone="deep">
-    <div class="split">
+    <div class="split tall">
       <div>
         <h2>What comes off the saw.</h2>
         <p class="prose gap">
@@ -64,8 +64,8 @@ const meta = PAGES[0]!;
         src={stack}
         alt="Courses of milled redwood stacked end-on, banded into units."
         caption="Redwood, stacked"
-        width={800}
-        widths={[400, 800]}
+        width={1000}
+        widths={[500, 1000]}
         sizes="(max-width: 860px) 100vw, 26rem"
       />
     </div>
@@ -88,6 +88,10 @@ const meta = PAGES[0]!;
   .gap-sm { margin-top: 1rem; }
   .gap { margin-top: 0.9rem; }
   .split { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr); gap: clamp(1.5rem, 5vw, 3rem); align-items: start; }
+  /* The stack is a tall cut-out — its silhouette follows the board ends, so it is
+     not cropped to fit. Centring the short copy against it reads as a decision;
+     left at the top it looks like the text ran out. */
+  .split.tall { align-items: center; }
   .split h2 { max-width: 14ch; }
   @media (max-width: 860px) { .split { grid-template-columns: 1fr; } }
 </style>
