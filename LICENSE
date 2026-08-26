@@ -15,7 +15,7 @@ trademarks, written copy, and all other company content.
    ownership:
 
    (a) THE SOFTWARE — the source code, templates, stylesheets, scripts,
-       build configuration, the generated-grain system in src/lib/grain.ts,
+       build configuration, the build-time map generator in src/lib/map.ts,
        and the design system contained in this repository, owned by
        Biztech.
 
@@ -54,13 +54,33 @@ trademarks, written copy, and all other company content.
 
    Those components are governed solely by their respective license terms.
 
-5. CONTENT OF UNCONFIRMED PROVENANCE
+5. PHOTOGRAPHS
 
-   The file lumber-stack.png was supplied to Biztech during the build and
-   its origin, ownership, and licensing have not been established. It is
-   NOT used by the site as built. It must not be published, deployed, or
-   distributed until Agwood Mill & Lumber confirms it holds the rights to
-   it. See README.md, "Decisions on record."
+   The photographs in src/assets are not Biztech's work and are not
+   covered by Biztech's copyright in Section 1(a).
+
+   (a) STOCK IMAGERY. The redwood material photographs were supplied to
+       Biztech by Agwood Mill & Lumber. Agwood is responsible for holding
+       the licences that permit their use, and for confirming that those
+       licences extend to commercial use on a public website. Biztech has
+       not verified the chain of title for any of them.
+
+   (b) THIRD-PARTY PHOTOGRAPH AND QUOTATION. The fence photograph
+       (src/assets/fence-review.jpg) and the customer quotation reproduced
+       on the About page originate from a public review written by a
+       member of the public, who retains copyright in both. They appear
+       here on permission confirmed by Agwood Mill & Lumber on
+       2026-08-26.
+
+       That permission was given for this use. It does not transfer with
+       the repository, does not extend to other media, and may be
+       withdrawn. Anyone reusing this repository, or repurposing these
+       materials for print, advertising, or another site, must obtain
+       permission again. Do not treat their presence here as a licence.
+
+   None of the photographs depicts Agwood Mill & Lumber's premises,
+   equipment, or staff, and none may be captioned or presented as though
+   it does. See README.md, "Decisions on record."
 
 6. NO WARRANTY
 

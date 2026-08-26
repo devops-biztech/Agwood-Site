@@ -122,9 +122,21 @@ redesign.
 direction above. Adding a photograph, a pattern, or a generated material to "warm
 it up" would undo the reason this world exists.
 
-**`lumber-stack.png` sits in the repo root and is not used.** It was supplied
-during the build. It is a photograph of stacked lumber that is not Agwood's and
-its licensing is unestablished. It is kept only so it is not lost. See LICENSE §5.
+**The photographs are material, never premises.** Redwood end grain, foliage, a
+banded pack, a stack of milled boards — and one fence built by a customer with
+Agwood redwood, used with their permission alongside their review. None of them
+shows Agwood's mill, yard, equipment or staff, and none may ever be captioned or
+placed as though it does. `Photo.astro` carries that rule as a comment.
+
+**The fence photograph and the customer quotation are not ours.** They come from
+a public review; the reviewer holds copyright in both and gave permission on
+2026-08-26 for this use. That permission does not travel with the repository and
+does not cover print, advertising, or another site. See LICENSE §5(b).
+
+**Stock licences are Agwood's responsibility.** The material photographs were
+supplied by the client. Biztech has not verified the chain of title for any of
+them — confirm commercial-use rights before the site goes public. See LICENSE
+§5(a).
 
 **`AML-logo-white.png` is also unused.** The white knockout the site actually
 serves — `public/assets/emblem-white.png` — is derived from the alpha channel of
