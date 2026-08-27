@@ -6,12 +6,13 @@ import Cell from '../components/Cell.astro';
 import Action from '../components/Action.astro';
 import Photo from '../components/Photo.astro';
 import Split from '../components/Split.astro';
-import OpenNow from '../components/OpenNow.astro';
 import stack from '../assets/lumber-stack.png';
 import { COMPANY, PRODUCTS_SENTENCE, PHONE_HREF } from '../data/company.ts';
 import { PAGES } from '../data/site.ts';
 
 const meta = PAGES[0]!;
+/** The page every closing call to action points at. */
+const contact = PAGES[2]!;
 ---
 <Base title={meta.title} description={meta.description}>
   <!-- The hero continues the header’s field: one uninterrupted band of the logo’s
@@ -20,11 +21,10 @@ const meta = PAGES[0]!;
     <div class="hero">
       <h1>Redwood is our full time job.</h1>
       <p class="lede">
-        {PRODUCTS_SENTENCE} from one mill in Ukiah. Sold wholesale to retailers
-        and distributors across Northern California.
+        {PRODUCTS_SENTENCE} from one mill in Ukiah. Sold wholesale to
+        distributors across Northern California.
       </p>
       <p class="cta"><Action href={PHONE_HREF} onDeep>Call the mill — {COMPANY.phone}</Action></p>
-      
     </div>
   </Field>
 
@@ -35,8 +35,8 @@ const meta = PAGES[0]!;
         how this wood moves, splits and seasons.
       </Cell>
       <Cell label="Channel" heading="The market’s supplier." value="Wholesale">
-        We sell to lumber retailers and distributors, not to the public. They
-        resell what we grade, so our grading has to hold up in someone else’s yard.
+        We sell to lumber distributors, not to the public. They resell what we
+        grade, so our grading has to hold up in someone else’s yard.
       </Cell>
       <Cell
         label="Specification"
@@ -80,7 +80,12 @@ const meta = PAGES[0]!;
       The mill office answers the telephone during working hours. Full address
       and hours are on the contact page and at the foot of every page.
     </p>
-    <p class="cta"><Action href={PHONE_HREF}>Call the mill — {COMPANY.phone}</Action></p>
+    <!-- This one goes to the contact page, not to the dialler. It closes a page
+         that has been making an argument, and the reader at the foot of it may be
+         looking for the address, the hours or the distributor list rather than the
+         telephone — the contact page holds all four, the dialler holds one. The
+         hero's call to action, where the intent IS to ring, still dials. -->
+    <p class="cta"><Action href={contact.path}>Contact the mill</Action></p>
   </Field>
 </Base>
 
@@ -101,7 +106,6 @@ const meta = PAGES[0]!;
   .hero h1 { max-width: 13ch; }
   .hero .lede { margin-top: 1.5rem; max-width: 40ch; }
   .cta { margin-top: 2rem; }
-  .hero :global(.now) { margin-top: 1.25rem; }
   .gap-sm { margin-top: 1rem; }
   .gap { margin-top: 0.9rem; }
 </style>

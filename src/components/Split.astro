@@ -30,7 +30,13 @@ const { flip = false, center = false, ratio = 'minmax(0, 1fr) minmax(0, 0.85fr)'
   .center { align-items: center; }
   .split.flip > :global(:first-child) { order: 2; }
   @media (max-width: 860px) {
-    .split { grid-template-columns: 1fr; }
+    /* `minmax(0, 1fr)`, never a bare `1fr`. A bare `1fr` is `minmax(auto, 1fr)`, and
+       that `auto` floor is the min-content width of whatever is in the column — so a
+       single child that cannot shrink (a wide table, a drawing holding a minimum)
+       makes the track wider than the phone and the whole PAGE scrolls sideways. The
+       desktop `ratio` above already defaults to minmax(0, …) for the same reason;
+       the stacked layout had quietly dropped that protection. */
+    .split { grid-template-columns: minmax(0, 1fr); }
     /* Back to source order once stacked: heading, then illustration. */
     .split.flip > :global(:first-child) { order: 0; }
   }

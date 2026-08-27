@@ -10,10 +10,12 @@ import HeartGrade from '../components/HeartGrade.astro';
 import fence from '../assets/fence-review.jpg';
 import foliage from '../assets/redwood-foliage.png';
 import Action from '../components/Action.astro';
-import { COMPANY, PHONE_HREF, SHOW_RECORD } from '../data/company.ts';
+import { COMPANY, SHOW_RECORD } from '../data/company.ts';
 import { PAGES } from '../data/site.ts';
 
 const meta = PAGES[1]!;
+/** The page every closing call to action points at. */
+const contact = PAGES[2]!;
 ---
 <Base title={meta.title} description={meta.description}>
   <Field tone="forest" reveal={false}>
@@ -40,7 +42,7 @@ const meta = PAGES[1]!;
     </Field>
   )}
 
-  <Field tone="paper">
+  <Field tone="deep">
     <Split>
       <div>
         <h2>One species, run properly.</h2>
@@ -51,9 +53,8 @@ const meta = PAGES[1]!;
           not transfer from one species to the next.
         </p>
         <p class="prose">
-          We sell to lumber retailers and distributors across Northern California.
-          They resell what we grade, under their own name, to customers we never
-          meet. That only works if what is on the sticker is what is in the pack.
+          We sell to lumber distributors across Northern California. They resell
+          what we grade, under their own name, to customers we never meet. That only works if what is on the sticker is what is in the pack.
         </p>
 
       </div>
@@ -62,30 +63,6 @@ const meta = PAGES[1]!;
            about whose yard it came from — but it now carries the thing the copy
            beside it is claiming, which a texture shot could not. -->
       <HeartGrade />
-    </Split>
-  </Field>
-
-  <!-- The quotation and the photograph came from the same review, from the same
-       person, with permission for both. Keeping them together is what makes the
-       picture evidence rather than decoration: it is a fence somebody built with
-       this mill's redwood, shown next to what they said about it. -->
-  <Field tone="deep">
-    <Split>
-      <div>
-        <Quote cite="Google review">
-          These guys mill some nice redwood. Good, thick cut lumber, well graded.
-        </Quote>
-      </div>
-      <!-- Agwood supplied the lumber; they did not build this fence. The caption
-           says exactly that and must not drift into "our work" or "a project". -->
-      <Photo
-        src={fence}
-        alt="A newly built redwood fence, boards running vertically between posts."
-        caption="Fence built with Agwood redwood"
-        width={685}
-        widths={[400, 685]}
-        sizes="(max-width: 860px) 100vw, 30rem"
-      />
     </Split>
   </Field>
 
@@ -120,7 +97,7 @@ const meta = PAGES[1]!;
   <Field tone="deep">
     <Split>
       <div>
-    <h2>Regulated by the state.</h2>
+    <h2>Regulated at the source.</h2>
     <!--
       Deliberately narrow, and it must stay that way. The client approved stating
       the Forest Practice Act as jurisdictional context. Its permitted scope is
@@ -153,7 +130,12 @@ const meta = PAGES[1]!;
   <Field tone="paper" size="tight">
     <h2>Talk to the mill.</h2>
     <p class="prose gap">The office answers the telephone Monday to Friday, seven to four.</p>
-    <p class="cta"><Action href={PHONE_HREF}>Call the mill — {COMPANY.phone}</Action></p>
+    <!-- This one goes to the contact page, not to the dialler. It closes a page
+         that has been making an argument, and the reader at the foot of it may be
+         looking for the address, the hours or the distributor list rather than the
+         telephone — the contact page holds all four, the dialler holds one. The
+         hero's call to action, where the intent IS to ring, still dials. -->
+    <p class="cta"><Action href={contact.path}>Contact the mill</Action></p>
   </Field>
 </Base>
 

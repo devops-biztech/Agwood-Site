@@ -1,11 +1,9 @@
 ---
 import { COMPANY } from '../data/company.ts';
-import { PAGES } from '../data/site.ts';
+import { PAGES, navLabel } from '../data/site.ts';
 import Emblem from './Emblem.astro';
 
 const here = Astro.url.pathname;
-const label = (p: (typeof PAGES)[number]) =>
-  p.path === '/' ? 'Home' : p.title.replace('About the Mill', 'About');
 ---
 <!--
   The header sits on the dark field on every page and runs continuous with the
@@ -26,33 +24,97 @@ const label = (p: (typeof PAGES)[number]) =>
       <Emblem height={64} class="mark" />
       <span class="wm">{COMPANY.name}</span>
     </a>
-    <nav aria-label="Primary">
+    <!--
+      The disclosure button. A `<button>` and not a link: it operates a control on
+      this page rather than going anywhere, and `aria-expanded` is the whole
+      contract — it is what tells a screen reader the state the three links are in.
+
+      It is rendered on every page and at every width, and CSS decides when it is
+      seen: never without JavaScript, and never above 560px. Rendering it
+      conditionally would mean rendering it from a viewport guess on the server.
+    -->
+    <button id="menu" class="burger" type="button" aria-expanded="false" aria-controls="primary-nav">
+      <span class="bars" aria-hidden="true"></span>
+      
+    </button>
+    <nav id="primary-nav" aria-label="Primary">
       {PAGES.map((p) => (
         <a href={p.path} class:list={['nav', { 'is-current': here === p.path }]}
-           aria-current={here === p.path ? 'page' : undefined}>{label(p)}</a>
+           aria-current={here === p.path ? 'page' : undefined}>{navLabel(p)}</a>
       ))}
     </nav>
   </div>
 </header>
 
+<!--
+  The disclosure pattern, whole: toggle, Escape, click-away, and a close when the
+  viewport grows past the breakpoint so an open panel can never strand itself as a
+  column inside a row. No focus trap and no scroll lock — this is a disclosure, not
+  a modal. WAI-ARIA asks for a trap on a dialog that covers the page; trapping the
+  keyboard inside three links that sit in the document flow would be an invention,
+  and one that keyboard users would have to escape from.
+
+  `is:inline` so it stays in the document rather than becoming a second request.
+  It is a dozen lines; a network round trip to carry them would cost more than they
+  weigh, on rural signal most of all.
+-->
+<script is:inline>
+  (function () {
+    var btn = document.getElementById('menu');
+    var nav = document.getElementById('primary-nav');
+    if (!btn || !nav) return;
+    var hdr = btn.closest('.hdr');
+
+    function set(open) {
+      btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+      nav.classList.toggle('is-open', open);
+    }
+    function isOpen() {
+      return btn.getAttribute('aria-expanded') === 'true';
+    }
+
+    btn.addEventListener('click', function () { set(!isOpen()); });
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key !== 'Escape' || !isOpen()) return;
+      set(false);
+      // Focus goes back to the control that opened the panel. Leaving it on a link
+      // that has just been hidden drops the keyboard user at the top of the document.
+      btn.focus();
+    });
+
+    // Anywhere outside the header closes it. Clicks on the links inside are left
+    // alone — they are navigating, and the next page renders the menu closed.
+    document.addEventListener('click', function (e) {
+      if (isOpen() && !hdr.contains(e.target)) set(false);
+    });
+
+    var wide = window.matchMedia('(min-width: 560px)');
+    var onChange = function () { if (wide.matches) set(false); };
+    if (wide.addEventListener) wide.addEventListener('change', onChange);
+    else wide.addListener(onChange);
+  })();
+</script>
+
 <style>
-  /* Sticky, because the telephone is the only way into this business and the nav is
-     the only route to it. Letting the header scroll away meant that for most of the
-     page the one thing a buyer needs was somewhere they had already passed.
-     z-index stays under the skip link's 10 so the keyboard route is never covered.
-     Nothing shrinks on scroll: the emblem has a measured 64px legibility floor and
-     a header that collapses would drive it straight through that floor. */
+  /* Sticky at every width, which is what the disclosure buys. The telephone is the
+     only way into this business and the nav is the only route to it, so a header
+     that scrolls away means that for most of the page the one thing a buyer needs
+     is somewhere they have already passed.
+
+     This used to be sticky only above 560px: the brand and three links wrapped to
+     two rows on a phone, and a ~160px bar eats a fifth of the viewport on exactly
+     the device most of these visitors use. One row plus a button is ~100px, which
+     is a share of the screen worth paying. z-index stays under the skip link's 10
+     so the keyboard route is never covered. Nothing shrinks on scroll: the emblem
+     has a measured 64px legibility floor and a header that collapses would drive it
+     straight through that floor. */
   .hdr {
     background: var(--forest-deep);
     color: var(--on-deep);
-  }
-  /* Sticky only where it fits on one row. The emblem's 64px floor plus padding puts
-     this bar near 100px, and on a small phone the brand and nav wrap to two rows —
-     a sticky header that tall eats a fifth of the viewport on exactly the device
-     most of these visitors are using. Below 560px it scrolls away and the footer
-     carries the number instead. */
-  @media (min-width: 560px) {
-    .hdr { position: sticky; top: 0; z-index: 5; }
+    position: sticky;
+    top: 0;
+    z-index: 5;
   }
   .hdr-in { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; padding-block: 1.1rem; }
   .brand { display: flex; align-items: center; gap: 0.85rem; text-decoration: none; color: var(--on-deep); }
@@ -69,11 +131,14 @@ const label = (p: (typeof PAGES)[number]) =>
     letter-spacing: -0.005em;
     max-width: 9ch;
   }
+
+  /* ── The nav, with no script ────────────────────────────────────────────────
+     The base state is the one that needs no JavaScript: three links, always
+     visible, wrapping to their own row on a narrow phone. `margin-left: auto`
+     would strand that row right-aligned under a left-aligned brand, so below 480px
+     it is dropped and the row starts at the same gutter as everything else.
+     Everything below this block is layered on top of a nav that already works. */
   nav { margin-left: auto; display: flex; gap: clamp(1rem, 3vw, 1.6rem); }
-  /* The brand and the three nav items need about 430px together, so below this they
-     wrap. `margin-left: auto` would then strand the nav right-aligned on its own row
-     under a left-aligned brand; this puts it deliberately on that row, aligned to the
-     same edge as everything else. */
   @media (max-width: 480px) {
     nav { margin-left: 0; width: 100%; }
   }
@@ -93,5 +158,79 @@ const label = (p: (typeof PAGES)[number]) =>
   .nav.is-current { color: var(--on-deep-mark); }
   .nav:hover { color: var(--on-deep); }
   .nav.is-current:hover { color: var(--on-deep-mark); }
-  :where(.brand, .nav):focus-visible { outline: 3px solid var(--on-deep); outline-offset: 3px; }
+  :where(.brand, .nav, .burger):focus-visible { outline: 3px solid var(--on-deep); outline-offset: 3px; }
+
+  /* ── The disclosure ─────────────────────────────────────────────────────────
+     Gated on `html.js`, which Base.astro sets before first paint. With scripting
+     off the button never appears and the nav above is never hidden — the version
+     of this that hides the nav by default and reveals it with script is the version
+     that ships a site with no navigation to anyone whose script fails. */
+  .burger {
+    /* Hidden by default rather than shown: the default has to be the no-script
+       state, or the failure mode is a button that does nothing. */
+    display: none;
+    align-items: center;
+    gap: 0.6rem;
+    margin-left: auto;
+    background: none;
+    border: 0;
+    color: var(--on-deep);
+    font-family: inherit;
+    font-size: var(--size-fine);
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    /* Matches .nav, and for the same reason: padding is what clears 44px. The
+       line-height is set rather than left to the button default of `normal`, which
+       is ~1.2 and lands the box at 38px — under the touch floor, and a different
+       height from the links it sits beside. */
+    line-height: 1.65;
+    padding: 0.75rem 0.15rem;
+    cursor: pointer;
+  }
+  /* Three flat bars, drawn rather than fetched, that fold into a cross when the
+     panel is open. Square ends and no radius: nothing on this site has a rounded
+     corner, an icon set least of all. */
+  .bars, .bars::before, .bars::after {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: currentColor;
+    transition: transform 0.22s var(--ease), top 0.22s var(--ease), background-color 0.22s var(--ease);
+  }
+  .bars { position: relative; }
+  .bars::before, .bars::after { content: ''; position: absolute; left: 0; }
+  .bars::before { top: -6px; }
+  .bars::after { top: 6px; }
+  .burger[aria-expanded='true'] .bars { background: transparent; }
+  .burger[aria-expanded='true'] .bars::before { top: 0; transform: rotate(45deg); }
+  .burger[aria-expanded='true'] .bars::after { top: 0; transform: rotate(-45deg); }
+
+  :global(html.js) .burger { display: inline-flex; }
+  :global(html.js) nav { display: none; }
+  :global(html.js) nav.is-open { display: flex; }
+
+  /* The open panel is a full-width row inside the bar, not an overlay: the header
+     is already the sticky element, so the panel can simply be the second row of it
+     and nothing has to be positioned, layered or locked. */
+  @media (max-width: 559.98px) {
+    :global(html.js) nav.is-open {
+      flex-direction: column;
+      gap: 0;
+      width: 100%;
+      margin-left: 0;
+      margin-top: 0.5rem;
+      border-top: 1px solid var(--rule-on-deep);
+    }
+    /* A hairline BETWEEN rows, never around them — the same rule the cell row
+       follows. Full-width rows so the tap target is the row, not the word. */
+    :global(html.js) nav.is-open .nav { padding: 0.95rem 0; }
+    :global(html.js) nav.is-open .nav + .nav { border-top: 1px solid var(--rule-on-deep); }
+  }
+  /* Above the breakpoint the three links are the nav again and the button is gone,
+     whatever state the panel was left in. */
+  @media (min-width: 560px) {
+    :global(html.js) .burger { display: none; }
+    :global(html.js) nav { display: flex; }
+  }
 </style>

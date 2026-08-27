@@ -22,12 +22,15 @@
 <div class="cells"><slot /></div>
 
 <style>
-  .cells { display: grid; grid-template-columns: repeat(3, 1fr); }
+  /* minmax(0, 1fr) rather than a bare 1fr: the bare form floors each track at its
+     content's min-content width, so one long unbroken value in one cell widens the
+     row past the shell and takes the page sideways with it. Same rule as Split. */
+  .cells { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
   /* A hairline BETWEEN cells only — never around them. A box here would make each
      cell a card, and a card wants a grid of cards. */
   .cells > :global(* + *) { border-left: 1px solid var(--rule); }
   @media (max-width: 760px) {
-    .cells { grid-template-columns: 1fr; }
+    .cells { grid-template-columns: minmax(0, 1fr); }
     .cells > :global(* + *) { border-left: none; border-top: 1px solid var(--rule); }
   }
 </style>

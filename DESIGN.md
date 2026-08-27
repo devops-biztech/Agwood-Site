@@ -139,6 +139,12 @@ components:
     color: "{colors.on-deep-dim}"
     currentColor: "{colors.on-deep-mark}"
     typography: "{typography.fine}"
+  menu-button:
+    color: "{colors.on-deep}"
+    typography: "{typography.fine}"
+    icon: "three 20x2px bars, currentColor, folding to a cross when open"
+    shownWhen: "below 560px, and only with JavaScript"
+    tapTarget: "45px"
   action:
     background: "{colors.forest}"
     color: "{colors.paper}"
@@ -348,7 +354,7 @@ a grid wants three of them — which is how the category template gets back in.
 ## Shapes
 
 **Radius is `0` everywhere**, including the action and the `Pending` block. The
-`Pending` marker and the dealer rows use a 4px left edge in the state colour; that
+`Pending` marker and the distributor rows use a 4px left edge in the state colour; that
 edge is the only border in the system that is not a row hairline.
 
 ## Components
@@ -363,6 +369,37 @@ test each one below passes: **would this device work unchanged on Schmidbauer?**
 yes, it is wrong for this site. That is not a style rule, it is the reason the
 device exists — a thing that could be lifted onto another mill's site is decoration
 wearing a fact's clothes.
+
+### The Navigation
+
+Three links, and the count is the design. Above 560px they are the header, in a
+row. Below it they fold into a disclosure: a `Menu` button carrying `aria-expanded`
+and `aria-controls`, and a panel that is the header's own second row rather than an
+overlay — nothing is positioned, layered or scroll-locked, because a panel holding
+three links is not a modal and does not get a modal's machinery. Escape closes it
+and returns focus to the button; a click outside closes it; growing past 560px
+closes it so an open panel cannot strand itself.
+
+**The button is the layer, never the floor.** The base state — the one that renders
+with no JavaScript — is the three links, visible, wrapping to their own row. The
+button and the hiding are both gated behind `html.js`. Reversing that ships a site
+with no navigation to anyone whose script fails.
+
+What the disclosure buys is a header that is **sticky at every width**. Two rows on
+a phone is a ~160px bar eating a fifth of the viewport, which is why the header used
+to give up and scroll away below 560px; one row and a button is ~100px, and the
+route to the telephone stays on screen for the whole page.
+
+The footer carries the same three links, labelled from the same source
+(`navLabel` in `src/data/site.ts`) so the two menus cannot drift. Its other two
+columns are the record: name, address and telephone as one block — that is the unit
+a search engine reconciles against a Google Business Profile and the unit a buyer
+copies down — and the hours.
+
+**Where a closing action goes.** The hero's call to action dials, because the intent
+there is to ring. The one that closes a page goes to the contact page: a reader at
+the foot of an argument may want the address, the hours or the dealer list, and the
+contact page holds all four while the dialler holds one.
 
 ### The Field (signature)
 
@@ -587,11 +624,17 @@ underneath the bar.
 - Draw every mark as geometry. Arrowheads only where direction is the information.
 - Set `SOFT 0` and `WONK 0` on every Fraunces instance.
 - Use green for actions and russet for state, and nothing else for either.
+- Call an outlet the public can buy from a **distributor**, every time. One word for
+  one thing: the copy previously used dealer, stockist and retailer for it — twice in
+  one sentence in two places — which reads to a buyer as three different tiers of a
+  trade they already know.
 - Demote an unknown to Archivo in russet so it cannot read as a held fact.
 - Keep the emblem at **64px or taller** — measured at 44, 56, 64, 72 and 88; below
   64 the conifer branches merge and the monogram stops reading.
 - Set the company name in live type. The wordmark baked into the raster is never
   used.
+- Keep the navigation working with no JavaScript. Script may fold three links into a
+  disclosure; it may never be what makes them exist.
 - Check any new colour pair against its actual ground before shipping it.
 
 ### Don't
@@ -611,6 +654,16 @@ underneath the bar.
   resolves to, both checkable. "One species, run properly — Redwood only" is a
   claim a buyer can test; "Quality Craftsmanship" is what this site exists to
   avoid.
+- **Don't reintroduce dealer, stockist or retailer.** They are the same thing as a
+  distributor to everyone reading this site, and a mill that cannot name its own
+  channel consistently is exactly the impression this site exists to correct. The
+  only word is distributor.
+- **Don't hide the nav behind a script.** The links are visible by default and the
+  disclosure is layered on top under `html.js`. A menu that only opens if JavaScript
+  ran is a site with no navigation when it does not.
+- **Don't give the menu panel a focus trap or a scroll lock.** It is a disclosure of
+  three links sitting in the document flow, not a dialog covering the page; trapping
+  the keyboard inside it invents a prison the visitor then has to escape.
 - **Don't draw a rule between two fields.** The colour change is the division.
 - **Don't run `forest-deep` between two light fields.** The dark field opens and
   closes the page. Striping it through the middle was built and rejected.

@@ -29,18 +29,25 @@ const { svg, captionInset } = reachMapSvg({ width: 760, height: 720 });
   /* The SVG viewBox is tight to the drawn artwork, so the figure's box edges are
      the artwork's edges and the caption below lines up with the coastline instead
      of floating against padding. */
-  /* Below ~520px of viewport even the raised labels drop under 13px, and the
-     map cannot reflow — it is one drawing. So it holds a legible minimum and scrolls
-     inside its own box rather than shrinking past readability or pushing the page
-     sideways. The caption sits outside this box and is unaffected. */
-  .art { overflow-x: auto; }
+  /* The map ALWAYS fits the width it is given. It carried a 450px minimum inside an
+     `overflow-x: auto` box on phones, to hold the labels at a legible size; both are
+     gone, because that box scrolled in BOTH axes and did not contain itself:
+
+       - `overflow-x: auto` computes `overflow-y` from `visible` to `auto`, so the
+         figure became a vertical scroll container sitting in the middle of the page
+         and swallowing the phone's own scroll gesture.
+       - A scroll container still reports its content's min-content width upward. The
+         450px travelled through the figure into the stacked grid track, which is
+         `1fr` — `minmax(auto, 1fr)` — and forced the whole page 450px wide on a
+         360px phone. The page scrolled sideways.
+
+     The legibility fix that mattered stayed where it belongs: the label sizes in
+     map.ts, which are ~18% up on the pre-2026-08-27 render. A drawing a phone reader
+     has to drag is worse than one set slightly small under a caption that carries
+     the same fact. If the labels ever need more size than fitting allows, the answer
+     is a phone-tuned render out of map.ts — a wider box on a narrower screen is not
+     available. */
   .art :global(svg) { display: block; width: 100%; height: auto; }
-  /* Phones only. Above this the map's column is wide enough on its own; forcing a
-     minimum everywhere would put a scrollbar under the map on every desktop, since
-     its column tops out just under this width. */
-  @media (max-width: 520px) {
-    .art :global(svg) { min-width: 450px; }
-  }
   figcaption {
     margin-top: 1.1rem;
     margin-left: var(--inset, 0);

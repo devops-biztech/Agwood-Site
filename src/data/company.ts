@@ -58,7 +58,7 @@ export const COMPANY: Company = {
   },
   species: 'Redwood',
   products: ['Decking', 'Fencing', 'Custom milling'],
-  channel: 'Wholesale — retailers and distributors across Northern California',
+  channel: 'Wholesale — distributors across Northern California',
 };
 
 /** tel: needs digits only; deriving it means the display string stays canonical. */

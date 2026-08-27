@@ -2,7 +2,7 @@
 import Base from '../layouts/Base.astro';
 import Field from '../components/Field.astro';
 import PhoneDisplay from '../components/PhoneDisplay.astro';
-import DealerList from '../components/DealerList.astro';
+import DistributorList from '../components/DistributorList.astro';
 import Photo from '../components/Photo.astro';
 import Split from '../components/Split.astro';
 import SpecList from '../components/SpecList.astro';
@@ -28,7 +28,7 @@ const meta = PAGES[2]!;
 const specRows = [
   { term: 'Species', value: 'Redwood only' },
   { term: 'Products', value: COMPANY.products.join(' · ') },
-  { term: 'Sells to', value: 'Retailers and distributors' },
+  { term: 'Sells to', value: 'Distributors' },
   ...UNKNOWNS.map((u) => ({ term: u.field, value: u.say, unknown: true })),
 ];
 ---
@@ -87,11 +87,11 @@ const specRows = [
              search for "redwood decking Ukiah" gets sent somewhere useful rather
              than a polite non-answer. -->
         <p class="prose gap">
-          We do not sell direct. Our redwood reaches homeowners through retailers
-          across Northern California.
+          We do not sell direct. Our redwood reaches homeowners through
+          distributors across Northern California.
         </p>
       </div>
-      <DealerList />
+      <DistributorList />
     </Split>
   </Field>
 </Base>

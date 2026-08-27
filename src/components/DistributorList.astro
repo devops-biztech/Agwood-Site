@@ -5,35 +5,39 @@ import { COMPANY, PHONE_HREF } from '../data/company.ts';
  * Where a homeowner should go instead of the mill.
  *
  * Agwood sells wholesale, so a homeowner searching "redwood decking Ukiah" has to
- * be routed to a retailer rather than invited to call. That list does not exist
+ * be routed to a distributor rather than invited to call. That list does not exist
  * yet, so this ships as declared placeholder rows.
  *
- * The rows read "Dealer name / City, CA" rather than plausible invented business
- * names, and that is the whole point of the component. A realistic-looking fake
- * reads as finished in a screenshot, survives into production unnoticed, and names
- * a business that never agreed to be listed. These rows do the same job at a
+ * "Distributor" is the site's ONE word for an outlet the public can buy from. The
+ * copy used to say dealer, stockist and retailer interchangeably, sometimes twice
+ * in a sentence; they are one thing to a reader and they now read as one thing.
+ *
+ * The rows read "Distributor name / City, CA" rather than plausible invented
+ * business names, and that is the whole point of the component. A realistic-looking
+ * fake reads as finished in a screenshot, survives into production unnoticed, and
+ * names a business that never agreed to be listed. These rows do the same job at a
  * client meeting and cannot do any of that.
  */
 const rows = 4;
 ---
-<div class="dealers">
+<div class="distributors">
   <ul>
     {Array.from({ length: rows }, () => (
       <li>
-        <span class="label">Dealer name</span>
+        <span class="label">Distributor name</span>
         <span class="label loc">City, CA</span>
       </li>
     ))}
   </ul>
   <p class="note">
-    Stockists have not been listed yet. Call the mill on{' '}
+    Distributors have not been listed yet. Call the mill on{' '}
     <a href={PHONE_HREF}>{COMPANY.phone}</a> and we will point you at the nearest
-    retailer carrying our redwood.
+    distributor carrying our redwood.
   </p>
 </div>
 
 <style>
-  .dealers { max-width: var(--measure); }
+  .distributors { max-width: var(--measure); }
   ul { list-style: none; margin: 0 0 1.3rem; padding: 0; display: grid; gap: 0.5rem; }
   li {
     display: flex;
