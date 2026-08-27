@@ -80,7 +80,12 @@ const schema = {
     <link rel="icon" type="image/png" sizes="32x32" href="/assets/icon-32.png" />
     <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
-    <meta name="theme-color" content="#0a5417" />
+    <!-- forest-deep, NOT forest. iOS Safari tints the status bar and the URL bar
+         with this value, and those strips butt directly against the sticky header,
+         which is forest-deep at every width. Set to the action green it read as a
+         lighter band sitting on top of the header — a seam across the top of every
+         page. Track .hdr's background: if that colour moves, this moves with it. -->
+    <meta name="theme-color" content="#05240b" />
 
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={COMPANY.name} />
