@@ -1,24 +1,40 @@
 ---
 interface Props {
   /** Which ground this band sits on. The colour change IS the section division —
-   *  there are no rules between fields, and adding one would undo the idea. */
+   *  there are no rules between fields, and adding one would undo the idea.
+   *
+   *  The dark field is a BOOKEND, not a beat. `forest` opens the page (continuous
+   *  with the header) and closes it (the footer); the bands between it alternate
+   *  `paper` and `deep`. Running forest mid-page was tried on 2026-08-27 and
+   *  rejected — it stripes the page green/white/green/white, which reads as a
+   *  pattern imposed on the content rather than as sections divided by colour. */
   tone?: 'paper' | 'deep' | 'forest';
+  /**
+   * How much air the band gets. One padding value applied to every field is a
+   * rhythm nobody can feel: a field carrying a declaration and a field carrying a
+   * closing line were given identical weight, so the page scrolled at one pace
+   * from top to bottom. `tall` is for a field making the page's argument, `tight`
+   * for one doing supporting work.
+   */
+  size?: 'tight' | 'default' | 'tall';
   as?: 'section' | 'div';
   reveal?: boolean;
 }
-const { tone = 'paper', as: Tag = 'section', reveal = true } = Astro.props;
+const { tone = 'paper', size = 'default', as: Tag = 'section', reveal = true } = Astro.props;
 ---
 <!--
   A full-bleed band of one colour, with the shell inside owning the width and the
   gutter. The wrapper never sets a max-width of its own: doing that is what creates
   two competing container widths and the nested insets the whole layout avoids.
 -->
-<Tag class:list={['field', tone, { reveal }]}>
+<Tag class:list={['field', tone, size, { reveal }]}>
   <div class="shell"><slot /></div>
 </Tag>
 
 <style>
   .field { padding-block: var(--field); }
+  .tight { padding-block: calc(var(--field) * 0.62); }
+  .tall { padding-block: calc(var(--field) * 1.45); }
   .paper { background: var(--paper); }
   .deep { background: var(--paper-deep); }
   /* The dark field is the logo’s own outline ink, measured out of the mark rather

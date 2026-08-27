@@ -97,6 +97,61 @@ export const ADDRESS_LINE =
   `${COMPANY.address.street}, ${COMPANY.address.locality}, ${COMPANY.address.region} ${COMPANY.address.postalCode}`;
 
 /**
+ * The ownership record — three dated beats, client-confirmed 2026-08-25.
+ *
+ * This exists because of the SECOND job in PRODUCT.md: the company has to be
+ * findable and verifiably real. The public record currently disagrees with itself
+ * about the address, the phone, the entity and the founding year, and several live
+ * listings describe the predecessor company. A buyer who lands here off a stale
+ * listing is asking one question — "is this the same outfit, and is it running?" —
+ * and these three lines are the only thing on the site that answers it.
+ *
+ * WHAT MAY BE PRINTED, AND WHY IT IS NOT THE BANNED FOUNDING YEAR. DESIGN.md says
+ * do not print a founding year. That ban is aimed at "Since 1954", which appears
+ * only in draft marketing copy and is contradicted by three independent sources.
+ * The dates below are a different class of fact with recorded provenance: client
+ * confirmation, contemporaneous trade-press coverage of the 2017 acquisition, and
+ * the California Secretary of State registration dated 29 January 2025. The first
+ * beat stays deliberately vague — "the early 1980s", never a specific year — because
+ * that is the resolution the evidence actually supports.
+ *
+ * DO NOT rewrite these into a heritage claim. "Milling redwood since 1981" is
+ * precisely the sentence the evidence does not support and the ban exists to stop.
+ *
+ * CHANGES OFTEN: no.
+ * SIGNED OFF BY: the client, 2026-08-25, in response to a direct question.
+ */
+export interface Beat {
+  /** Deliberately a string, not a number: "Early 1980s" is the honest resolution. */
+  date: string;
+  say: string;
+}
+
+export const RECORD: readonly Beat[] = [
+  {
+    date: 'Early 1980s',
+    say: 'The Agwood name goes on a redwood mill on Kunzler Ranch Road in Ukiah.',
+  },
+  {
+    date: '2017',
+    say: 'The business and its assets are sold to Conrad Forest Products of North Bend, Oregon.',
+  },
+  {
+    date: '2025',
+    say: 'The mill is restarted under local family ownership. Same name, same ground.',
+  },
+];
+
+/**
+ * Whether the ownership record is published.
+ *
+ * Ships OFF until the client signs off on printing the 2017 and 2025 dates. The
+ * reasoning for why they are printable is directly above; this flag exists so that
+ * reasoning can be overruled with a one-character edit rather than a revert.
+ */
+export const SHOW_RECORD = false;
+
+/**
  * Facts the client has NOT confirmed, kept here so the site can name the gap in
  * its own material rather than inventing an answer or silently omitting one.
  *

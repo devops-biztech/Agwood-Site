@@ -1,0 +1,83 @@
+---
+import { RECORD } from '../data/company.ts';
+---
+<!--
+  The ownership record.
+
+  Three dated beats answering the question a buyer arrives with when the listings
+  disagree: is this the same outfit, and is it running now. PRODUCT.md names that as
+  the site's second job — the public record is contradictory in documented ways, and
+  several live listings describe the predecessor company. This is the only thing on
+  the site that addresses it directly.
+
+  Why the last beat is marked and the others are not: russet marks WHERE YOU ARE,
+  and on a chronology where you are is the present. 2025 is not highlighted because
+  it is the good news; it is highlighted because it is the row the reader is
+  standing in. The rule holds exactly as written.
+
+  Deliberately NOT numbered 01/02/03. The dates already carry the sequence, a
+  numeral would be decoration on top of information, and a numbered station list is
+  the signature device of the other North Coast mill site this one must not
+  resemble. An ordered list is the correct semantics regardless of that: this is a
+  chronology, and the order is the meaning.
+-->
+<ol class="record">
+  {RECORD.map((beat, i) => (
+    <li class:list={['beat', { current: i === RECORD.length - 1 }]}>
+      <p class="date">{beat.date}</p>
+      <p class="say">{beat.say}</p>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .record {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  /* A hairline BETWEEN beats only, never around them — the same rule the cell row
+     obeys. A box here would turn a chronology into three cards. */
+  .beat + .beat {
+    border-left: 1px solid var(--rule-on-deep);
+    padding-left: clamp(1.25rem, 3vw, 2rem);
+  }
+  .beat { padding-right: clamp(1.25rem, 3vw, 2rem); }
+  .beat:last-child { padding-right: 0; }
+
+  .date {
+    font-family: var(--font-display);
+    font-variation-settings: var(--axis-headline);
+    font-size: var(--size-headline);
+    font-weight: 500;
+    line-height: 1.05;
+    letter-spacing: -0.028em;
+    color: var(--on-deep-dim);
+    /* Even numerals, for the same reason the telephone number takes them: in a
+       serif this high-contrast, proportional figures make a date look approximate. */
+    font-variant-numeric: tabular-nums;
+    margin-bottom: 0.7rem;
+  }
+  .current .date { color: var(--on-deep-mark); }
+
+  .say {
+    font-size: var(--size-body);
+    line-height: 1.55;
+    color: var(--on-deep-dim);
+    text-wrap: pretty;
+  }
+
+  @media (max-width: 760px) {
+    .record { grid-template-columns: 1fr; }
+    .beat, .beat:last-child { padding-right: 0; }
+    .beat + .beat {
+      border-left: none;
+      border-top: 1px solid var(--rule-on-deep);
+      padding-left: 0;
+      padding-top: 1.4rem;
+      margin-top: 1.4rem;
+    }
+  }
+</style>

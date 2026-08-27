@@ -6,6 +6,7 @@ import Cell from '../components/Cell.astro';
 import Action from '../components/Action.astro';
 import Photo from '../components/Photo.astro';
 import Split from '../components/Split.astro';
+import OpenNow from '../components/OpenNow.astro';
 import stack from '../assets/lumber-stack.png';
 import { COMPANY, PRODUCTS_SENTENCE, PHONE_HREF } from '../data/company.ts';
 import { PAGES } from '../data/site.ts';
@@ -23,6 +24,7 @@ const meta = PAGES[0]!;
         and distributors across Northern California.
       </p>
       <p class="cta"><Action href={PHONE_HREF} onDeep>Call the mill — {COMPANY.phone}</Action></p>
+      
     </div>
   </Field>
 
@@ -72,7 +74,7 @@ const meta = PAGES[0]!;
     </Split>
   </Field>
 
-  <Field tone="paper">
+  <Field tone="paper" size="tight">
     <h2>Talk to the mill.</h2>
     <p class="prose gap-sm">
       The mill office answers the telephone during working hours. Full address
@@ -83,9 +85,23 @@ const meta = PAGES[0]!;
 </Base>
 
 <style>
-  .hero h1 { max-width: 12ch; font-size: clamp(2.5rem, 7vw, 4.4rem); }
+  /* The hero owns the first screen. It used to be a ~400px strip of green carrying a
+     heading at two-thirds of the display size, which is why the site opened quietly.
+     `svh` rather than `vh` so mobile browser chrome appearing and disappearing does
+     not resize the first thing anyone sees. */
+  .hero {
+    min-height: clamp(18rem, 58svh, 30rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  /* No font-size override: the h1 now takes --size-display straight, which is the
+     whole point of raising that step. The measure keeps it a solid block of type
+     rather than one long line. */
+  .hero h1 { max-width: 13ch; }
   .hero .lede { margin-top: 1.5rem; max-width: 40ch; }
   .cta { margin-top: 2rem; }
+  .hero :global(.now) { margin-top: 1.25rem; }
   .gap-sm { margin-top: 1rem; }
   .gap { margin-top: 0.9rem; }
 </style>

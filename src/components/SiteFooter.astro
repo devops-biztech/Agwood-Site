@@ -1,11 +1,16 @@
 ---
 import { COMPANY, PHONE_HREF } from '../data/company.ts';
+import Emblem from './Emblem.astro';
 
 const year = new Date().getFullYear();
 ---
 <footer class="ftr">
   <div class="shell">
-    <img src="/assets/emblem-white.png" width="54" height="46" alt="" decoding="async" />
+    <!-- 64px, raised from 46px on 2026-08-27. The floor is measured — the emblem was
+         rendered at 44, 56, 64, 72 and 88, and below 64 the conifer branches merge
+         into a blob. That is the mark's own geometry, so going vector did not lift
+         it; the footer had simply been under the floor since it was built. -->
+    <Emblem height={64} class="mark" />
     <div class="cols">
       <!-- Rendered from src/data/company.ts, never retyped. These bytes have to
            match the contact page, the structured data and the Google Business
@@ -39,7 +44,9 @@ const year = new Date().getFullYear();
     padding-block: var(--section);
     margin-top: var(--section);
   }
-  .ftr img { height: 46px; width: auto; margin-bottom: 1.25rem; }
+  /* Explicit colour rather than currentColor: the footer body text is paper-deep,
+     but the mark stays paper so it holds the same weight it has in the header. */
+  .ftr :global(.mark) { height: 64px; width: auto; display: block; color: var(--paper); margin-bottom: 1.25rem; }
   .cols {
     display: flex;
     flex-wrap: wrap;
@@ -52,5 +59,5 @@ const year = new Date().getFullYear();
      coloured: green on this ground would be unreadable, and the scarcity rule
      does not get to override legibility. */
   .ftr a { color: var(--paper); text-decoration: underline; text-underline-offset: 3px; }
-  .fine { margin-top: 1.75rem; font-size: 0.8rem; opacity: 0.85; }
+  .fine { margin-top: 1.75rem; font-size: var(--size-fine); opacity: 0.85; }
 </style>

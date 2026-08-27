@@ -56,7 +56,21 @@ export interface ReachMap {
  * reading size. These are set so the rendered result sits near 12–13px; if the
  * map is ever given a wider or narrower column, they need revisiting with it.
  */
-const SIZE = { home: 21, ref: 17, dist: 16, dotHome: 9, dotRef: 5, ring: 24 } as const;
+/**
+ * Type sizes in the map's own user units.
+ *
+ * Raised ~18% on 2026-08-27. At the previous 17 units the town labels rendered at
+ * 11.0px in the desktop column and 6.9px on a 320px phone — under the site's own
+ * smallest step (--size-fine, 12.8px) at EVERY width, on a graphic whose entire job
+ * is being read. The viewBox is fitted to the artwork rather than to the labels, so
+ * raising these scales the type against the coastline without moving any geometry.
+ *
+ * 20 is a CEILING, not a preference. The labels are placed at a fixed 13-unit offset
+ * from their dots with no collision avoidance, so they are only clear at a size the
+ * layout was tuned for. At 22 the Fort Bragg distance runs into the Ukiah ring and
+ * "Santa Rosa" collides with Sacramento's "100 MI". Re-render and look before raising.
+ */
+const SIZE = { home: 24, ref: 20, dist: 19, dotHome: 9, dotRef: 5, ring: 24 } as const;
 
 /**
  * Rough advance width of a label, used only to size the viewBox.

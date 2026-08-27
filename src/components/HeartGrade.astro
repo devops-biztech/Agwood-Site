@@ -1,0 +1,144 @@
+---
+import { getImage } from 'astro:assets';
+import cross from '../assets/redwood-cross-section.png';
+
+/**
+ * Why the word "Heart" in a redwood grade name is the thing to look for — annotated
+ * onto a real log, not drawn as a schematic.
+ *
+ * WHY THE PHOTOGRAPH CARRIES IT. The first version of this figure drew two circles
+ * and shaded them. That was a diagram of an idea. This is the specimen itself, and
+ * the boundary between the pale sapwood band and the reddish heartwood core is
+ * already visible in it, so the overlay POINTS at the zones rather than redrawing
+ * them. Nothing here invents a boundary, and no perfect circle is imposed on a real
+ * log's irregular one — which is exactly the kind of small dishonesty that makes a
+ * technical drawing look wrong without the reader being able to say why.
+ *
+ * The annotation positions are measured, not eyeballed. Sampled from the asset: the
+ * heartwood runs to roughly r=108 from centre (162,181), the sapwood band from r=112
+ * to r=142, bark beyond. Every leader target and every corner of the board below was
+ * checked against the actual pixel underneath it. If the asset is ever replaced, those
+ * numbers must be re-measured — they are coordinates into THIS image.
+ *
+ * WHAT THIS IS AND IS NOT. It describes the SPECIES, never Agwood's stock. Agwood's
+ * grades are an `UNKNOWN` in src/data/company.ts. Nothing here may be reworded to
+ * imply this mill runs all-heart, or any particular grade, and the caption must not
+ * drift into calling this Agwood's log — it is a photograph of redwood, and a
+ * photograph of redwood claims nothing about whose yard it came from. Same line
+ * `Photo.astro` holds.
+ *
+ * The overlay is drawn in full ink, not ink-dim: over the darker heartwood, ink-dim
+ * measures 1.6:1 and effectively disappears. Ink clears 3.9:1 on the darkest wood in
+ * frame and 9.2:1 on the palest.
+ *
+ * THE PHOTOGRAPH LIVES INSIDE THE SVG, and that is a correctness decision rather than
+ * a stylistic one. The first version layered an absolutely-positioned overlay on top
+ * of an <img>, which meant the annotation only landed on the wood while THREE
+ * separate things held: a percentage width on the image, `position: absolute` on the
+ * overlay, and the two aspect ratios agreeing. Lose any one — a stale stylesheet, a
+ * cascade collision, someone adding a rule — and the labels do not shift slightly,
+ * they detach and stack underneath the photograph, pointing at nothing. Putting the
+ * image in the same coordinate space as the marks makes the alignment structural: one
+ * element, one viewBox, nothing to fall out of step.
+ */
+interface Props { class?: string }
+const { class: cls } = Astro.props;
+
+/** The image is 323×344 and sits at the left of a 500-wide overlay, leaving the
+ *  remaining 177 units for labels. Those two aspect ratios are locked together: the
+ *  image is 64.6% of the frame width, and 500/344 is the frame's own ratio, so the
+ *  absolutely-positioned overlay lands exactly on the photograph at every size. */
+const IMG_W = 323, IMG_H = 344, BOX_W = 500, BOX_H = 344;
+
+/** Rendered through Astro's pipeline at build time so the asset is still optimised
+ *  and hashed; only the delivery changes. SVG <image> takes no srcset, which costs
+ *  nothing here — the source is 323px and never displays wider. */
+const img = await getImage({ src: cross, width: IMG_W, format: 'webp' });
+---
+<figure class:list={['hg', cls]}>
+  <svg
+    class="fig"
+    viewBox={`0 0 ${BOX_W} ${BOX_H}`}
+    role="img"
+    aria-labelledby="hg-t"
+    focusable="false"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <title id="hg-t">
+      A redwood log sawn across, showing a pale outer band of sapwood around a darker
+      reddish-brown heartwood core, with bark at the rim. One sawn board is outlined
+      across the boundary, its ends on sapwood and its middle on heartwood.
+    </title>
+
+    <image href={img.src} x="0" y="0" width={IMG_W} height={IMG_H} />
+
+    <!-- One board, sawn off-centre. Its ends fall on sapwood and its middle crosses
+         heartwood — verified against the pixels beneath: (76,91) is (183,157,122)
+         pale, (162,91) is (161,103,65) red. This single rectangle is what makes the
+         figure about milling rather than botany: where the cut falls decides what
+         the board can be graded. -->
+    <rect x="76" y="75" width="172" height="32" fill="none" stroke="var(--hg-line)" stroke-width="2.5" />
+
+    <!-- Leaders, with a small square where each one lands. Squares because radius is
+         0 everywhere in this system; no arrowheads because a leader pointing at a
+         label carries no direction. -->
+    <rect x="262" y="106" width="6" height="6" fill="var(--hg-line)" />
+    <path d="M265 109 L330 92" stroke="var(--hg-line)" stroke-width="1.5" fill="none" />
+    <text x="336" y="97" fill="var(--hg-text)" font-size="19">Sapwood</text>
+
+    <rect x="189" y="230" width="6" height="6" fill="var(--hg-line)" />
+    <path d="M192 233 L330 252" stroke="var(--hg-line)" stroke-width="1.5" fill="none" />
+    <text x="336" y="257" fill="var(--hg-text)" font-size="19">Heartwood</text>
+  </svg>
+
+  <!-- The information lives in real text as well as in the drawing: the SVG title
+       describes the specimen, the caption states the fact the figure exists to make. -->
+  <figcaption>
+    Redwood heartwood &mdash; the darker inner wood &mdash; carries the extractives
+    that resist decay and insects. The pale sapwood formed in the outer growth layer
+    does not. That is why <b>every heartwood grade has the word &ldquo;Heart&rdquo; in
+    its name</b>, and why a board&rsquo;s position in the log decides what it can be
+    graded. The proportion varies from log to log.
+  </figcaption>
+</figure>
+
+<style>
+  /* Capped so the figure does not balloon when the split stacks: between 560 and
+     860px it would otherwise take the full shell and render its labels near 27px. */
+  .hg { margin: 0; max-width: 34rem; }
+  /* One element. The photograph and the marks share a coordinate system, so there is
+     no positioning to get wrong and nothing to fall out of step. */
+  .fig { display: block; width: 100%; height: auto; }
+  .hg svg {
+    /* Full ink, not ink-dim: the overlay crosses reddish heartwood where ink-dim
+       measures 1.6:1 and vanishes. */
+    --hg-line: var(--ink);
+    --hg-text: var(--ink);
+  }
+  /* The labels live in the viewBox, so they shrink with the figure rather than
+     holding a size. Below 400px they would fall under 11px; this holds them near 15. */
+  @media (max-width: 400px) {
+    .fig text { font-size: 26px; }
+  }
+  .hg text {
+    font-family: var(--font-body);
+    font-variation-settings: 'wdth' 100;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+  figcaption {
+    margin-top: 1rem;
+    font-size: var(--size-fine);
+    line-height: 1.55;
+    color: var(--ink-dim);
+    max-width: 46ch;
+  }
+  figcaption b { color: var(--ink); font-weight: 700; }
+  /* On the dark field the wood keeps its own colours — only the annotation flips. */
+  :global(.forest) .hg svg {
+    --hg-line: var(--on-deep);
+    --hg-text: var(--on-deep);
+  }
+  :global(.forest) figcaption { color: var(--on-deep-dim); }
+  :global(.forest) figcaption b { color: var(--on-deep); }
+</style>

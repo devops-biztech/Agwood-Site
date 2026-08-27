@@ -59,6 +59,11 @@
   --on-deep: #f4ede3;
   --on-deep-dim: #c3cec2;
   --on-deep-mark: #e0a077;
+  /* Pressed state of the action WHEN IT SITS ON THE DARK FIELD. It has to move away
+     from the field, and on forest-deep the only direction left is brighter — so
+     this is the one case where the pressed state lightens. Contrast still rises:
+     forest-deep on white is 16.62:1, up from 14.30:1 on paper. */
+  --on-deep-press: #ffffff;
   --rule: rgba(36, 26, 18, 0.13);
   --rule-on-deep: rgba(244, 237, 227, 0.16);
 
@@ -72,11 +77,24 @@
   --axis-headline: 'opsz' 72, 'SOFT' 0, 'WONK' 0;
   --axis-title: 'opsz' 40, 'SOFT' 0, 'WONK' 0;
 
-  --size-display: clamp(2.4rem, 6.6vw, 4rem);
-  --size-headline: clamp(1.5rem, 3.4vw, 2rem);
+  /* The display step is deliberately far from everything below it. A declarative
+     field needs one enormous thing and then quiet; the previous 4rem ceiling put
+     display close enough to headline that neither read as extreme, which is the
+     mechanical reason the page felt level. 6rem is the craft ceiling and Fraunces
+     at `opsz 144` is drawn to be set there. */
+  --size-display: clamp(2.6rem, 8vw, 6rem);
+  --size-headline: clamp(1.5rem, 3.4vw, 2.1rem);
+  /* Between headline and title: a heading inside a narrow column, where the full
+     headline step would wrap to four lines. Used by the cell row. */
+  --size-subhead: clamp(1.3rem, 2.4vw, 1.5rem);
   --size-title: clamp(1rem, 1.6vw, 1.15rem);
   --size-lede: clamp(1rem, 1.4vw, 1.125rem);
   --size-body: 0.9375rem;
+  /* Supporting copy that sits below body: captions, footnotes, the nav, the notes
+     under a placeholder block. This step was already in use in five components as
+     five slightly different literals (0.75, 0.78, 0.8, 0.8125) invented one at a
+     time; it is one value now because it was always one job. */
+  --size-fine: 0.8rem;
   --size-label: 0.72rem;
   --size-control: 0.9rem;
 
@@ -97,11 +115,21 @@
   --radius: 0;
 
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+  /* Near-exponential ease-out. Reveals should arrive fast and settle slowly; the
+     gentler --ease stays on the short state changes (hover, press) where a long
+     tail would feel laggy. */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 *, *::before, *::after { box-sizing: border-box; }
 
-html { -webkit-text-size-adjust: 100%; }
+html {
+  -webkit-text-size-adjust: 100%;
+  /* Clears the sticky header so an in-page jump — the skip link above all — never
+     lands its target underneath the bar. Matches the header's ~100px at its
+     documented 64px emblem floor, with room to spare. */
+  scroll-padding-top: 7rem;
+}
 
 body {
   margin: 0;
@@ -121,12 +149,23 @@ h1, h2, h3 {
   margin: 0;
   text-wrap: balance;
 }
-h1 { font-size: var(--size-display); font-variation-settings: var(--axis-display); line-height: 0.98; letter-spacing: -0.03em; }
+/* Tracking and leading both tighten as the size rises: -0.03em/0.98 was tuned for a
+   4rem ceiling and reads loose and airy at 6rem, where the counters carry the
+   rhythm on their own. -0.04em is the floor — past it the Fraunces terminals touch. */
+h1 { font-size: var(--size-display); font-variation-settings: var(--axis-display); line-height: 0.92; letter-spacing: -0.04em; }
 h2 { font-size: var(--size-headline); font-variation-settings: var(--axis-headline); line-height: 1.06; letter-spacing: -0.02em; }
 h3 { font-size: var(--size-title); font-variation-settings: var(--axis-title); font-weight: 600; line-height: 1.05; letter-spacing: -0.005em; }
 p { margin: 0; }
 
 a { color: var(--forest); }
+
+/* Browser surfaces. Selection and the scrollbar are drawn by the browser, not by
+   this stylesheet, and left alone they ship a system blue that belongs to no design
+   system on earth. Selection takes the state colour's ground on light fields and
+   flips on the dark ones, where ink on russet would be unreadable. */
+::selection { background: var(--russet); color: var(--paper); text-shadow: none; }
+.forest ::selection { background: var(--on-deep-mark); color: var(--forest-deep); }
+html { scrollbar-color: var(--ink-dim) var(--paper-deep); }
 
 /* A visible focus ring on everything focusable, in the action colour. This is the
    one place green appears without being an action itself, and it is a deliberate
@@ -180,18 +219,53 @@ img { max-width: 100%; height: auto; display: block; }
 }
 .skip:focus { left: 0; }
 
-/* Reveal-on-scroll start state lives under :root.js ONLY. With JavaScript off the
-   class is never added, so nothing is ever hidden and the page reads complete.
-   Hiding by default and revealing with script is the version of this that ships a
-   blank page to anyone whose script fails. */
-:root.js .reveal { opacity: 0; transform: translateY(14px); }
-:root.js .reveal.is-in { opacity: 1; transform: none; transition: opacity 0.7s var(--ease), transform 0.7s var(--ease); }
+/* ── Motion ──────────────────────────────────────────────────────────────────
+   ONE authored moment, then quiet. The hero wipes itself on; everything below it
+   gets a restrained reveal that is felt rather than watched. The previous version
+   ran the same fade-and-rise on every field, which is the web's default gesture
+   and therefore reads as no gesture at all.
+
+   Both live under :root.js ONLY. With JavaScript off the class is never added, so
+   nothing is ever hidden and the page reads complete. Hiding by default and
+   revealing with script is the version of this that ships a blank page to anyone
+   whose script fails. */
+
+/* The opening gesture: the hero's lines are painted upward into place, the way a
+   flat colour field would be laid down. `backwards` — never `forwards` — is what
+   makes this safe: the start state applies during the delay, and once the run
+   finishes the element drops back to its natural style carrying no clip-path at
+   all. A clip-path left applied would crop the focus ring on the hero's own call
+   to action. This needs no script: it is a load animation, not a scroll one. */
+@keyframes wipe-up {
+  from { opacity: 0; clip-path: inset(105% 0 -0.25em 0); transform: translateY(0.16em); }
+  to   { opacity: 1; clip-path: inset(-0.4em 0 -0.25em 0); transform: translateY(0); }
+}
+:root.js .hero > * { animation: wipe-up 0.9s var(--ease-out) backwards; }
+:root.js .hero > *:nth-child(1) { animation-delay: 0.06s; }
+:root.js .hero > *:nth-child(2) { animation-delay: 0.16s; }
+:root.js .hero > *:nth-child(3) { animation-delay: 0.26s; }
+:root.js .hero > *:nth-child(4) { animation-delay: 0.36s; }
+:root.js .hero > *:nth-child(5) { animation-delay: 0.46s; }
+
+:root.js .reveal { opacity: 0; transform: translateY(12px); }
+:root.js .reveal.is-in { opacity: 1; transform: none; transition: opacity 0.8s var(--ease-out), transform 0.8s var(--ease-out); }
+
+/* Grouped children trail the field they sit in, so a row of three arrives as a row
+   rather than as a block. These carry a transform and NEVER an opacity: the field
+   above already owns visibility, so the worst case if `is-in` never lands is a
+   12px offset rather than invisible content. */
+:root.js .reveal :is(.cells, .split) > * { transform: translateY(12px); }
+:root.js .reveal.is-in :is(.cells, .split) > * { transform: none; transition: transform 0.8s var(--ease-out); }
+:root.js .reveal.is-in :is(.cells, .split) > *:nth-child(2) { transition-delay: 0.09s; }
+:root.js .reveal.is-in :is(.cells, .split) > *:nth-child(3) { transition-delay: 0.18s; }
 
 @media (prefers-reduced-motion: reduce) {
   /* The reduced-motion branch reveals immediately rather than leaving content
      hidden — the failure mode of a naive `animation: none` is a permanently
      invisible page. */
-  :root.js .reveal { opacity: 1; transform: none; transition: none; }
+  :root.js .reveal,
+  :root.js .reveal :is(.cells, .split) > * { opacity: 1; transform: none; transition: none; }
+  :root.js .hero > * { animation: none; }
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;

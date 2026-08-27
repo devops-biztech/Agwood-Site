@@ -5,11 +5,12 @@ import ReachMap from '../components/ReachMap.astro';
 import Photo from '../components/Photo.astro';
 import Split from '../components/Split.astro';
 import Quote from '../components/Quote.astro';
+import Record from '../components/Record.astro';
+import HeartGrade from '../components/HeartGrade.astro';
 import fence from '../assets/fence-review.jpg';
-import endGrain from '../assets/redwood-end-grain.jpg';
 import foliage from '../assets/redwood-foliage.png';
 import Action from '../components/Action.astro';
-import { COMPANY, PHONE_HREF } from '../data/company.ts';
+import { COMPANY, PHONE_HREF, SHOW_RECORD } from '../data/company.ts';
 import { PAGES } from '../data/site.ts';
 
 const meta = PAGES[1]!;
@@ -24,6 +25,20 @@ const meta = PAGES[1]!;
       </p>
     </div>
   </Field>
+
+  {SHOW_RECORD && (
+    <!--
+      Deliberately the same tone as the hero above it. Two consecutive forest fields
+      read as ONE uninterrupted band — the same device the header and hero already
+      use — so this elaborates the hero's claim rather than answering it as a
+      separate section. It also means the page alternates correctly whether this
+      block is switched on or off, which a paper field here would not.
+    -->
+    <Field tone="forest">
+      <h2 class="rec-h">Same name, same ground.</h2>
+      <Record />
+    </Field>
+  )}
 
   <Field tone="paper">
     <Split>
@@ -42,15 +57,11 @@ const meta = PAGES[1]!;
         </p>
 
       </div>
-      <!-- Material, not premises: a photograph of redwood claims nothing about
-           whose yard it was taken in. It is never captioned as Agwood's stock. -->
-      <Photo
-        src={endGrain}
-        alt="Close view of redwood end grain, showing tightly spaced growth rings."
-        caption="Redwood end grain"
-        widths={[400, 800]}
-        sizes="(max-width: 860px) 100vw, 30rem"
-      />
+      <!-- The annotated cross-section stands where the end-grain photograph did. It
+           is still material, not premises — a photograph of redwood claims nothing
+           about whose yard it came from — but it now carries the thing the copy
+           beside it is claiming, which a texture shot could not. -->
+      <HeartGrade />
     </Split>
   </Field>
 
@@ -78,13 +89,22 @@ const meta = PAGES[1]!;
     </Split>
   </Field>
 
+  <!-- Same two-column split as the section above, so the picture-and-copy blocks
+       on this page share one shape rather than each inventing their own.
+       `flip` reverses them VISUALLY with CSS order; the heading stays first in
+       the DOM so a screen reader still meets the section before its illustration,
+       and the mobile stack keeps that order too.
+
+       The map sits BESIDE its copy, never stacked underneath it. Moving it below
+       was tried on 2026-08-27 and rejected: the copy and the drawing are one
+       statement read together, and stacking them breaks the pairing every other
+       section on this page keeps. Do not propose the stacked version again. -->
   <Field tone="paper">
-    <!-- Same two-column split as the section above, so the picture-and-copy blocks
-         on this page share one shape rather than each inventing their own.
-         `flip` reverses them VISUALLY with CSS order; the heading stays first in
-         the DOM so a screen reader still meets the section before its illustration,
-         and the mobile stack keeps that order too. -->
-    <Split flip>
+    <!-- The map takes the larger share. At the default 1fr/0.85fr its column tops out
+         at 448px, which renders the town labels at 12.9px and drops them to 10px on a
+         narrow laptop — the drawing is the content here, and the copy beside it is
+         three lines. Still side by side; only the balance changed. -->
+    <Split flip ratio="minmax(0, 0.78fr) minmax(0, 1.22fr)">
       <div>
         <h2>Where it goes.</h2>
         <p class="prose gap">
@@ -130,7 +150,7 @@ const meta = PAGES[1]!;
     </Split>
   </Field>
 
-  <Field tone="paper">
+  <Field tone="paper" size="tight">
     <h2>Talk to the mill.</h2>
     <p class="prose gap">The office answers the telephone Monday to Friday, seven to four.</p>
     <p class="cta"><Action href={PHONE_HREF}>Call the mill — {COMPANY.phone}</Action></p>
@@ -138,10 +158,18 @@ const meta = PAGES[1]!;
 </Base>
 
 <style>
-  .hero h1 { max-width: 15ch; font-size: clamp(2.3rem, 6.2vw, 3.8rem); }
+  /* Shorter than the home hero — this page opens an argument rather than making
+     the site's one pitch — but it takes the same raised display step rather than a
+     local override that quietly opted out of it. */
+  .hero {
+    min-height: clamp(13rem, 38svh, 20rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .hero h1 { max-width: 15ch; }
   .hero .lede { margin-top: 1.5rem; max-width: 42ch; }
   .gap { margin-bottom: var(--stack); }
   .cta { margin-top: 2rem; }
   .split h2 { max-width: 16ch; }
-
-</style>
+  .rec-h { max-width: 18ch; margin-bottom: clamp(2rem, 5vw, 3rem); }
