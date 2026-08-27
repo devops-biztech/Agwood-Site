@@ -1,8 +1,10 @@
 ---
 import { COMPANY, PHONE_HREF } from '../data/company.ts';
+import { PAGES, navLabel } from '../data/site.ts';
 import Emblem from './Emblem.astro';
 
 const year = new Date().getFullYear();
+const here = Astro.url.pathname;
 ---
 <footer class="ftr">
   <div class="shell">
@@ -21,11 +23,23 @@ const year = new Date().getFullYear();
           {COMPANY.address.street}<br />
           {COMPANY.address.locality}, {COMPANY.address.region} {COMPANY.address.postalCode}
         </address>
-      </div>
-      <div>
-        <b>Contact</b>
+        <!-- The number sits with the address rather than in a column of its own.
+             Name, address and telephone are ONE record — it is the unit search
+             engines reconcile against a Google Business Profile, and the unit a
+             buyer copies down. Splitting the telephone off was what left the
+             address block looking like a fragment. -->
         <a href={PHONE_HREF}>{COMPANY.phone}</a>
       </div>
+      <!-- The footer menu. Same labels as the header, from one source, because two
+           menus that disagree about what a page is called is the kind of drift
+           nobody notices until a client does. -->
+      <nav aria-label="Footer">
+        <b>Menu</b>
+        {PAGES.map((p) => (
+          <a href={p.path} class:list={{ 'is-current': here === p.path }}
+             aria-current={here === p.path ? 'page' : undefined}>{navLabel(p)}</a>
+        ))}
+      </nav>
       <div>
         <b>Hours</b>
         <span>{COMPANY.hours.display}</span>
@@ -52,7 +66,13 @@ const year = new Date().getFullYear();
     flex-wrap: wrap;
     gap: 1.5rem clamp(2rem, 6vw, 3.5rem);
   }
-  .cols > div { display: flex; flex-direction: column; gap: 0.3rem; }
+  .cols > :is(div, nav) { display: flex; flex-direction: column; gap: 0.3rem; }
+  /* The menu's rows are links stacked in a column, so they get the tap height the
+     header's do. Everything else in this footer is text being read, not pressed. */
+  nav a { padding-block: 0.35rem; }
+  /* The state colour marks where you are and marks nothing else — the same rule the
+     header nav follows, in its reversed variant so it holds up on the dark ground. */
+  nav a.is-current { color: var(--on-deep-mark); }
   b { color: var(--paper); font-weight: 600; }
   address { font-style: normal; line-height: 1.6; }
   /* Paper on forest-deep is 14.30:1. Footer links are underlined rather than

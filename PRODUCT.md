@@ -226,7 +226,7 @@ placeholder or does not ship.
   already uses it, and it avoids the three consecutive L's in
   "agwoodmilllumber.com." The canonical hostname lives in exactly one place,
   `site` in `astro.config.mjs`, so this resolves with a one-line change.
-- **Dealer / stockist list.** No real retailer names exist yet. One candidate
+- **Distributor list.** No real distributor names exist yet. One candidate
   surfaced from a customer review — Artisan Outdoor, Loomis, CA — and was
   rejected: the client established it has since closed permanently. Any future
   name needs the owner's confirmation that the relationship is current, for

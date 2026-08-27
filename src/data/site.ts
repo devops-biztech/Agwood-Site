@@ -20,12 +20,23 @@ export interface PageMeta {
   path: string;
 }
 
+/**
+ * The label a page wears in a navigation bar, derived from its title rather than
+ * stored beside it — a second field would be a second thing to keep in step.
+ *
+ * Titles are written for a search result ("About the Mill"); a nav is read in a
+ * glance and takes the short form. Used by the header and the footer, so the two
+ * menus can never drift apart.
+ */
+export const navLabel = (p: PageMeta): string =>
+  p.path === '/' ? 'Home' : p.title.replace('About the Mill', 'About');
+
 export const PAGES: readonly PageMeta[] = [
   {
     path: '/',
     title: 'Redwood Mill in Ukiah, California',
     description:
-      'Agwood Mill & Lumber is a redwood sawmill in Ukiah, California, supplying decking, fencing and custom milling wholesale to retailers and distributors across Northern California.',
+      'Agwood Mill & Lumber is a redwood sawmill in Ukiah, California, supplying decking, fencing and custom milling wholesale to distributors across Northern California.',
   },
   {
     path: '/about/',

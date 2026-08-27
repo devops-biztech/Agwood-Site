@@ -73,7 +73,7 @@ file.
 - [ ] **Confirm the remaining unknowns** — grades, dimensions, lead times, minimum
       order, founding year, family history. All are listed in
       [PRODUCT.md](PRODUCT.md) under "Unverified, and flagged in code."
-- [ ] **Get the stockist list** so `DealerList` can carry real retailers.
+- [ ] **Get the distributor list** so `DistributorList` can carry real names.
 - [ ] **Client review of all page copy.** It was written against the verified facts
       and has not been through review.
 
@@ -112,8 +112,8 @@ search engines have already ingested is not.
 but they appear to describe the pre-2017 predecessor. Client confirmed the site
 claims one location.
 
-**The dealer list shows "Dealer name / City, CA", not real-looking names.** A
-plausible invented stockist reads as finished in a screenshot, can survive into
+**The distributor list shows "Distributor name / City, CA", not real-looking
+names.** A plausible invented name reads as finished in a screenshot, can survive into
 production unnoticed, and names a business that never agreed to be listed. These
 rows do the same job at a client meeting and cannot do any of that.
 

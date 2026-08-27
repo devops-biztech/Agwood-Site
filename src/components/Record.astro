@@ -36,7 +36,7 @@ import { RECORD } from '../data/company.ts';
     margin: 0;
     padding: 0;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
   /* A hairline BETWEEN beats only, never around them — the same rule the cell row
      obeys. A box here would turn a chronology into three cards. */
@@ -70,7 +70,7 @@ import { RECORD } from '../data/company.ts';
   }
 
   @media (max-width: 760px) {
-    .record { grid-template-columns: 1fr; }
+    .record { grid-template-columns: minmax(0, 1fr); }
     .beat, .beat:last-child { padding-right: 0; }
     .beat + .beat {
       border-left: none;
