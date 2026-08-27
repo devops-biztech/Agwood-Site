@@ -5,11 +5,32 @@ import PhoneDisplay from '../components/PhoneDisplay.astro';
 import DealerList from '../components/DealerList.astro';
 import Photo from '../components/Photo.astro';
 import Split from '../components/Split.astro';
+import SpecList from '../components/SpecList.astro';
+import OpenNow from '../components/OpenNow.astro';
 import pack from '../assets/redwood-pack.png';
-import { COMPANY, PRODUCTS_SENTENCE, UNKNOWNS } from '../data/company.ts';
+import { COMPANY, UNKNOWNS } from '../data/company.ts';
 import { PAGES } from '../data/site.ts';
 
 const meta = PAGES[2]!;
+
+/**
+ * What we hold and what we do not, in one list.
+ *
+ * Rendered through SpecList rather than the hand-rolled description list that used
+ * to live in this file — that duplicate had drifted into its own styling for a job
+ * the component already did, including the russet treatment for an unknown.
+ *
+ * The three UNKNOWNS rows are the point of the whole block, not an apology at the
+ * bottom of it. Grades and dimensions are the first thing a wholesale buyer asks
+ * and Agwood has not published them; saying so beside the facts we do hold is worth
+ * more than an empty table and infinitely more than a plausible invented spec.
+ */
+const specRows = [
+  { term: 'Species', value: 'Redwood only' },
+  { term: 'Products', value: COMPANY.products.join(' · ') },
+  { term: 'Sells to', value: 'Retailers and distributors' },
+  ...UNKNOWNS.map((u) => ({ term: u.field, value: u.say, unknown: true })),
+];
 ---
 <Base title={meta.title} description={meta.description}>
   <Field tone="forest" reveal={false}>
@@ -32,10 +53,8 @@ const meta = PAGES[2]!;
           <p>{COMPANY.hours.display}</p>
         </div>
       </div>
-      <p class="fine">
-        No enquiry form and no email address. Calls reach the office, where
-        somebody answers them.
-      </p>
+      <OpenNow />
+      
     </div>
   </Field>
 
@@ -44,14 +63,7 @@ const meta = PAGES[2]!;
       <div>
         <h2>Sourcing redwood for resale?</h2>
         <p class="prose gap">Call with the dimensions and quantity you need.</p>
-        <dl class="mini">
-        <div><dt>Species</dt><dd>Redwood only</dd></div>
-        <div><dt>Products</dt><dd>{COMPANY.products.join(' · ')}</dd></div>
-        <div><dt>Sells to</dt><dd>Retailers and distributors</dd></div>
-          {UNKNOWNS.map((u) => (
-            <div><dt>{u.field}</dt><dd class="unk">{u.say}</dd></div>
-          ))}
-        </dl>
+        <div class="spec"><SpecList rows={specRows} /></div>
       </div>
       <!-- A banded pack is the unit a wholesale buyer actually purchases, which
            makes it the most on-message picture on the site. Material, not
@@ -90,18 +102,7 @@ const meta = PAGES[2]!;
   .facts { display: flex; flex-wrap: wrap; gap: 1.5rem clamp(2rem, 8vw, 5rem); margin-top: 0.6rem; }
   .lb { color: var(--on-deep-mark); margin-bottom: 0.45rem; }
   address { font-style: normal; line-height: 1.6; }
-  .fine { font-size: 0.8125rem; color: var(--on-deep-dim); max-width: 44ch; }
+  .fine { font-size: var(--size-fine); color: var(--on-deep-dim); max-width: 44ch; }
   .gap { margin-top: 0.9rem; }
-  .mini { margin: 1.4rem 0 0; }
-  .mini > div { display: flex; justify-content: space-between; gap: 1.25rem; padding-block: 0.6rem; }
-  .mini > div + div { border-top: 1px solid var(--rule); }
-  .mini dt { font-weight: 600; }
-  .mini dd { margin: 0; color: var(--ink-dim); text-align: right; }
-  .mini dd.unk { color: var(--russet); }
-  :global(.forest) .mini dt { color: var(--on-deep); }
-  :global(.forest) .mini dd { color: var(--on-deep-dim); }
-  @media (max-width: 760px) {
-    .mini > div { flex-direction: column; gap: 0.15rem; }
-    .mini dd { text-align: left; }
-  }
+  .spec { margin-top: 1.4rem; }
 </style>

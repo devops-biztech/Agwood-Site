@@ -14,7 +14,15 @@ import { COMPANY, PHONE_HREF } from '../data/company.ts';
     font-family: var(--font-display);
     font-variation-settings: var(--axis-display);
     font-weight: 500;
-    font-size: clamp(2.4rem, 8vw, 5rem);
+    /* Takes the display step itself rather than a local clamp sitting just under
+       it. This is meant to be the largest element on the page it appears on, so it
+       has to move when the display step moves — a hard-coded 5rem quietly became
+       the second-largest thing the moment the scale was raised. */
+    /* The display step's own floor (2.6rem) puts "(707) 468-5486" at ~280px inside
+       284px of content on a 320px phone — close enough to wrap the one thing this
+       page exists for. This lowers ONLY the floor; 8vw overtakes it at 420px, so
+       every larger width is unchanged. */
+    font-size: clamp(2.1rem, 8vw, 6rem);
     line-height: 0.95;
     letter-spacing: -0.04em;
     color: var(--on-deep);
@@ -22,6 +30,12 @@ import { COMPANY, PHONE_HREF } from '../data/company.ts';
     /* Tabular figures so the digits sit on an even rhythm; proportional numerals
        in a serif this high-contrast make a phone number look accidental. */
     font-variant-numeric: tabular-nums;
+    /* At the small-viewport floor the number is only ~32px tall — a 0.95 line-height
+       on 2.1rem — which puts the site's ONE conversion under the 44px touch floor on
+       exactly the device most of these visitors use, outdoors and sometimes gloved.
+       Block padding lifts it clear without changing the type. Invisible at desktop
+       size, where the number is already 90px tall. */
+    padding-block: 0.45rem;
   }
   .tel:hover { text-decoration: underline; text-underline-offset: 0.12em; text-decoration-thickness: 0.04em; }
   .tel:focus-visible { outline: 3px solid var(--on-deep); outline-offset: 6px; }

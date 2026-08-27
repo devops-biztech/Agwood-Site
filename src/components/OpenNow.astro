@@ -1,0 +1,145 @@
+---
+import { COMPANY } from '../data/company.ts';
+---
+<!--
+  Is anyone actually there right now.
+
+  The telephone is the ONLY way into this business — no form, no email address, by
+  the client's decision. That makes "will someone pick up if I ring now" a load-
+  bearing question on this site in a way it is not on a site that also takes
+  enquiries in writing: the alternative to a live call is not a slower channel, it
+  is no channel. This is the one thing the site can tell a buyer that it could not
+  tell them on paper.
+
+  It is a STATE, so it takes the state colour, and it takes the same one whether the
+  office is open or shut. Colouring "open" green would break the rule the palette is
+  built on twice over — green marks actions, never states, and there is deliberately
+  no third accent for success. The two states are told apart by the words and by a
+  filled versus hollow mark, not by hue.
+
+  Rendered server-side as the plain hours line, then upgraded in place. With
+  scripting off a visitor still reads "Monday to Friday, 7AM – 4PM", which is the
+  same information at lower resolution rather than a blank.
+-->
+<p
+  class="now"
+  data-open-now
+  data-opens={COMPANY.hours.opens}
+  data-closes={COMPANY.hours.closes}
+>
+  <span class="mark" aria-hidden="true"></span>
+  <span class="txt">{COMPANY.hours.display}</span>
+</p>
+
+<script is:inline>
+  (function () {
+    // Guarded because the component may appear more than once on a page; the query
+    // below already handles every instance, so a second copy of this script must
+    // not run the work again.
+    if (window.__agwoodOpenNow) return;
+    window.__agwoodOpenNow = 1;
+
+    var els = document.querySelectorAll('[data-open-now]');
+    if (!els.length || typeof Intl === 'undefined' || !Intl.DateTimeFormat) return;
+
+    var DAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    var FULL = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+    // The mill's clock, never the visitor's. A buyer ringing from Denver needs to
+    // know whether the office in Ukiah is answering, not whether it would be if it
+    // kept Mountain time.
+    var parts = {};
+    try {
+      new Intl.DateTimeFormat('en-US', {
+        timeZone: 'America/Los_Angeles',
+        weekday: 'short',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false,
+      })
+        .formatToParts(new Date())
+        .forEach(function (p) { parts[p.type] = p.value; });
+    } catch (e) {
+      // An engine without the tz database would otherwise report the visitor's own
+      // clock as the mill's. The static hours already on the page are correct; a
+      // wrong live answer is worse than no live answer.
+      return;
+    }
+
+    var day = DAYS.indexOf(parts.weekday);
+    // Some engines render midnight as "24" under hour12:false.
+    var mins = (parseInt(parts.hour, 10) % 24) * 60 + parseInt(parts.minute, 10);
+    if (day < 0 || isNaN(mins)) return;
+
+    function toMins(hhmm) {
+      var b = String(hhmm).split(':');
+      return parseInt(b[0], 10) * 60 + parseInt(b[1], 10);
+    }
+    function clock(m) {
+      var h = Math.floor(m / 60), mm = m % 60;
+      var suffix = h < 12 ? 'AM' : 'PM';
+      var h12 = h % 12 === 0 ? 12 : h % 12;
+      return h12 + (mm ? ':' + String(mm).padStart(2, '0') : '') + suffix;
+    }
+    var isWeekday = function (d) { return d >= 1 && d <= 5; };
+
+    for (var i = 0; i < els.length; i++) {
+      var el = els[i];
+      var open = toMins(el.getAttribute('data-opens'));
+      var close = toMins(el.getAttribute('data-closes'));
+      var isOpen = isWeekday(day) && mins >= open && mins < close;
+      var label;
+
+      if (isOpen) {
+        label = 'Open now — the office is answering.';
+      } else {
+        // Opens later today only if today is a working day and we are before the
+        // hour; otherwise walk forward to the next working day.
+        var next = day;
+        if (!(isWeekday(day) && mins < open)) {
+          do { next = (next + 1) % 7; } while (!isWeekday(next));
+        }
+        var when =
+          next === day ? 'today'
+          : next === (day + 1) % 7 ? 'tomorrow'
+          : FULL[next];
+        label = 'Closed — opens ' + when + ' at ' + clock(open) + '.';
+      }
+
+      el.setAttribute('data-state', isOpen ? 'open' : 'closed');
+      var txt = el.querySelector('.txt');
+      if (txt) txt.textContent = label;
+    }
+  })();
+</script>
+
+<style>
+  .now {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    font-size: var(--size-control);
+    font-weight: 700;
+    color: var(--russet);
+  }
+  /* Hidden until the script has actually resolved a state. Showing a marker beside
+     the plain opening hours would assert a live reading that nothing has taken. */
+  .mark { display: none; }
+  [data-state] .mark {
+    display: block;
+    width: 0.5rem;
+    height: 0.5rem;
+    /* A square, not a dot. Radius is 0 everywhere in this system and a lone circle
+       would be the only round thing on the site. */
+    border: 1px solid currentColor;
+    /* Filled when someone is there, hollow when they are not: the two states are
+       distinguished by fill rather than by a second colour, because the palette has
+       exactly one state colour and adding a green "open" would put the action
+       colour on something you cannot do. */
+    background: transparent;
+    flex: none;
+    align-self: center;
+  }
+  [data-state='open'] .mark { background: currentColor; }
+  :global(.forest) .now { color: var(--on-deep-mark); }
+</style>

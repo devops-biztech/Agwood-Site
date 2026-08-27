@@ -1,6 +1,7 @@
 ---
 import { COMPANY } from '../data/company.ts';
 import { PAGES } from '../data/site.ts';
+import Emblem from './Emblem.astro';
 
 const here = Astro.url.pathname;
 const label = (p: (typeof PAGES)[number]) =>
@@ -17,8 +18,12 @@ const label = (p: (typeof PAGES)[number]) =>
     <a class="brand" href="/">
       <!-- The emblem only. The wordmark baked into the raster is never used: the
            company name is live type so it is selectable, crisp at every density,
-           and not pushed through a lossy scan. -->
-      <img src="/assets/emblem-white.png" width="75" height="64" alt="" decoding="async" />
+           and not pushed through a lossy scan.
+
+           Vector since 2026-08-27. It takes its colour from the header's own
+           `color`, so there is no second white asset to keep in step with the
+           palette, and no request — the mark is part of the document. -->
+      <Emblem height={64} class="mark" />
       <span class="wm">{COMPANY.name}</span>
     </a>
     <nav aria-label="Primary">
@@ -31,13 +36,30 @@ const label = (p: (typeof PAGES)[number]) =>
 </header>
 
 <style>
-  .hdr { background: var(--forest-deep); color: var(--on-deep); }
+  /* Sticky, because the telephone is the only way into this business and the nav is
+     the only route to it. Letting the header scroll away meant that for most of the
+     page the one thing a buyer needs was somewhere they had already passed.
+     z-index stays under the skip link's 10 so the keyboard route is never covered.
+     Nothing shrinks on scroll: the emblem has a measured 64px legibility floor and
+     a header that collapses would drive it straight through that floor. */
+  .hdr {
+    background: var(--forest-deep);
+    color: var(--on-deep);
+  }
+  /* Sticky only where it fits on one row. The emblem's 64px floor plus padding puts
+     this bar near 100px, and on a small phone the brand and nav wrap to two rows —
+     a sticky header that tall eats a fifth of the viewport on exactly the device
+     most of these visitors are using. Below 560px it scrolls away and the footer
+     carries the number instead. */
+  @media (min-width: 560px) {
+    .hdr { position: sticky; top: 0; z-index: 5; }
+  }
   .hdr-in { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; padding-block: 1.1rem; }
   .brand { display: flex; align-items: center; gap: 0.85rem; text-decoration: none; color: var(--on-deep); }
   /* 64px is a measured floor, not a preference. The emblem was rendered at 44, 56,
      64, 72 and 88; below 64 the conifer branches merge into a blob and the
      monogram stops reading. Do not shrink this to tighten the header. */
-  .brand img { height: 64px; width: auto; }
+  .brand :global(.mark) { height: 64px; width: auto; display: block; }
   .wm {
     font-family: var(--font-display);
     font-variation-settings: var(--axis-title);
@@ -48,8 +70,15 @@ const label = (p: (typeof PAGES)[number]) =>
     max-width: 9ch;
   }
   nav { margin-left: auto; display: flex; gap: clamp(1rem, 3vw, 1.6rem); }
+  /* The brand and the three nav items need about 430px together, so below this they
+     wrap. `margin-left: auto` would then strand the nav right-aligned on its own row
+     under a left-aligned brand; this puts it deliberately on that row, aligned to the
+     same edge as everything else. */
+  @media (max-width: 480px) {
+    nav { margin-left: 0; width: 100%; }
+  }
   .nav {
-    font-size: 0.78rem;
+    font-size: var(--size-fine);
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;

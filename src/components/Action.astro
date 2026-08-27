@@ -16,22 +16,42 @@ const { href, onDeep = false } = Astro.props;
 
 <style>
   .act {
+    position: relative;
+    /* Contains the wipe, and gives it a stacking context so the pseudo-element can
+       sit above this element's own background but still behind the label. */
+    overflow: hidden;
+    isolation: isolate;
     display: inline-block;
     background: var(--forest);
     color: var(--paper);
     font-weight: 700;
     font-size: var(--size-control);
-    letter-spacing: 0.01em;
+    letter-spacing: 0.02em;
     line-height: 1;
-    /* 1rem block padding on a 0.9rem line clears 44px. The audience is on a phone,
-       frequently outdoors and often wearing gloves. */
-    padding: 1rem 1.5rem;
+    /* Block padding clears 44px comfortably. The audience is on a phone, frequently
+       outdoors and often wearing gloves — and on a site whose entire conversion is
+       one telephone call, the one thing you can press should look pressable from
+       across the room. */
+    padding: 1.15rem 1.9rem;
     border-radius: var(--radius);
     text-decoration: none;
-    transition: background 0.15s var(--ease), color 0.15s var(--ease);
   }
-  .act:hover { background: var(--forest-hover); }
+  /* The pressed state is the darker green laid UP over the lighter one, the same
+     gesture as the hero wipe. One motion motif — a flat colour field being put
+     down — rather than a different effect in each place it was needed. */
+  .act::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--forest-hover);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.28s var(--ease-out);
+  }
+  .act:hover::before,
+  .act:focus-visible::before { transform: scaleY(1); }
   .act.deep { background: var(--on-deep); color: var(--forest-deep); }
-  .act.deep:hover { background: #ffffff; }
+  .act.deep::before { background: var(--on-deep-press); }
   .act.deep:focus-visible { outline-color: var(--on-deep); }
 </style>
